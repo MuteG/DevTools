@@ -1,13 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace DevTools.Plugin
 {
     public static class PluginsManager
     {
+        public static string PluginFolder { get; private set; }
+        
+        static PluginsManager()
+        {
+            PluginFolder = Path.Combine(Application.StartupPath, "plugin");
+            
+            CheckPluginFolder();
+        }
+        
+        private static void CheckPluginFolder()
+        {
+            if (!Directory.Exists(PluginFolder))
+            {
+                Directory.CreateDirectory(PluginFolder);
+            }
+        }
+        
         /// <summary>
         /// 读取所有的插件
         /// </summary>
@@ -15,10 +32,8 @@ namespace DevTools.Plugin
         public static List<IPlugin> LoadPlugins()
         {
             List<IPlugin> plugins = new List<IPlugin>();
-            Assembly mainAssembly = Assembly.GetExecutingAssembly();
-            string pluginFolder = Path.Combine(Path.GetDirectoryName(mainAssembly.Location),
-                ConfigurationManager.AppSettings["pluginFolder"]);
-            foreach (string pluginFile in Directory.GetFiles(pluginFolder))
+
+            foreach (string pluginFile in Directory.GetFiles(PluginFolder))
             {
                 Assembly pluginAssembly = Assembly.LoadFrom(pluginFile);
                 foreach (Type publicType in pluginAssembly.GetExportedTypes())

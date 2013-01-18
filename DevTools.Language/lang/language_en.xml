@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Language name="en" display="English">
+    <Modules>
+        <Module name="DevTools">
+            <Items>
+                <Item name="AboutBox_AboutBox" value="Develop Tools" />
+                <Item name="AboutBox_labelProductName" value="DevTools" />
+                <Item name="AboutBox_labelVersion" value="version:" />
+                <Item name="AboutBox_textBoxDescription" value="There are some useful tools in developing." />
+                <Item name="AboutBox_labelWebSite" value="Our Web Site" />
+                <Item name="AboutBox_buttonOK" value="OK" />
+            </Items>
+        </Module>
+    </Modules>
+</Language>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Language name="zh-Hans" display="简体中文">
+    <Modules>
+        <Module name="DevTools">
+            <Items>
+                <Item name="AboutBox_AboutBox" value="关于 开发工具箱" />
+                <Item name="AboutBox_labelProductName" value="开发工具箱" />
+                <Item name="AboutBox_labelVersion" value="版本:" />
+                <Item name="AboutBox_textBoxDescription" value="工作中常用到的一些实用工具。" />
+                <Item name="AboutBox_labelWebSite" value="访问我们的主页" />
+                <Item name="AboutBox_buttonOK" value="确认" />
+            </Items>
+        </Module>
+    </Modules>
+</Language>
