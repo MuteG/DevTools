@@ -20,11 +20,9 @@ namespace DevTools.USL
         public MenuManager()
         {
             notifyIcon = new NotifyIcon();
-			notificationMenu = new ContextMenu(InitializeMenu());
-			foreach (MenuItem menuItem in notificationMenu.MenuItems)
-			{
-                LanguageManager.GetString(menuItem);
-			}
+			notificationMenu = new ContextMenu();
+			
+			InitializeMenu();
 			
 			notifyIcon.Icon = Properties.Resources.Icon;
 			notifyIcon.ContextMenu = notificationMenu;
@@ -35,32 +33,27 @@ namespace DevTools.USL
             this.notifyIcon.Visible = true;
         }
         
-        private MenuItem[] InitializeMenu()
+        private void InitializeMenu()
 		{
-            List<MenuItem> menu = new List<MenuItem>();
-            foreach (var item in PluginsManager.LoadPlugins())
-            {
-                menu.Add(new MenuItem(
-                    item.DisplayName,
-                    menuPluginClick) { Tag = item });
-            }
+            InitializePluginMenu();
 
-            menu.Add(new MenuItem(MENU_SEPARATOR));
-            
-            MenuItem menuItemAbout = new MenuItem("关于", menuAboutClick);
-            menu.Add(menuItemAbout);
-            
-            MenuItem menuItemExit = new MenuItem("退出", menuExitClick);
-            menu.Add(menuItemExit);
-            
-			return menu.ToArray();
+            InitializeMainMenu();
 		}
         
-        private void menuPluginClick(object sender, EventArgs e)
+        private void InitializeMainMenu()
         {
-            ((sender as MenuItem).Tag as IPlugin).StartUp();
+            AddSeparatorMenuItem();
+            
+            AddMenuItem("设置").Click += new EventHandler(menuConfigClick);
+            AddMenuItem("关于").Click += new EventHandler(menuAboutClick);
+            AddMenuItem("退出").Click += new EventHandler(menuExitClick);
         }
 
+        private void menuConfigClick(object sender, EventArgs e)
+        {
+            new FormConfig().Show();
+        }
+        
         private void menuAboutClick(object sender, EventArgs e)
         {
             new AboutBox().Show();
@@ -69,6 +62,48 @@ namespace DevTools.USL
         private void menuExitClick(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+        
+        private void InitializePluginMenu()
+        {
+            List<IPlugin> pluginList = PluginsManager.LoadPlugins();
+            foreach (IPlugin plugin in pluginList)
+            {
+                MenuItem item = AddMenuItem(plugin.DisplayName);
+                item.Click += new EventHandler(menuPluginClick);
+                item.Tag = plugin;
+            }
+        }
+        
+        private void menuPluginClick(object sender, EventArgs e)
+        {
+            ((sender as MenuItem).Tag as IPlugin).StartUp();
+        }
+        
+        private void AddSeparatorMenuItem()
+        {
+            AddMenuItem(MENU_SEPARATOR);
+        }
+        
+        private MenuItem AddMenuItem(string text)
+        {
+            return AddMenuItem(this.notificationMenu, text);
+        }
+        
+        private MenuItem AddMenuItem(ContextMenu parent, string text)
+        {
+            MenuItem item = new MenuItem(text);
+            parent.MenuItems.Add(item);
+            LanguageManager.GetString(item);
+            return item;
+        }
+        
+        private MenuItem AddMenuItem(MenuItem parent, string text)
+        {
+            MenuItem item = new MenuItem(text);
+            parent.MenuItems.Add(item);
+            LanguageManager.GetString(item);
+            return item;
         }
         
         public void Dispose()

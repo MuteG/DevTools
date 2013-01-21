@@ -52,7 +52,7 @@ namespace DevTools.Config
         
         private static void LoadAppConfig()
         {
-            Assembly appAssembly = Assembly.GetExecutingAssembly();
+            Assembly appAssembly = Assembly.GetEntryAssembly();
             
             ConfigBase config = GetConfigInstance(appAssembly);
             string key = appAssembly.GetName().Name;
@@ -115,13 +115,24 @@ namespace DevTools.Config
             return config;
         }
         
-        public static void GetConfig(out ConfigBase config)
+        public static void GetConfig(ref ConfigBase config)
         {
-            config = null;
             string key = config.GetType().Assembly.GetName().Name;
             if (configDict.ContainsKey(key))
             {
                 config = configDict[key];
+            }
+        }
+        
+        public static void Save()
+        {
+            foreach (ConfigBase config in configDict.Values)
+            {
+                string key = config.GetType().Assembly.GetName().Name;
+                string configFileName = key + ".conf";
+                string configFile = Path.Combine(ConfigFolder, configFileName);
+                YAXSerializer serializer = new YAXSerializer(config.GetType());
+                serializer.SerializeToFile(config, configFile);
             }
         }
     }
