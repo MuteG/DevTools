@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Language name="ja-JP" display="日本語">
+    <Modules>
+        <Module name="DevTools">
+            <Items>
+                <Item name="AboutBox_AboutBox" value="開発ツールについて" />
+                <Item name="AboutBox_labelProductName" value="開発ツール" />
+                <Item name="AboutBox_labelVersion" value="バージョン:" />
+                <Item name="AboutBox_textBoxDescription" value="作業の中でいくつかの実用的なツール。" />
+                <Item name="AboutBox_labelWebSite" value="プロジェクトのホームページを訪問して下さい。" />
+                <Item name="AboutBox_buttonOK" value="確認" />
+            </Items>
+        </Module>
+    </Modules>
+</Language>
