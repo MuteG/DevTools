@@ -20,6 +20,8 @@ namespace DevTools.Config
         /// </summary>
         public static string ConfigFolder { get; private set; }
         
+        internal static List<ConfigBase> ConfigList { get; private set; }
+        
         private static Dictionary<string, ConfigBase> configDict;
         
         static ConfigManager()
@@ -60,6 +62,7 @@ namespace DevTools.Config
             LoadConfig(ref config, ref key);
 
             configDict.Add(key, config);
+            ConfigList.Add(config);
         }
 
 
@@ -90,6 +93,7 @@ namespace DevTools.Config
                 LoadConfig(ref config, ref key);
 
                 configDict.Add(key, config);
+                ConfigList.Add(config);
             }
         }
         
@@ -122,6 +126,17 @@ namespace DevTools.Config
             {
                 config = configDict[key];
             }
+        }
+        
+        internal static ConfigBase GetConfig(string moduleName)
+        {
+            ConfigBase config = null;
+            string key = moduleName;
+            if (configDict.ContainsKey(key))
+            {
+                config = configDict[key];
+            }
+            return config;
         }
         
         public static void Save()

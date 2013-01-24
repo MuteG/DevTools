@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
-
 using DevTools.Config;
+using DevTools.Config.USL;
 
 namespace DevTools
 {
@@ -24,6 +24,14 @@ namespace DevTools
         
         public DevToolsConfig()
         {
+        }
+        
+        public override BaseConfigPanel ConfigPanel
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

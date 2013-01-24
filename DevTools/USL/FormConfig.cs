@@ -39,6 +39,7 @@ namespace DevTools.USL
         
         private void LoadLanguage()
         {
+            LanguageManager.GetString(this);
             LanguageManager.GetString(labelFont);
             LanguageManager.GetString(buttonFont);
             LanguageManager.GetString(labelLanguage);
