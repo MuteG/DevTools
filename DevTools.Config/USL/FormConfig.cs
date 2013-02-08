@@ -26,7 +26,9 @@ namespace DevTools.Config.USL
             foreach (ConfigBase config in ConfigManager.ConfigList)
             {
                 string moduleName = config.GetType().Assembly.GetName().Name;
-                this.listBoxConfig.Items.Add(moduleName);
+                int index = this.listBoxConfig.Items.Add(moduleName);
+                ConfigPanelBase configPanel = ConfigManager.GetConfigPanel(config);
+                this.panelConfig.Controls.Add(configPanel);
             }
         }
         
@@ -35,6 +37,12 @@ namespace DevTools.Config.USL
             LanguageManager.GetString(this);
             LanguageManager.GetString(buttonSave);
             LanguageManager.GetString(buttonClose);
+            
+            foreach (var item in listBoxConfig.Items)
+            {
+                ConfigBase config = ConfigManager.GetConfig(item.ToString());
+                ConfigManager.GetConfigPanel(config);
+            }
         }
         
         private void ListBoxConfigSelectedIndexChanged(object sender, EventArgs e)
@@ -43,7 +51,16 @@ namespace DevTools.Config.USL
             {
                 string moduleName = this.listBoxConfig.SelectedItem.ToString();
                 ConfigBase config = ConfigManager.GetConfig(moduleName);
+                ConfigPanelBase configPanel = ConfigManager.GetConfigPanel(config);
+                configPanel.Show();
+                configPanel.BringToFront();
             }
         }
+        
+        private void ButtonSaveClick(object sender, EventArgs e)
+        {
+            ConfigManager.Save();
+            LoadLanguage();
+        }        
     }
 }

@@ -8,31 +8,17 @@ namespace DevTools.Config.USL
     /// <summary>
     /// 智能配置面板
     /// </summary>
-    public partial class SmartConfigPanel : BaseConfigPanel
+    public partial class SmartConfigPanel : ConfigPanelBase
     {
-        private ConfigBase config;
-        
-        public override ConfigBase Config
-        {
-            get
-            {
-                return this.config;
-            }
-            set
-            {
-                this.config = value;
-                SetConfig(value);
-            }
-        }
-        
         public SmartConfigPanel()
         {
             InitializeComponent();
         }
         
-        private void SetConfig(ConfigBase config)
+        protected override void ShowConfig(ConfigBase config)
         {
-            
+            //TODO : 根据config自动生成配置界面
+            base.ShowConfig(config);
         }
     }
 }

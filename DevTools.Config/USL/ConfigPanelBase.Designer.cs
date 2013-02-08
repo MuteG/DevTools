@@ -1,7 +1,7 @@
 ﻿
 namespace DevTools.Config.USL
 {
-    partial class BaseConfigPanel
+    partial class ConfigPanelBase
     {
         /// <summary>
         /// Designer variable used to keep track of non-visual components.

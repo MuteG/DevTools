@@ -38,7 +38,7 @@ namespace DevTools.Config.USL
             this.listBoxConfig = new System.Windows.Forms.ListBox();
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonClose = new System.Windows.Forms.Button();
-            this.smartConfigPanel = new DevTools.Config.USL.SmartConfigPanel();
+            this.panelConfig = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // listBoxConfig
@@ -62,6 +62,7 @@ namespace DevTools.Config.USL
             this.buttonSave.TabIndex = 2;
             this.buttonSave.Text = "保存";
             this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.ButtonSaveClick);
             // 
             // buttonClose
             // 
@@ -73,17 +74,15 @@ namespace DevTools.Config.USL
             this.buttonClose.Text = "关闭";
             this.buttonClose.UseVisualStyleBackColor = true;
             // 
-            // smartConfigPanel
+            // panelConfig
             // 
-            this.smartConfigPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panelConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
                                     | System.Windows.Forms.AnchorStyles.Left) 
                                     | System.Windows.Forms.AnchorStyles.Right)));
-            this.smartConfigPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.smartConfigPanel.Config = null;
-            this.smartConfigPanel.Location = new System.Drawing.Point(138, 12);
-            this.smartConfigPanel.Name = "smartConfigPanel";
-            this.smartConfigPanel.Size = new System.Drawing.Size(509, 460);
-            this.smartConfigPanel.TabIndex = 4;
+            this.panelConfig.Location = new System.Drawing.Point(138, 12);
+            this.panelConfig.Name = "panelConfig";
+            this.panelConfig.Size = new System.Drawing.Size(509, 460);
+            this.panelConfig.TabIndex = 4;
             // 
             // FormConfig
             // 
@@ -91,7 +90,7 @@ namespace DevTools.Config.USL
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(659, 515);
-            this.Controls.Add(this.smartConfigPanel);
+            this.Controls.Add(this.panelConfig);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.listBoxConfig);
@@ -102,7 +101,7 @@ namespace DevTools.Config.USL
             this.Load += new System.EventHandler(this.FormConfigLoad);
             this.ResumeLayout(false);
         }
-        private DevTools.Config.USL.SmartConfigPanel smartConfigPanel;
+        private System.Windows.Forms.Panel panelConfig;
         private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.ListBox listBoxConfig;

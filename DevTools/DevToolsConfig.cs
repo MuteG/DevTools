@@ -25,13 +25,5 @@ namespace DevTools
         public DevToolsConfig()
         {
         }
-        
-        public override BaseConfigPanel ConfigPanel
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
     }
 }

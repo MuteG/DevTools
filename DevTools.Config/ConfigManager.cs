@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
-
+using DevTools.Config.USL;
 using DevTools.Plugin;
 using YAXLib;
 
@@ -23,10 +23,12 @@ namespace DevTools.Config
         internal static List<ConfigBase> ConfigList { get; private set; }
         
         private static Dictionary<string, ConfigBase> configDict;
+        private static Dictionary<string, ConfigPanelBase> configPanelDict;
         
         static ConfigManager()
         {
             configDict = new Dictionary<string, ConfigBase>();
+            configPanelDict = new Dictionary<string, ConfigPanelBase>();
             
             ConfigFolder = Path.Combine(Application.StartupPath, "config");
             
@@ -57,16 +59,17 @@ namespace DevTools.Config
             Assembly appAssembly = Assembly.GetEntryAssembly();
             
             ConfigBase config = GetConfigInstance(appAssembly);
+            ConfigPanelBase configPanel = GetConfigPanelInstance(appAssembly);
             string key = appAssembly.GetName().Name;
             
-            LoadConfig(ref config, ref key);
+            LoadConfig(ref config, key);
 
             configDict.Add(key, config);
+            configPanelDict.Add(key, configPanel);
             ConfigList.Add(config);
         }
 
-
-        private static void LoadConfig(ref ConfigBase config, ref string key)
+        private static void LoadConfig(ref ConfigBase config, string key)
         {
             string configFileName = key + ".conf";
             string configFile = Path.Combine(ConfigFolder, configFileName);
@@ -87,22 +90,17 @@ namespace DevTools.Config
 
             foreach (IPlugin plugin in pluginList)
             {
-                ConfigBase config = GetConfigInstance(plugin);
+                Assembly pluginAssembly = plugin.GetType().Assembly;
+                ConfigBase config = GetConfigInstance(pluginAssembly);
+                ConfigPanelBase configPanel = GetConfigPanelInstance(pluginAssembly);
                 string key = plugin.GetType().Assembly.GetName().Name;
                 
-                LoadConfig(ref config, ref key);
+                LoadConfig(ref config, key);
 
                 configDict.Add(key, config);
+                configPanelDict.Add(key, configPanel);
                 ConfigList.Add(config);
             }
-        }
-        
-        private static ConfigBase GetConfigInstance(IPlugin plugin)
-        {
-            ConfigBase config = null;
-            Assembly pluginAssembly = plugin.GetType().Assembly;
-            config = GetConfigInstance(pluginAssembly);
-            return config;
         }
         
         private static ConfigBase GetConfigInstance(Assembly assembly)
@@ -119,6 +117,20 @@ namespace DevTools.Config
             return config;
         }
         
+        private static ConfigPanelBase GetConfigPanelInstance(Assembly assembly)
+        {
+            ConfigPanelBase configPanel = null;
+            foreach (Type publicType in assembly.GetExportedTypes())
+            {
+                if (publicType.IsSubclassOf(typeof(ConfigPanelBase)))
+                {
+                    configPanel = Activator.CreateInstance(publicType) as ConfigPanelBase;
+                    break;
+                }
+            }
+            return configPanel;
+        }
+        
         public static void GetConfig(ref ConfigBase config)
         {
             string key = config.GetType().Assembly.GetName().Name;
@@ -126,6 +138,22 @@ namespace DevTools.Config
             {
                 config = configDict[key];
             }
+        }
+        
+        public static ConfigPanelBase GetConfigPanel(ConfigBase config)
+        {
+            ConfigPanelBase configPanel = null;
+            string key = config.GetType().Assembly.GetName().Name;
+            if (configPanelDict.ContainsKey(key))
+            {
+                configPanel = configPanelDict[key];
+            }
+            else
+            {
+                configPanel = new SmartConfigPanel() { Config = config };
+                configPanelDict.Add(key, configPanel);
+            }
+            return configPanel;
         }
         
         internal static ConfigBase GetConfig(string moduleName)

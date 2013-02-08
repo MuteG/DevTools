@@ -14,7 +14,7 @@
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
-    <NoWin32Manifest>False</NoWin32Manifest>
+    <NoWin32Manifest>True</NoWin32Manifest>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <NoStdLib>False</NoStdLib>
@@ -103,10 +103,6 @@
     <Compile Include="USL\ConfigPanel.Designer.cs">
       <DependentUpon>ConfigPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="USL\FormConfig.cs" />
-    <Compile Include="USL\FormConfig.Designer.cs">
-      <DependentUpon>FormConfig.cs</DependentUpon>
-    </Compile>
     <Compile Include="USL\MenuManager.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -122,9 +118,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="USL\ConfigPanel.resx">
       <DependentUpon>ConfigPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="USL\FormConfig.resx">
-      <DependentUpon>FormConfig.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -29,23 +29,13 @@ namespace DevTools.USL
         /// </summary>
         private void InitializeComponent()
         {
-            this.buttonSave = new System.Windows.Forms.Button();
             this.comboBoxLanguage = new System.Windows.Forms.ComboBox();
             this.labelLanguage = new System.Windows.Forms.Label();
             this.textBoxFont = new System.Windows.Forms.TextBox();
             this.buttonFont = new System.Windows.Forms.Button();
             this.labelFont = new System.Windows.Forms.Label();
+            this.fontDialog = new System.Windows.Forms.FontDialog();
             this.SuspendLayout();
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.Location = new System.Drawing.Point(198, 62);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 11;
-            this.buttonSave.Text = "保存";
-            this.buttonSave.UseVisualStyleBackColor = true;
             // 
             // comboBoxLanguage
             // 
@@ -56,6 +46,7 @@ namespace DevTools.USL
             this.comboBoxLanguage.Name = "comboBoxLanguage";
             this.comboBoxLanguage.Size = new System.Drawing.Size(152, 20);
             this.comboBoxLanguage.TabIndex = 10;
+            this.comboBoxLanguage.MouseCaptureChanged += new System.EventHandler(this.ComboBoxLanguageSelectedIndexChanged);
             // 
             // labelLanguage
             // 
@@ -84,6 +75,7 @@ namespace DevTools.USL
             this.buttonFont.TabIndex = 7;
             this.buttonFont.Text = "选择字体";
             this.buttonFont.UseVisualStyleBackColor = true;
+            this.buttonFont.Click += new System.EventHandler(this.ButtonFontClick);
             // 
             // labelFont
             // 
@@ -94,26 +86,29 @@ namespace DevTools.USL
             this.labelFont.TabIndex = 6;
             this.labelFont.Text = "字体";
             // 
+            // fontDialog
+            // 
+            this.fontDialog.FontMustExist = true;
+            // 
             // ConfigPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.comboBoxLanguage);
             this.Controls.Add(this.labelLanguage);
             this.Controls.Add(this.textBoxFont);
             this.Controls.Add(this.buttonFont);
             this.Controls.Add(this.labelFont);
             this.Name = "ConfigPanel";
-            this.Size = new System.Drawing.Size(276, 88);
+            this.Size = new System.Drawing.Size(276, 62);
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+        private System.Windows.Forms.FontDialog fontDialog;
         private System.Windows.Forms.Label labelFont;
         private System.Windows.Forms.Button buttonFont;
         private System.Windows.Forms.TextBox textBoxFont;
         private System.Windows.Forms.Label labelLanguage;
         private System.Windows.Forms.ComboBox comboBoxLanguage;
-        private System.Windows.Forms.Button buttonSave;
     }
 }

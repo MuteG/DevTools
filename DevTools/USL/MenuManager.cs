@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 
+using DevTools.Config.USL;
 using DevTools.Language;
 using DevTools.Plugin;
 
