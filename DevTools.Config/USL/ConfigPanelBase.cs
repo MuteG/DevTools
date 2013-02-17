@@ -27,7 +27,7 @@ namespace DevTools.Config.USL
             }
             set
             {
-                SetConfig(config);
+                SetConfig(value);
             }
         }
         

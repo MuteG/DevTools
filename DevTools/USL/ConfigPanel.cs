@@ -37,7 +37,7 @@ namespace DevTools.USL
         
         private void SetFont()
         {
-            DevToolsConfig config = this.Config as DevToolsConfig;
+            DevToolsConfig config = base.Config as DevToolsConfig;
             if (!string.IsNullOrEmpty(config.FontName) &&
                 0 != config.FontSize)
             {
@@ -89,6 +89,7 @@ namespace DevTools.USL
             {
                 config.Language =
                     comboBoxLanguage.SelectedValue.ToString();
+                LanguageManager.Code = config.Language;
             }
         }
     }

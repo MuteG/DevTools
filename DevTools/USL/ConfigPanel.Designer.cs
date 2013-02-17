@@ -46,7 +46,7 @@ namespace DevTools.USL
             this.comboBoxLanguage.Name = "comboBoxLanguage";
             this.comboBoxLanguage.Size = new System.Drawing.Size(152, 20);
             this.comboBoxLanguage.TabIndex = 10;
-            this.comboBoxLanguage.MouseCaptureChanged += new System.EventHandler(this.ComboBoxLanguageSelectedIndexChanged);
+            this.comboBoxLanguage.SelectedIndexChanged += new System.EventHandler(this.ComboBoxLanguageSelectedIndexChanged);
             // 
             // labelLanguage
             // 

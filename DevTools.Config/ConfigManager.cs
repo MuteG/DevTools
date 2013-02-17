@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+
 using DevTools.Config.USL;
 using DevTools.Plugin;
 using YAXLib;
@@ -25,12 +25,16 @@ namespace DevTools.Config
         private static Dictionary<string, ConfigBase> configDict;
         private static Dictionary<string, ConfigPanelBase> configPanelDict;
         
+        private const string CONFIG_EXT = ".conf";
+        private const string CONFIG_FOLDER = "config";
+        
         static ConfigManager()
         {
+            ConfigList = new List<ConfigBase>();
             configDict = new Dictionary<string, ConfigBase>();
             configPanelDict = new Dictionary<string, ConfigPanelBase>();
             
-            ConfigFolder = Path.Combine(Application.StartupPath, "config");
+            ConfigFolder = Path.Combine(Application.StartupPath, CONFIG_FOLDER);
             
             CheckConfigFolder();
             
@@ -57,21 +61,26 @@ namespace DevTools.Config
         private static void LoadAppConfig()
         {
             Assembly appAssembly = Assembly.GetEntryAssembly();
-            
-            ConfigBase config = GetConfigInstance(appAssembly);
-            ConfigPanelBase configPanel = GetConfigPanelInstance(appAssembly);
-            string key = appAssembly.GetName().Name;
+            LoadConfig(appAssembly);
+        }
+        
+        private static void LoadConfig(Assembly assembly)
+        {
+            ConfigBase config = GetConfigInstance(assembly);
+            ConfigPanelBase configPanel = GetConfigPanelInstance(assembly);
+            string key = assembly.GetName().Name;
             
             LoadConfig(ref config, key);
 
             configDict.Add(key, config);
-            configPanelDict.Add(key, configPanel);
             ConfigList.Add(config);
+            configPanel.Config = config;
+            configPanelDict.Add(key, configPanel);
         }
 
         private static void LoadConfig(ref ConfigBase config, string key)
         {
-            string configFileName = key + ".conf";
+            string configFileName = key + CONFIG_EXT;
             string configFile = Path.Combine(ConfigFolder, configFileName);
             YAXSerializer serializer = new YAXSerializer(config.GetType());
             if (File.Exists(configFile))
@@ -90,16 +99,11 @@ namespace DevTools.Config
 
             foreach (IPlugin plugin in pluginList)
             {
-                Assembly pluginAssembly = plugin.GetType().Assembly;
-                ConfigBase config = GetConfigInstance(pluginAssembly);
-                ConfigPanelBase configPanel = GetConfigPanelInstance(pluginAssembly);
-                string key = plugin.GetType().Assembly.GetName().Name;
-                
-                LoadConfig(ref config, key);
-
-                configDict.Add(key, config);
-                configPanelDict.Add(key, configPanel);
-                ConfigList.Add(config);
+                if (plugin.CanConfig)
+                {
+                    Assembly pluginAssembly = plugin.GetType().Assembly;
+                    LoadConfig(pluginAssembly);
+                }
             }
         }
         
@@ -172,7 +176,7 @@ namespace DevTools.Config
             foreach (ConfigBase config in configDict.Values)
             {
                 string key = config.GetType().Assembly.GetName().Name;
-                string configFileName = key + ".conf";
+                string configFileName = key + CONFIG_EXT;
                 string configFile = Path.Combine(ConfigFolder, configFileName);
                 YAXSerializer serializer = new YAXSerializer(config.GetType());
                 serializer.SerializeToFile(config, configFile);

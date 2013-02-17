@@ -31,8 +31,14 @@ namespace DevTools.Language
             {
                 code = value;
                 LoadLanguage(code);
+                if (null != LanguageChanged)
+                {
+                    LanguageChanged(null, null);
+                }
             }
         }
+        
+        public static event EventHandler LanguageChanged;
         
         /// <summary>
         /// 获取语言文件所在的文件夹绝对路径

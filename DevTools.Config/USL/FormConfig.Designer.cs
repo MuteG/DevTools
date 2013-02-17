@@ -73,6 +73,7 @@ namespace DevTools.Config.USL
             this.buttonClose.TabIndex = 3;
             this.buttonClose.Text = "关闭";
             this.buttonClose.UseVisualStyleBackColor = true;
+            this.buttonClose.Click += new System.EventHandler(this.ButtonCloseClick);
             // 
             // panelConfig
             // 
@@ -98,6 +99,7 @@ namespace DevTools.Config.USL
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "配置";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormConfigFormClosing);
             this.Load += new System.EventHandler(this.FormConfigLoad);
             this.ResumeLayout(false);
         }

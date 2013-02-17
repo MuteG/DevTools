@@ -20,6 +20,13 @@ namespace DevTools
             {
                 if (isFirstInstance)
                 {
+                    try
+                    {
+                        Config.ConfigBase config = new DevToolsConfig();
+                        Config.ConfigManager.GetConfig(ref config);
+                        Language.LanguageManager.Code = (config as DevToolsConfig).Language;
+                    }
+                    catch { }
                     using (MenuManager menu = new MenuManager())
                     {
                         menu.Show();

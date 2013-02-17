@@ -27,6 +27,25 @@ namespace DevTools.USL
 			
 			notifyIcon.Icon = Properties.Resources.Icon;
 			notifyIcon.ContextMenu = notificationMenu;
+			
+			LanguageManager.LanguageChanged += new EventHandler(LanguageManager_LanguageChanged);
+        }
+
+        private void LanguageManager_LanguageChanged(object sender, EventArgs e)
+        {
+            foreach (MenuItem menuItem in notificationMenu.MenuItems)
+            {
+                LoadLanguage(menuItem);
+            }
+        }
+        
+        private void LoadLanguage(MenuItem menuItem)
+        {
+            LanguageManager.GetString(menuItem);
+            foreach (MenuItem subMenuItem in menuItem.MenuItems)
+            {
+                LoadLanguage(subMenuItem);
+            }
         }
         
         public void Show()
@@ -45,14 +64,33 @@ namespace DevTools.USL
         {
             AddSeparatorMenuItem();
             
-            AddMenuItem("设置").Click += new EventHandler(menuConfigClick);
-            AddMenuItem("关于").Click += new EventHandler(menuAboutClick);
-            AddMenuItem("退出").Click += new EventHandler(menuExitClick);
+            AddMenuItem("menuItemConfig", "设置", typeof(FormConfig));
+            AddMenuItem("menuItemAbout", "关于", typeof(AboutBox));
+
+            AddMenuItem("menuItemExit", "退出").Click += new EventHandler(menuExitClick);
+        }
+        
+        private Dictionary<string, Form> singleFormMenuDict = new Dictionary<string, Form>();
+        
+        private void AddMenuItem(string name, string text, Type formType)
+        {
+            MenuItem menuItem = AddMenuItem(name, text);
+            Form form = Activator.CreateInstance(formType) as Form;
+            singleFormMenuDict[name] = form;
+            menuItem.Click += new EventHandler(singleFormMenuItemClick);
         }
 
-        private void menuConfigClick(object sender, EventArgs e)
+        private void singleFormMenuItemClick(object sender, EventArgs e)
         {
-            new FormConfig().Show();
+            MenuItem menuItem = sender as MenuItem;
+            Form form = singleFormMenuDict[menuItem.Name];
+            if (form.IsDisposed)
+            {
+                form = Activator.CreateInstance(form.GetType()) as Form;
+                singleFormMenuDict[menuItem.Name] = form;
+            }
+            form.Show();
+            form.Activate();
         }
         
         private void menuAboutClick(object sender, EventArgs e)
@@ -70,7 +108,9 @@ namespace DevTools.USL
             List<IPlugin> pluginList = PluginsManager.LoadPlugins();
             foreach (IPlugin plugin in pluginList)
             {
-                MenuItem item = AddMenuItem(plugin.DisplayName);
+                string menuName = string.Format("menuItem{0}",
+                                                plugin.GetType().Assembly.GetName().Name);
+                MenuItem item = AddMenuItem(menuName, plugin.DisplayName);
                 item.Click += new EventHandler(menuPluginClick);
                 item.Tag = plugin;
             }
@@ -83,26 +123,36 @@ namespace DevTools.USL
         
         private void AddSeparatorMenuItem()
         {
-            AddMenuItem(MENU_SEPARATOR);
+            AddMenuItem(string.Empty, MENU_SEPARATOR);
         }
         
-        private MenuItem AddMenuItem(string text)
+        private MenuItem AddMenuItem(string name, string text)
         {
-            return AddMenuItem(this.notificationMenu, text);
+            return AddMenuItem(this.notificationMenu, name, text);
         }
         
-        private MenuItem AddMenuItem(ContextMenu parent, string text)
+        private MenuItem AddMenuItem(ContextMenu parent, string name, string text)
         {
             MenuItem item = new MenuItem(text);
-            parent.MenuItems.Add(item);
+            int index = parent.MenuItems.Add(item);
+            if (string.IsNullOrEmpty(name))
+            {
+                name = string.Format("menuItem{0:000}", index);
+            }
+            item.Name = name;
             LanguageManager.GetString(item);
             return item;
         }
         
-        private MenuItem AddMenuItem(MenuItem parent, string text)
+        private MenuItem AddMenuItem(MenuItem parent, string name, string text)
         {
             MenuItem item = new MenuItem(text);
-            parent.MenuItems.Add(item);
+            int index = parent.MenuItems.Add(item);
+            if (string.IsNullOrEmpty(name))
+            {
+                name = string.Format("{0}SubItem{1:000}", parent.Name, index);
+            }
+            item.Name = name;
             LanguageManager.GetString(item);
             return item;
         }

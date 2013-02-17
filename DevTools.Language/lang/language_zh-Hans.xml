@@ -9,6 +9,9 @@
                 <Item name="AboutBox_textBoxDescription" value="工作中常用到的一些实用工具。" />
                 <Item name="AboutBox_labelWebSite" value="访问我们的主页" />
                 <Item name="AboutBox_buttonOK" value="确认" />
+                <Item name="DevTools_menuItemConfig" value="设置" />
+                <Item name="DevTools_menuItemAbout" value="关于" />
+                <Item name="DevTools_menuItemExit" value="退出" />
             </Items>
         </Module>
     </Modules>

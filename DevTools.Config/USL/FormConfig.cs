@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
 
 using DevTools.Language;
@@ -18,6 +19,7 @@ namespace DevTools.Config.USL
         
         private void FormConfigLoad(object sender, EventArgs e)
         {
+            LoadConfigList();
             LoadLanguage();
         }
         
@@ -28,6 +30,7 @@ namespace DevTools.Config.USL
                 string moduleName = config.GetType().Assembly.GetName().Name;
                 int index = this.listBoxConfig.Items.Add(moduleName);
                 ConfigPanelBase configPanel = ConfigManager.GetConfigPanel(config);
+                configPanel.Config = config;
                 this.panelConfig.Controls.Add(configPanel);
             }
         }
@@ -41,7 +44,8 @@ namespace DevTools.Config.USL
             foreach (var item in listBoxConfig.Items)
             {
                 ConfigBase config = ConfigManager.GetConfig(item.ToString());
-                ConfigManager.GetConfigPanel(config);
+                ConfigPanelBase configPanel = ConfigManager.GetConfigPanel(config);
+                configPanel.LoadLanguage();
             }
         }
         
@@ -61,6 +65,17 @@ namespace DevTools.Config.USL
         {
             ConfigManager.Save();
             LoadLanguage();
-        }        
+        }
+        
+        private void FormConfigFormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.listBoxConfig.Items.Clear();
+            this.panelConfig.Controls.Clear();
+        }
+        
+        private void ButtonCloseClick(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

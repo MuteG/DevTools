@@ -9,6 +9,9 @@
                 <Item name="AboutBox_textBoxDescription" value="There are some useful tools in developing." />
                 <Item name="AboutBox_labelWebSite" value="Our Web Site" />
                 <Item name="AboutBox_buttonOK" value="OK" />
+                <Item name="DevTools_menuItemConfig" value="Config" />
+                <Item name="DevTools_menuItemAbout" value="About" />
+                <Item name="DevTools_menuItemExit" value="Exit" />
             </Items>
         </Module>
     </Modules>
