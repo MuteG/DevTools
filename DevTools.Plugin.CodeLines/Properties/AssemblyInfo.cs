@@ -9,11 +9,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DevTools.Language")]
+[assembly: AssemblyTitle("DevTools.Plugin.CodeLines")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DevTools.Language")]
+[assembly: AssemblyProduct("DevTools.Plugin.CodeLines")]
 [assembly: AssemblyCopyright("Copyright gaoyunpeng 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

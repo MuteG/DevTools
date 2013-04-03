@@ -35,6 +35,10 @@ namespace DevTools.Plugin
 
             foreach (string pluginFile in Directory.GetFiles(PluginFolder))
             {
+                if (!Path.GetFileName(pluginFile).StartsWith("DevTools.Plugin."))
+                {
+                    continue;
+                }
                 Assembly pluginAssembly = Assembly.LoadFrom(pluginFile);
                 foreach (Type publicType in pluginAssembly.GetExportedTypes())
                 {

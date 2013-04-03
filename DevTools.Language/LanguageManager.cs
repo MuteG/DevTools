@@ -91,15 +91,18 @@ namespace DevTools.Language
         {
             string defaultLanguageFile =
                 Path.Combine(LanguageFolder, "language_zh-Hans.xml");
-            ResourceManager manager =
-                new ResourceManager("DevTools.Language.Resource",
-                                    typeof(LanguageManager).Assembly);
-            using (StreamWriter writer =
-                   new StreamWriter(defaultLanguageFile, false, Encoding.UTF8))
+            if(!File.Exists(defaultLanguageFile))
             {
-                writer.Write(manager.GetString("language_zh-Hans"));
+                ResourceManager manager =
+                    new ResourceManager("DevTools.Language.Resource",
+                                        typeof(LanguageManager).Assembly);
+                using (StreamWriter writer =
+                       new StreamWriter(defaultLanguageFile, false, Encoding.UTF8))
+                {
+                    writer.Write(manager.GetString("language_zh-Hans"));
+                }
+                manager.ReleaseAllResources();
             }
-            manager.ReleaseAllResources();
         }
         
         private static void LoadLanguage(string code)
@@ -121,6 +124,31 @@ namespace DevTools.Language
             string value = GetString(key, control.Text);
             control.Text = value;
             return value;
+        }
+        
+        /// <summary>
+        /// 自动为指定的控件以及其子控件实现多语言
+        /// </summary>
+        /// <param name="control">要实现多语言的控件</param>
+        [MethodImplAttribute(MethodImplOptions.NoInlining)]
+        public static void GetAllString(Control control)
+        {
+            string keyBase =
+                string.Format("{0}.{1}_",
+                              Assembly.GetCallingAssembly().GetName().Name,
+                              control.FindForm().Name
+                             );
+            GetAllString(keyBase, control);
+        }
+        
+        private static void GetAllString(string keyBase, Control control)
+        {
+            string key = keyBase + control.Name;
+            control.Text = GetString(key, control.Text);
+            foreach (Control subControl in control.Controls)
+            {
+                GetAllString(keyBase, subControl);
+            }
         }
         
         [MethodImplAttribute(MethodImplOptions.NoInlining)]
