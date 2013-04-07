@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
@@ -11,16 +12,31 @@ using DevTools.Plugin.CodeLines.Entity;
 namespace DevTools.Plugin.CodeLines.USL
 {
     /// <summary>
-    /// Description of FormMain.
+    /// 代码统计主窗体
     /// </summary>
     public partial class FormMain : Form
     {
-        // TODO: “包含”的选项动态生成，把各个包含类型进行抽象
         private Dictionary<string, CodeLineCount> _CodeLineCountDict = new Dictionary<string, CodeLineCount>();
 
         public FormMain()
         {
             InitializeComponent();
+
+            this.listViewInclude.Items.Clear();
+            foreach (PropertyInfo info in typeof(CodeLineCount).GetProperties())
+            {
+                object[] attrArray = info.GetCustomAttributes(typeof(CountAttribute), false);
+                if (attrArray.Length > 0)
+                {
+                    CountAttribute attr = attrArray[0] as CountAttribute;
+                    if (null != attr)
+                    {
+                        ListViewItem item = this.listViewInclude.Items.Add(attr.DisplayName);
+                        item.Checked = attr.IsInclude;
+                        item.Tag = info;
+                    }
+                }
+            }
         }
 
         private void FormMain_DragEnter(object sender, DragEventArgs e)
@@ -77,45 +93,51 @@ namespace DevTools.Plugin.CodeLines.USL
 
         private void OutputCount()
         {
-            richTextBox1.Clear();
+            richTextBoxReport.Clear();
             StringBuilder countMessage = new StringBuilder();
-            int total = 0, annotate = 0, design = 0, resource = 0, mix = 0;
+            StringBuilder totalCountMessage = new StringBuilder();
+
+            CodeLineCount totalCountObj = new CodeLineCount();
+            int totalFixedCount = 0;
             foreach (string key in _CodeLineCountDict.Keys)
             {
+                totalCountMessage = new StringBuilder();
+                CodeLineCount countObj = _CodeLineCountDict[key];
                 countMessage.AppendLine(key);
-                countMessage.AppendFormat("总行数：{0}，注释行数：{1}，注释代码混合：{5}，设计行数：{2}，资源文件行数：{3}，修正后行数：{4}",
-                    _CodeLineCountDict[key].Total,
-                    _CodeLineCountDict[key].Annotate,
-                    _CodeLineCountDict[key].Design,
-                    _CodeLineCountDict[key].Resource,
-                    _CodeLineCountDict[key].Total -
-                        (checkBoxAnnotate.Checked ? 0 : _CodeLineCountDict[key].Annotate) -
-                        (checkBoxDesign.Checked ? 0 : _CodeLineCountDict[key].Design) -
-                        (checkBoxResource.Checked ? 0 : _CodeLineCountDict[key].Resource) -
-                        (checkBoxIncludeMix.Checked ? 0 : _CodeLineCountDict[key].AnnotateMix),
-                    _CodeLineCountDict[key].AnnotateMix);
+                countMessage.AppendFormat("总行数：{0}", countObj.Total);
+                totalCountObj.Total += countObj.Total;
+                totalCountMessage.AppendFormat("总行数：{0}", totalCountObj.Total);
+
+                int fixedCount = _CodeLineCountDict[key].Total;
+                foreach (ListViewItem item in listViewInclude.Items)
+                {
+                    PropertyInfo info = item.Tag as PropertyInfo;
+                    int count = (int)info.GetValue(countObj, null);
+                    countMessage.AppendFormat(", {0}：{1}", item.Text, count);
+                    info.SetValue(totalCountObj,
+                        count + (int)info.GetValue(totalCountObj, null), null);
+                    totalCountMessage.AppendFormat(", {0}：{1}", item.Text, info.GetValue(totalCountObj, null));
+                    if (!item.Checked)
+                    {
+                        fixedCount -= count;
+                    }
+                }
+
+                countMessage.AppendFormat(", 修正后行数：{0}", fixedCount);
                 countMessage.AppendLine();
-                total += _CodeLineCountDict[key].Total;
-                annotate += _CodeLineCountDict[key].Annotate;
-                design += _CodeLineCountDict[key].Design;
-                resource += _CodeLineCountDict[key].Resource;
-                mix += _CodeLineCountDict[key].AnnotateMix;
+
+                totalFixedCount += fixedCount;
+                totalCountMessage.AppendFormat(", 修正后行数：{0}", totalFixedCount);
+                totalCountMessage.AppendLine();
             }
             countMessage.AppendLine("----------------------------------所有工程总计----------------------------------");
-            countMessage.AppendFormat("总行数：{0}，注释行数：{1}，注释代码混合：{5}，设计行数：{2}，资源文件行数：{3}，修正后行数：{4}",
-                total, annotate, design, resource,
-                total -
-                    (checkBoxAnnotate.Checked ? 0 : annotate) -
-                    (checkBoxDesign.Checked ? 0 : design) -
-                    (checkBoxResource.Checked ? 0 : resource) -
-                    (checkBoxIncludeMix.Checked ? 0 : mix),
-                mix);
-            countMessage.AppendLine();
-            richTextBox1.Text = countMessage.ToString();
+            richTextBoxReport.Text = countMessage.ToString();
+            richTextBoxReport.AppendText(totalCountMessage.ToString());
         }
 
         private void Count(string file)
         {
+            // TODO: 提取csproj和sln的计数器
             if (0 == string.Compare(Path.GetExtension(file), ".csproj", true))
             {
                 if (File.Exists(file))
@@ -254,10 +276,9 @@ namespace DevTools.Plugin.CodeLines.USL
             }
         }
 
-        private void checkBoxAnnotate_CheckedChanged(object sender, EventArgs e)
+        private void listViewInclude_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
             OutputCount();
         }
-
     }
 }

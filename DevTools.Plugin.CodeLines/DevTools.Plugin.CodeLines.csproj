@@ -48,6 +48,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\CountAttribute.cs" />
     <Compile Include="DAL\AbstractCounter.cs" />
     <Compile Include="DAL\XmlCounter.cs" />
     <Compile Include="Entity\CodeLineCount.cs" />

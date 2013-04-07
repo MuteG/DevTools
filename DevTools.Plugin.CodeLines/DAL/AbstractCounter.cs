@@ -1,10 +1,37 @@
 ﻿using System.IO;
 using DevTools.Plugin.CodeLines.Entity;
+using System;
 
 namespace DevTools.Plugin.CodeLines.DAL
 {
+    /// <summary>
+    /// 抽象的代码行数统计器对象
+    /// </summary>
     public abstract class AbstractCounter : ICountable
     {
+        /// <summary>
+        /// 注释类型
+        /// </summary>
+        private enum AnnotateType
+        {
+            /// <summary>
+            /// 无注释
+            /// </summary>
+            None,
+            /// <summary>
+            /// 单行注释
+            /// </summary>
+            Line,
+            /// <summary>
+            /// 注释块开始
+            /// </summary>
+            Begin,
+            /// <summary>
+            /// 注释块结束
+            /// </summary>
+            End
+        }
+
         /// <summary>
         /// 获取或设置当前计数器对应的文件
         /// </summary>
@@ -25,6 +52,11 @@ namespace DevTools.Plugin.CodeLines.DAL
         /// </summary>
         public string AnnotateBlockEndKeyWord { get; set; }
 
+        /// <summary>
+        /// 获取附加信息
+        /// </summary>
+        public string Message { get; private set; }
+
         public AbstractCounter()
         {
             this.AnnotateLineKeyWord = string.Empty;
@@ -43,80 +75,168 @@ namespace DevTools.Plugin.CodeLines.DAL
                     while (!reader.EndOfStream)
                     {
                         string currentLine = reader.ReadLine().Trim();
+                        isMix = false;
                         CountLine(ref count, currentLine);
                     }
                 }
             }
         }
 
+        private bool isMix = false;
+
         private void CountLine(ref CodeLineCount count, string currentLine)
         {
-            if (0 < currentLine.Length)
+            if (0 == currentLine.Length)
             {
-                int annotateLineIndex = currentLine.IndexOf(AnnotateLineKeyWord);
-                int annotateBlockBeginIndex = currentLine.IndexOf(AnnotateBlockBeginKeyWord);
-                int annotateBlockEndIndex = currentLine.IndexOf(AnnotateBlockEndKeyWord);
-
-                if (!inAnnotateBlock && annotateLineIndex >= 0)
+                count.Space++;
+            }
+            else
+            {
+                int currentIndex = 0;
+                switch (FindNextSymbol(currentLine, ref currentIndex))
                 {
-                    if (0 == annotateLineIndex)
-                    {
-                        count.Annotate++;
-                    }
-                    else
-                    {
-                        if (annotateBlockBeginIndex >= 0 && annotateBlockBeginIndex < annotateLineIndex)
+                    case AnnotateType.None:
+                        if (inAnnotateBlock)
                         {
-                            CheckAnnotateBlock(ref count, currentLine);
+                            count.Annotate++;
                         }
-                        else
-                        {
-                            count.AnnotateMix++;
-                        }
-                    }
+                        break;
+                    case AnnotateType.Line:
+                        CheckAnnotateLine(ref count, currentLine, currentIndex);
+                        break;
+                    case AnnotateType.Begin:
+                        CheckAnnotateBlockBegin(ref count, currentLine, currentIndex);
+                        break;
+                    case AnnotateType.End:
+                        CheckAnnotateBlockEnd(ref count, currentLine, currentIndex);
+                        break;
+                }
+            }
+            count.Total++;
+        }
+
+        private AnnotateType FindNextSymbol(string currentLine, ref int startIndex)
+        {
+            int nextSymbolIndex = -1;
+            AnnotateType nextAnnotateType = AnnotateType.None;
+
+            if (AnnotateType.None == nextAnnotateType)
+            {
+                nextSymbolIndex = currentLine.IndexOf(this.AnnotateLineKeyWord, startIndex);
+                if (nextSymbolIndex > -1)
+                {
+                    nextAnnotateType = AnnotateType.Line;
+                    startIndex = nextSymbolIndex;
+                }
+            }
+
+            if (AnnotateType.None == nextAnnotateType)
+            {
+                nextSymbolIndex = currentLine.IndexOf(this.AnnotateBlockBeginKeyWord, startIndex);
+                if (nextSymbolIndex > -1)
+                {
+                    nextAnnotateType = AnnotateType.Begin;
+                    startIndex = nextSymbolIndex;
+                }
+            }
+
+            if (AnnotateType.None == nextAnnotateType)
+            {
+                nextSymbolIndex = currentLine.IndexOf(this.AnnotateBlockEndKeyWord, startIndex);
+                if (nextSymbolIndex > -1)
+                {
+                    nextAnnotateType = AnnotateType.End;
+                    startIndex = nextSymbolIndex;
+                }
+            }
+
+            return nextAnnotateType;
+        }
+
+        private void CheckAnnotateLine(ref CodeLineCount count, string currentLine, int currentIndex)
+        {
+            if (inAnnotateBlock)
+            {
+                int nextEndIndex = currentLine.IndexOf(this.AnnotateBlockEndKeyWord, currentIndex);
+                if (-1 == nextEndIndex)
+                {
+                    count.Annotate++;
                 }
                 else
                 {
-                    CheckAnnotateBlock(ref count, currentLine);
+                    CheckAnnotateBlockEnd(ref count, currentLine, nextEndIndex);
                 }
-                count.Total++;
+            }
+            else
+            {
+                if (0 == currentIndex)
+                {
+                    count.Annotate++;
+                }
+                else
+                {
+                    count.AnnotateMix++;
+                }
             }
         }
 
         private bool inAnnotateBlock = false;
 
-        private void CheckAnnotateBlock(ref CodeLineCount count, string currentLine)
+        private void CheckAnnotateBlockBegin(ref CodeLineCount count, string currentLine, int currentIndex)
         {
-            int annotateBlockBeginIndex = currentLine.IndexOf(AnnotateBlockBeginKeyWord);
-            int annotateBlockEndIndex = currentLine.IndexOf(AnnotateBlockEndKeyWord);
-
-            //TODO 目前还没对注释块结尾直接跟有效代码的情况进行对应
-            //TODO 目前还没对注释块结尾直接跟有效代码后再跟行内注释块的情况进行对应
-            if (inAnnotateBlock)
+            inAnnotateBlock = true;
+            int nextEndIndex = currentLine.IndexOf(this.AnnotateBlockEndKeyWord, currentIndex);
+            if (-1 == nextEndIndex)
             {
                 count.Annotate++;
-                if (annotateBlockEndIndex >= 0)
+            }
+            else
+            {
+                CheckAnnotateBlockEnd(ref count, currentLine, nextEndIndex);
+            }
+        }
+
+        private void CheckAnnotateBlockEnd(ref CodeLineCount count, string currentLine, int currentIndex)
+        {
+            inAnnotateBlock = false;
+            currentIndex = currentIndex + this.AnnotateBlockEndKeyWord.Length;
+            if (currentIndex < currentLine.Length)
+            {
+                int startIndex = currentIndex;
+                AnnotateType nextType = FindNextSymbol(currentLine, ref startIndex);
+                switch (nextType)
                 {
-                    inAnnotateBlock = false; 
+                    case AnnotateType.None:
+                        count.AnnotateMix++;
+                        break;
+                    case AnnotateType.Line:
+                        if (currentIndex == startIndex)
+                        {
+                            count.Annotate++;
+                        }
+                        else
+                        {
+                            count.AnnotateMix++;
+                        }
+                        break;
+                    case AnnotateType.Begin:
+                        if (!isMix && currentIndex != startIndex)
+                        {
+                            count.AnnotateMix++;
+                            isMix = true;
+                        }
+                        CheckAnnotateBlockBegin(ref count, currentLine, currentIndex);
+                        break;
+                    case AnnotateType.End:
+                        this.Message = "发现错误的注释块结尾";
+                        break;
                 }
             }
             else
             {
-                if (annotateBlockBeginIndex >= 0)
+                if (!isMix)
                 {
-                    inAnnotateBlock = true;
-                    if (annotateBlockBeginIndex > 0)
-                    {
-                        count.AnnotateMix++;
-                    }
-                    else
-                    {
-                        count.Annotate++;
-                    }
-                }
-                if (annotateBlockEndIndex >= 0)
-                {
-                    inAnnotateBlock = false;
+                    count.Annotate++;
                 }
             }
         }

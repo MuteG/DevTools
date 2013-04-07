@@ -31,9 +31,9 @@ namespace DevTools
                     {
                         menu.Show();
                         Application.Run();
+                        mtx.ReleaseMutex();
                     }
                 }
-                mtx.ReleaseMutex();
             }
         }
     }
