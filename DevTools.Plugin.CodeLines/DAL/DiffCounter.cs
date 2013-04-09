@@ -3,6 +3,10 @@ using DevTools.Plugin.CodeLines.Entity;
 
 namespace DevTools.Plugin.CodeLines.DAL
 {
+    /// <summary>
+    /// 标准差分文件行数计数器
+    /// </summary>
+    [FileInfo(".diff")]
     public class DiffCounter : AbstractCounter
     {
         public override void Count(ref CodeLineCount count)
@@ -24,6 +28,21 @@ namespace DevTools.Plugin.CodeLines.DAL
                     }
                 }
             }
+        }
+
+        public override string AnnotateLineKeyWord
+        {
+            get { return string.Empty; }
+        }
+
+        public override string AnnotateBlockBeginKeyWord
+        {
+            get { return string.Empty; }
+        }
+
+        public override string AnnotateBlockEndKeyWord
+        {
+            get { return string.Empty; }
         }
     }
 }

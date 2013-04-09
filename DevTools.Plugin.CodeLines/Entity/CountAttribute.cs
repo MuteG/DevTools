@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace DevTools.Plugin.CodeLines.BLL
+namespace DevTools.Plugin.CodeLines.Entity
 {
     [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = true)]
-    internal class CountAttribute : Attribute
+    internal class CountInfoAttribute : Attribute
     {
         /// <summary>
         /// 计数时是否包含
@@ -19,7 +19,7 @@ namespace DevTools.Plugin.CodeLines.BLL
         /// 用指定的属性来初始化Count特性的新实例
         /// </summary>
         /// <param name="name">显示名称</param>
-        public CountAttribute(string name)
+        public CountInfoAttribute(string name)
         {
             this.IsInclude = true;
             this.DisplayName = name;

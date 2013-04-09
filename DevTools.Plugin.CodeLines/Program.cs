@@ -1,6 +1,7 @@
 ﻿using System;
 using DevTools.Plugin;
 using DevTools.Plugin.CodeLines.USL;
+using System.Windows.Forms;
 
 namespace DevTools.Plugin.CodeLines
 {
@@ -29,5 +30,15 @@ namespace DevTools.Plugin.CodeLines
         {
             
         }
+
+#if DEBUG
+        [STAThread]
+        public static void Main(string[] args)
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new FormMain());
+        }
+#endif
     }
 }

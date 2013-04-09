@@ -5,6 +5,10 @@ using NPOI.SS.UserModel;
 
 namespace DevTools.Plugin.CodeLines.DAL
 {
+    /// <summary>
+    /// Excel文件行数计数器
+    /// </summary>
+    [FileInfo(".xls")]
     public class ExcelCounter : AbstractCounter
     {
         public override void Count(ref CodeLineCount count)
@@ -20,6 +24,21 @@ namespace DevTools.Plugin.CodeLines.DAL
                     //TODO 判断图片以及绘制的图形占用了多少行
                 }
             }
+        }
+
+        public override string AnnotateLineKeyWord
+        {
+            get { return string.Empty; }
+        }
+
+        public override string AnnotateBlockBeginKeyWord
+        {
+            get { return string.Empty; }
+        }
+
+        public override string AnnotateBlockEndKeyWord
+        {
+            get { return string.Empty; }
         }
     }
 }

@@ -38,31 +38,24 @@ namespace DevTools.Plugin.CodeLines.DAL
         public string TargetFile { get; set; }
 
         /// <summary>
-        /// 获取或设置单行注释关键字
+        /// 获取单行注释关键字
         /// </summary>
-        public string AnnotateLineKeyWord { get; set; }
+        public abstract string AnnotateLineKeyWord { get; }
 
         /// <summary>
-        /// 获取或设置注释块开始关键字
+        /// 获取注释块开始关键字
         /// </summary>
-        public string AnnotateBlockBeginKeyWord { get; set; }
+        public abstract string AnnotateBlockBeginKeyWord { get; }
 
         /// <summary>
-        /// 获取或设置注释块结束关键字
+        /// 获取注释块结束关键字
         /// </summary>
-        public string AnnotateBlockEndKeyWord { get; set; }
+        public abstract string AnnotateBlockEndKeyWord { get; }
 
         /// <summary>
         /// 获取附加信息
         /// </summary>
         public string Message { get; private set; }
-
-        public AbstractCounter()
-        {
-            this.AnnotateLineKeyWord = string.Empty;
-            this.AnnotateBlockBeginKeyWord = string.Empty;
-            this.AnnotateBlockEndKeyWord = string.Empty;
-        }
 
         #region ICountable 成员
 

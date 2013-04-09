@@ -6,41 +6,44 @@ using DevTools.Plugin.CodeLines.DAL;
 
 namespace DevTools.Plugin.CodeLines.BLL
 {
-    public class CounterFactory
+    public static class CodeFileFactory
     {
         private static Dictionary<string, Type> counterDict = new Dictionary<string, Type>();
 
-        public static ICountable Create(string file)
+        public static AbstractCodeFile Create(string file)
         {
-            ICountable counter = null;
+            AbstractCodeFile codeFile = null;
 
             string ext = Path.GetExtension(file).ToLower();
 
             if (counterDict.ContainsKey(ext))
             {
-                counter = Activator.CreateInstance(counterDict[ext]) as ICountable;
+                codeFile = Activator.CreateInstance(counterDict[ext]) as AbstractCodeFile;
             }
             else
             {
-                counter = FindType(ext);
+                codeFile = FindType(ext);
             }
 
-            if (null != counter)
+            if (null == codeFile)
             {
-                (counter as AbstractCounter).TargetFile = file;
+                counterDict.Add(ext, typeof(NormalCodeFile));
+                codeFile = new NormalCodeFile();
             }
 
-            return counter;
+            codeFile.File = file;
+
+            return codeFile;
         }
 
-        private static ICountable FindType(string ext)
+        private static AbstractCodeFile FindType(string ext)
         {
-            ICountable counter = null;
+            AbstractCodeFile codeFile = null;
 
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
             foreach (Type type in currentAssembly.GetTypes())
             {
-                if (type.GetInterface(typeof(ICountable).Name) != null)
+                if (type.IsSubclassOf(typeof(AbstractCodeFile)))
                 {
                     object[] attrArray = type.GetCustomAttributes(typeof(FileInfoAttribute), false);
                     if (attrArray.Length > 0)
@@ -49,7 +52,7 @@ namespace DevTools.Plugin.CodeLines.BLL
                         string[] extArray = typeExt.Split(',');
                         if (Array.Find(extArray, item => item.Equals(ext)) != null)
                         {
-                            counter = Activator.CreateInstance(type) as ICountable;
+                            codeFile = Activator.CreateInstance(type) as AbstractCodeFile;
                             foreach (string item in extArray)
                             {
                                 counterDict.Add(item.Trim(), type);
@@ -59,7 +62,7 @@ namespace DevTools.Plugin.CodeLines.BLL
                     }
                 }
             }
-            return counter;
+            return codeFile;
         }
     }
 }

@@ -1,11 +1,4 @@
-﻿/* *************************************************************************
- * Copyright (c)2012 NTT DATA BEEN (China) Information Technology Co.,Ltd.
- * 作成:高雲鵬
- * 機能:
- * 履歴:
- * 2013/04/03 新規 高雲鵬 新規作成
- * *************************************************************************/
-namespace DevTools.Plugin.CodeLines.USL
+﻿namespace DevTools.Plugin.CodeLines.USL
 {
     partial class FormMain
     {

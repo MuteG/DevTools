@@ -4,7 +4,7 @@
     <ProjectGuid>{B294AB89-AE9D-42B7-A1CF-FEAE766461D6}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <OutputType>Library</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>DevTools.Plugin.CodeLines</RootNamespace>
     <AssemblyName>DevTools.Plugin.CodeLines</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
@@ -32,6 +32,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <OutputPath>..\..\bin\plugin\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="NPOI">
       <HintPath>..\..\..\..\DotNet\Component\NPOI\bin\.net 4.0\NPOI.dll</HintPath>
@@ -48,13 +51,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BLL\CountAttribute.cs" />
+    <Compile Include="BLL\AbstractCodeFile.cs" />
+    <Compile Include="BLL\CodeFileFactory.cs" />
+    <Compile Include="BLL\CSharpSolutionCodeFile.cs" />
+    <Compile Include="BLL\NormalCodeFile.cs" />
+    <Compile Include="BLL\CSharpProjectCodeFile.cs" />
+    <Compile Include="DAL\CounterAttribute.cs" />
+    <Compile Include="Entity\CountAttribute.cs" />
     <Compile Include="DAL\AbstractCounter.cs" />
     <Compile Include="DAL\XmlCounter.cs" />
     <Compile Include="Entity\CodeLineCount.cs" />
     <Compile Include="BLL\CounterFactory.cs" />
     <Compile Include="DAL\CSharpCounter.cs" />
-    <Compile Include="DAL\CSharpProjectCounter.cs" />
     <Compile Include="DAL\CSharpResourceCounter.cs" />
     <Compile Include="DAL\CSharpSolutionCounter.cs" />
     <Compile Include="DAL\DiffCounter.cs" />
@@ -77,7 +85,7 @@
     <ProjectReference Include="..\DevTools.Plugin\DevTools.Plugin.csproj">
       <Project>{6BDBE09A-50B2-41F1-A37E-0777C7B105F4}</Project>
       <Name>DevTools.Plugin</Name>
-      <Private>False</Private>
+      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
