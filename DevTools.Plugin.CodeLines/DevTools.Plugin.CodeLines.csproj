@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="BLL\AbstractCodeFile.cs" />
     <Compile Include="BLL\CodeFileFactory.cs" />
+    <Compile Include="BLL\CodeFolder.cs" />
     <Compile Include="BLL\CSharpSolutionCodeFile.cs" />
     <Compile Include="BLL\NormalCodeFile.cs" />
     <Compile Include="BLL\CSharpProjectCodeFile.cs" />

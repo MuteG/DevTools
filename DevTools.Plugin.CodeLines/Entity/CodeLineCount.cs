@@ -42,17 +42,14 @@ namespace DevTools.Plugin.CodeLines.Entity
         /// </summary>
         public int Total { get; set; }
 
-        public static CodeLineCount operator +(CodeLineCount count1, CodeLineCount count2)
+        public void Add(CodeLineCount count)
         {
-            return new CodeLineCount()
-            {
-                Annotate = count1.Annotate + count2.Annotate,
-                AnnotateMix = count1.AnnotateMix + count2.AnnotateMix,
-                Design = count1.Design + count2.Design,
-                Resource = count1.Resource + count2.Resource,
-                Space = count1.Space + count2.Space,
-                Total = count1.Total + count2.Total
-            };
+            this.Annotate += count.Annotate;
+            this.AnnotateMix += count.AnnotateMix;
+            this.Design += count.Design;
+            this.Resource += count.Resource;
+            this.Space += count.Space;
+            this.Total += count.Total;
         }
     }
 }

@@ -28,7 +28,7 @@ namespace DevTools.Plugin.CodeLines.BLL
                             projectCodeFile.File = project;
                             projectCodeFile.Count();
 
-                            this.codeLineCount = this.CodeLineCount + projectCodeFile.CodeLineCount;
+                            this.CodeLineCount.Add(projectCodeFile.CodeLineCount);
                             this.IncludeFiles.Add(projectCodeFile);
                         }
                     }

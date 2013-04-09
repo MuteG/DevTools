@@ -14,21 +14,29 @@ namespace DevTools.Plugin.CodeLines.BLL
         {
             AbstractCodeFile codeFile = null;
 
-            string ext = Path.GetExtension(file).ToLower();
-
-            if (counterDict.ContainsKey(ext))
+            FileInfo info = new FileInfo(file);
+            if ((info.Attributes & FileAttributes.Directory) == FileAttributes.Directory)
             {
-                codeFile = Activator.CreateInstance(counterDict[ext]) as AbstractCodeFile;
+                codeFile = new CodeFolder();
             }
             else
             {
-                codeFile = FindType(ext);
-            }
+                string ext = Path.GetExtension(file).ToLower();
 
-            if (null == codeFile)
-            {
-                counterDict.Add(ext, typeof(NormalCodeFile));
-                codeFile = new NormalCodeFile();
+                if (counterDict.ContainsKey(ext))
+                {
+                    codeFile = Activator.CreateInstance(counterDict[ext]) as AbstractCodeFile;
+                }
+                else
+                {
+                    codeFile = FindType(ext);
+                }
+
+                if (null == codeFile)
+                {
+                    counterDict.Add(ext, typeof(NormalCodeFile));
+                    codeFile = new NormalCodeFile();
+                }
             }
 
             codeFile.File = file;
