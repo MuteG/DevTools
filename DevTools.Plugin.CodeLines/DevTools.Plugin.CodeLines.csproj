@@ -74,6 +74,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DAL\SQLCounter.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="USL\FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,7 +86,9 @@
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\folderopen.ico" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DevTools.Plugin\DevTools.Plugin.csproj">
       <Project>{6BDBE09A-50B2-41F1-A37E-0777C7B105F4}</Project>
@@ -90,9 +97,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="USL\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder_open.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder_closed_16x16.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Generic_Document.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

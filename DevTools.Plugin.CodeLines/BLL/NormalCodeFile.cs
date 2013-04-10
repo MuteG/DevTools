@@ -4,7 +4,7 @@ namespace DevTools.Plugin.CodeLines.BLL
 {
     public class NormalCodeFile : AbstractCodeFile
     {
-        public override void Count()
+        protected override void GetCount()
         {
             ICountable count = CounterFactory.Create(this.File);
             if (null != count)

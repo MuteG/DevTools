@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using DevTools.Plugin.CodeLines.BLL;
 using DevTools.Plugin.CodeLines.Entity;
-using System.IO;
-using System.Drawing;
 
 namespace DevTools.Plugin.CodeLines.USL
 {
@@ -96,7 +96,7 @@ namespace DevTools.Plugin.CodeLines.USL
                 }
                 Cursor = Cursors.Default;
                 SetTreeView();
-                OutputCount();
+                //OutputCount();
                 SetDataGridViewValue();
             }
         }
@@ -104,20 +104,50 @@ namespace DevTools.Plugin.CodeLines.USL
         private void SetTreeView()
         {
             this.treeViewFile.Nodes.Clear();
+            this.treeViewFile.ImageList = new ImageList();
+            this.treeViewFile.ImageList.Images.Add("folderOpen", Properties.Resources.folder_open);
+            this.treeViewFile.ImageList.Images.Add("folderClose", Properties.Resources.folder_closed_16x16);
+            this.treeViewFile.ImageList.Images.Add("file", Properties.Resources.Generic_Document);
+            this.treeViewFile.ImageKey = "file";
+
             TreeNode rootNode = this.treeViewFile.Nodes.Add("全部");
             CodeLineCount totalCountObj = new CodeLineCount();
+            rootNode.Tag = totalCountObj;
+            rootNode.Checked = true;
             foreach (AbstractCodeFile codeFile in codeFileList)
             {
                 SetTreeView(codeFile, rootNode);
                 totalCountObj.Add(codeFile.CodeLineCount);
             }
-            rootNode.Tag = totalCountObj;
+            labelTotal.Text = "总计：" + GenerateMessage(totalCountObj).Trim();
+
+            this.treeViewFile.ExpandAll();
+            rootNode.EnsureVisible();
         }
 
         private void SetTreeView(AbstractCodeFile codeFile, TreeNode parentNode)
         {
             TreeNode newNode = parentNode.Nodes.Add(Path.GetFileName(codeFile.File));
             newNode.Tag = codeFile;
+            newNode.Checked = true;
+
+            if (codeFile is CodeFolder)
+            {
+                newNode.ImageKey = "folderOpen";
+            }
+            else
+            {
+                ImageList.ImageCollection imageList = this.treeViewFile.ImageList.Images;
+                string imageKey = Path.GetExtension(codeFile.File);
+                if (!imageList.ContainsKey(imageKey))
+                {
+                    Icon icon = Icon.ExtractAssociatedIcon(codeFile.File);
+                    imageList.Add(imageKey, icon);
+                }
+                newNode.ImageKey = imageKey;
+            }
+            
+
             foreach (AbstractCodeFile item in codeFile.IncludeFiles)
             {
                 SetTreeView(item, newNode);
@@ -126,10 +156,14 @@ namespace DevTools.Plugin.CodeLines.USL
 
         private void SetDataGridViewValue()
         {
-            TreeNode rootNode = this.treeViewFile.Nodes[0];
-            foreach (TreeNode subNode in rootNode.Nodes)
+            this.dataGridViewCount.Rows.Clear();
+            if (this.treeViewFile.Nodes.Count > 0)
             {
-                SetDataGridViewValue(subNode);
+                TreeNode rootNode = this.treeViewFile.Nodes[0];
+                foreach (TreeNode subNode in rootNode.Nodes)
+                {
+                    SetDataGridViewValue(subNode);
+                }
             }
         }
 
@@ -137,7 +171,7 @@ namespace DevTools.Plugin.CodeLines.USL
         {
             AbstractCodeFile codeFile = node.Tag as AbstractCodeFile;
             DataGridViewRow row = SetDataGridViewValue(codeFile);
-            if (codeFile is CodeFolder)
+            if (codeFile.IncludeFiles.Count > 0)
             {
                 row.DefaultCellStyle.BackColor = Color.Aquamarine;
             }
@@ -146,9 +180,7 @@ namespace DevTools.Plugin.CodeLines.USL
                 row.DefaultCellStyle.BackColor = Color.GreenYellow;
             }
 
-            // TODO: 树状表的所有节点在初次填充时默认全部选中
-            // TODO: 树状表的所有节点在初次填充时默认全部展开
-            // TODO: 树状表的所有节点在选择框发生变化时，总数要进行重新统计
+            // TODO: 统计代码行数时，显示进度条
 
             foreach (TreeNode subNode in node.Nodes)
             {
@@ -161,6 +193,7 @@ namespace DevTools.Plugin.CodeLines.USL
             CodeLineCount countObj = codeFile.CodeLineCount;
             int rowIndex = this.dataGridViewCount.Rows.Add();
             DataGridViewRow row = this.dataGridViewCount.Rows[rowIndex];
+            row.Tag = codeFile;
             row.Cells["colFile"].Value = Path.GetFileName(codeFile.File);
             row.Cells["colTotal"].Value = countObj.Total;
             int fixedCount = countObj.Total;
@@ -180,8 +213,7 @@ namespace DevTools.Plugin.CodeLines.USL
 
         private void OutputCount()
         {
-            richTextBoxReport.Clear();
-            this.dataGridViewCount.Rows.Clear();
+            //richTextBoxReport.Clear();
 
             StringBuilder countMessage = new StringBuilder();
 
@@ -195,7 +227,7 @@ namespace DevTools.Plugin.CodeLines.USL
             countMessage.Append(GenerateMessage(totalCountObj));
             labelTotal.Text = "总计：" + GenerateMessage(totalCountObj).Trim();
 
-            richTextBoxReport.Text = countMessage.ToString();
+            //richTextBoxReport.Text = countMessage.ToString();
         }
 
         private string GenerateMessage(AbstractCodeFile codeFile)
@@ -234,7 +266,134 @@ namespace DevTools.Plugin.CodeLines.USL
 
         private void listViewInclude_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-            OutputCount();
+            if (this.treeViewFile.Nodes.Count > 0)
+            {
+                RefeshDataGridViewValue();
+                TreeNode rootNode = this.treeViewFile.Nodes[0];
+                CodeLineCount totalCountObj = rootNode.Tag as CodeLineCount;
+                labelTotal.Text = "总计：" + GenerateMessage(totalCountObj).Trim();
+            }
+        }
+
+        private void RefeshDataGridViewValue()
+        {
+            List<string> fixColumnList = new List<string>();
+            foreach (ListViewItem item in listViewInclude.Items)
+            {
+                PropertyInfo info = item.Tag as PropertyInfo;
+                if (!item.Checked)
+                {
+                    fixColumnList.Add("col" + info.Name);
+                }
+            }
+
+            foreach (DataGridViewRow row in dataGridViewCount.Rows)
+            {
+                int fixedCount = (int)row.Cells["colTotal"].Value;
+                foreach (string columnName in fixColumnList)
+                {
+                    fixedCount -= (int)row.Cells[columnName].Value;
+                }
+                row.Cells["colFixedCount"].Value = fixedCount;
+            }
+        }
+
+        private void treeViewFile_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+            if (e.Node.Level > 0)
+            {
+                CodeLineCount count = this.treeViewFile.Nodes[0].Tag as CodeLineCount;
+                AbstractCodeFile codeFile = e.Node.Tag as AbstractCodeFile;
+                if (e.Node.Checked)
+                {
+                    count.Add(codeFile.CodeLineCount);
+                }
+                else
+                {
+                    count.Sub(codeFile.CodeLineCount);
+                }
+
+                foreach (DataGridViewRow row in dataGridViewCount.Rows)
+                {
+                    if (row.Tag.Equals(e.Node.Tag))
+                    {
+                        if ((e.Node.Tag as AbstractCodeFile).IncludeFiles.Count > 0)
+                        {
+                            row.DefaultCellStyle.BackColor = Color.Aquamarine;
+                        }
+                        else
+                        {
+                            if (e.Node.Checked)
+                            {
+                                row.DefaultCellStyle.BackColor = Color.GreenYellow;
+                            }
+                            else
+                            {
+                                row.DefaultCellStyle.BackColor = Color.Gray;
+                            }
+                        }
+                        break;
+                    }
+                }
+
+                if (e.Action == TreeViewAction.ByMouse ||
+                    e.Action == TreeViewAction.ByKeyboard)
+                {
+                    NodeChecked(e.Node, e.Node.Checked);
+                }
+                labelTotal.Text = "总计：" + GenerateMessage(count).Trim();
+            }
+        }
+
+        private void NodeChecked(TreeNode node, bool isChecked)
+        {
+            node.Checked = isChecked;
+            foreach (TreeNode subNode in node.Nodes)
+            {
+                NodeChecked(subNode, isChecked);
+            }
+        }
+
+        private void treeViewFile_AfterCollapse(object sender, TreeViewEventArgs e)
+        {
+            if (e.Node.Tag is CodeFolder || e.Node.Level == 0)
+            {
+                e.Node.ImageKey = "folderClose";
+            }
+
+            if (e.Node.Level > 0)
+            {
+                SetRowVisible(e.Node, false);
+            }
+        }
+
+        private void SetRowVisible(TreeNode node, bool visible)
+        {
+            foreach (TreeNode subNode in node.Nodes)
+            {
+                foreach (DataGridViewRow row in dataGridViewCount.Rows)
+                {
+                    if (row.Tag.Equals(subNode.Tag))
+                    {
+                        row.Visible = visible;
+                        break;
+                    }
+                }
+                SetRowVisible(subNode, visible);
+            }
+        }
+
+        private void treeViewFile_AfterExpand(object sender, TreeViewEventArgs e)
+        {
+            if (e.Node.Tag is CodeFolder || e.Node.Level == 0)
+            {
+                e.Node.ImageKey = "folderOpen";
+            }
+
+            if (e.Node.Level > 0)
+            {
+                SetRowVisible(e.Node, true);
+            }
         }
     }
 }

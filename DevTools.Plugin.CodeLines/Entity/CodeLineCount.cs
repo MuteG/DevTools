@@ -51,5 +51,15 @@ namespace DevTools.Plugin.CodeLines.Entity
             this.Space += count.Space;
             this.Total += count.Total;
         }
+
+        public void Sub(CodeLineCount count)
+        {
+            this.Annotate -= count.Annotate;
+            this.AnnotateMix -= count.AnnotateMix;
+            this.Design -= count.Design;
+            this.Resource -= count.Resource;
+            this.Space -= count.Space;
+            this.Total -= count.Total;
+        }
     }
 }

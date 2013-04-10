@@ -18,7 +18,7 @@ namespace DevTools.Plugin.CodeLines.BLL
             this.codeFileDict = new Dictionary<string, AbstractCodeFile>();
         }
 
-        public override void Count()
+        protected override void GetCount()
         {
             XmlDocument xml = new XmlDocument();
             using (FileStream stream = new FileStream(this.File, FileMode.Open,
@@ -37,8 +37,6 @@ namespace DevTools.Plugin.CodeLines.BLL
             string resourceXPath = "descendant::ns:ItemGroup/ns:EmbeddedResource";
             XmlNodeList resourceNodeList = xml.DocumentElement.SelectNodes(resourceXPath, xmlns);
             CountFile(resourceNodeList);
-
-            // TODO: 多级目录的情况下，只有最底层目录的计数奏效，上层目录也需要进行计数填充
         }
 
         private void CountFile(XmlNodeList csNodeList)
@@ -63,10 +61,12 @@ namespace DevTools.Plugin.CodeLines.BLL
                             this.codeFileDict.Add(key, codeFolder);
                             if (0 == i)
                             {
+                                codeFolder.Parent = this;
                                 this.IncludeFiles.Add(codeFolder);
                             }
                             else
                             {
+                                codeFolder.Parent = this.codeFileDict[Path.GetDirectoryName(key)];
                                 this.codeFileDict[Path.GetDirectoryName(key)].IncludeFiles.Add(codeFolder);
                             }
                         }
@@ -75,10 +75,12 @@ namespace DevTools.Plugin.CodeLines.BLL
                     AbstractCodeFile file = CodeFileFactory.Create(codeFile);
                     if (null != file)
                     {
+                        if (this.codeFileDict.ContainsKey(key))
+                        {
+                            file.Parent = this.codeFileDict[key];
+                            this.codeFileDict[key].IncludeFiles.Add(file);
+                        }
                         file.Count();
-                        this.codeFileDict[key].IncludeFiles.Add(file);
-                        this.codeFileDict[key].CodeLineCount.Add(file.CodeLineCount);
-                        this.CodeLineCount.Add(file.CodeLineCount);
                     }
                 }
             }

@@ -10,7 +10,7 @@ namespace DevTools.Plugin.CodeLines.BLL
     [FileInfo(".sln")]
     public class CSharpSolutionCodeFile : AbstractCodeFile
     {
-        public override void Count()
+        protected override void GetCount()
         {
             using (StreamReader reader = new StreamReader(this.File))
             {
@@ -26,9 +26,8 @@ namespace DevTools.Plugin.CodeLines.BLL
                         {
                             CSharpProjectCodeFile projectCodeFile = new CSharpProjectCodeFile();
                             projectCodeFile.File = project;
+                            projectCodeFile.Parent = this;
                             projectCodeFile.Count();
-
-                            this.CodeLineCount.Add(projectCodeFile.CodeLineCount);
                             this.IncludeFiles.Add(projectCodeFile);
                         }
                     }

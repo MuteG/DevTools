@@ -40,7 +40,6 @@
             treeNode5});
             System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("节点6");
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.richTextBoxReport = new System.Windows.Forms.RichTextBox();
             this.groupBoxInclude = new System.Windows.Forms.GroupBox();
             this.listViewInclude = new System.Windows.Forms.ListView();
             this.treeViewFile = new System.Windows.Forms.TreeView();
@@ -56,19 +55,6 @@
             this.splitContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCount)).BeginInit();
             this.SuspendLayout();
-            // 
-            // richTextBoxReport
-            // 
-            this.richTextBoxReport.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBoxReport.BackColor = System.Drawing.Color.White;
-            this.richTextBoxReport.Location = new System.Drawing.Point(330, 403);
-            this.richTextBoxReport.Name = "richTextBoxReport";
-            this.richTextBoxReport.ReadOnly = true;
-            this.richTextBoxReport.Size = new System.Drawing.Size(378, 59);
-            this.richTextBoxReport.TabIndex = 7;
-            this.richTextBoxReport.Text = "";
             // 
             // groupBoxInclude
             // 
@@ -127,6 +113,9 @@
             treeNode7});
             this.treeViewFile.Size = new System.Drawing.Size(206, 374);
             this.treeViewFile.TabIndex = 14;
+            this.treeViewFile.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFile_AfterCheck);
+            this.treeViewFile.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFile_AfterCollapse);
+            this.treeViewFile.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFile_AfterExpand);
             // 
             // splitContainer
             // 
@@ -208,7 +197,6 @@
             this.Controls.Add(this.labelTotal);
             this.Controls.Add(this.splitContainer);
             this.Controls.Add(this.groupBoxInclude);
-            this.Controls.Add(this.richTextBoxReport);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "代码行数统计";
@@ -224,7 +212,6 @@
             this.PerformLayout();
 
         }
-        private System.Windows.Forms.RichTextBox richTextBoxReport;
         private System.Windows.Forms.GroupBox groupBoxInclude;
         private System.Windows.Forms.ListView listViewInclude;
         private System.Windows.Forms.TreeView treeViewFile;
