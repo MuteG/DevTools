@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using DevTools.Plugin.CodeLines.DAL;
 
@@ -27,11 +28,14 @@ namespace DevTools.Plugin.CodeLines.BLL
                             CSharpProjectCodeFile projectCodeFile = new CSharpProjectCodeFile();
                             projectCodeFile.File = project;
                             projectCodeFile.Parent = this;
-                            projectCodeFile.Count();
-                            this.IncludeFiles.Add(projectCodeFile);
                         }
                     }
                 }
+            }
+            foreach (CSharpProjectCodeFile projectCodeFile in this.IncludeFiles)
+            {
+                projectCodeFile.Count();
+                //OnProgress(projectCodeFile);
             }
         }
     }

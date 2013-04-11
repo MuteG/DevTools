@@ -12,8 +12,6 @@ namespace DevTools.Plugin.CodeLines.BLL
                 CodeFolder codeFolder = new CodeFolder();
                 codeFolder.File = folder;
                 codeFolder.Parent = this;
-                codeFolder.Count();
-                this.IncludeFiles.Add(codeFolder);
             }
 
             string[] files = Directory.GetFiles(this.File, "*.*", SearchOption.TopDirectoryOnly);
@@ -23,9 +21,13 @@ namespace DevTools.Plugin.CodeLines.BLL
                 if (null != codeFile)
                 {
                     codeFile.Parent = this;
-                    codeFile.Count();
-                    this.IncludeFiles.Add(codeFile);
                 }
+            }
+
+            foreach (AbstractCodeFile codeFile in this.IncludeFiles)
+            {
+                codeFile.Count();
+                //OnProgress(codeFile);
             }
         }
     }

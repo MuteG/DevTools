@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("节点1");
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("节点2");
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("节点0", new System.Windows.Forms.TreeNode[] {
@@ -43,12 +44,16 @@
             this.groupBoxInclude = new System.Windows.Forms.GroupBox();
             this.listViewInclude = new System.Windows.Forms.ListView();
             this.treeViewFile = new System.Windows.Forms.TreeView();
+            this.contextMenuStripTree = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuCollapseSubNode = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuExpandSubNode = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.dataGridViewCount = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.labelTotal = new System.Windows.Forms.Label();
             this.groupBoxInclude.SuspendLayout();
+            this.contextMenuStripTree.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -89,6 +94,7 @@
             // 
             this.treeViewFile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.treeViewFile.CheckBoxes = true;
+            this.treeViewFile.ContextMenuStrip = this.contextMenuStripTree;
             this.treeViewFile.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewFile.ItemHeight = 18;
             this.treeViewFile.Location = new System.Drawing.Point(0, 0);
@@ -116,6 +122,28 @@
             this.treeViewFile.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFile_AfterCheck);
             this.treeViewFile.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFile_AfterCollapse);
             this.treeViewFile.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.treeViewFile_AfterExpand);
+            // 
+            // contextMenuStripTree
+            // 
+            this.contextMenuStripTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuCollapseSubNode,
+            this.menuExpandSubNode});
+            this.contextMenuStripTree.Name = "contextMenuStripTree";
+            this.contextMenuStripTree.Size = new System.Drawing.Size(153, 70);
+            // 
+            // menuCollapseSubNode
+            // 
+            this.menuCollapseSubNode.Name = "menuCollapseSubNode";
+            this.menuCollapseSubNode.Size = new System.Drawing.Size(152, 22);
+            this.menuCollapseSubNode.Text = "折叠子节点";
+            this.menuCollapseSubNode.Click += new System.EventHandler(this.menuCollapseSubNode_Click);
+            // 
+            // menuExpandSubNode
+            // 
+            this.menuExpandSubNode.Name = "menuExpandSubNode";
+            this.menuExpandSubNode.Size = new System.Drawing.Size(152, 22);
+            this.menuExpandSubNode.Text = "展开子节点";
+            this.menuExpandSubNode.Click += new System.EventHandler(this.menuExpandSubNode_Click);
             // 
             // splitContainer
             // 
@@ -200,9 +228,11 @@
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "代码行数统计";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FormMain_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FormMain_DragEnter);
             this.groupBoxInclude.ResumeLayout(false);
+            this.contextMenuStripTree.ResumeLayout(false);
             this.splitContainer.Panel1.ResumeLayout(false);
             this.splitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
@@ -220,5 +250,8 @@
         private System.Windows.Forms.Label labelTotal;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripTree;
+        private System.Windows.Forms.ToolStripMenuItem menuCollapseSubNode;
+        private System.Windows.Forms.ToolStripMenuItem menuExpandSubNode;
     }
 }

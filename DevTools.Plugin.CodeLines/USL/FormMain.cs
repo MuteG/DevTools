@@ -14,7 +14,8 @@ namespace DevTools.Plugin.CodeLines.USL
     /// </summary>
     public partial class FormMain : Form
     {
-        private List<AbstractCodeFile> codeFileList = new List<AbstractCodeFile>();
+        private AbstractCodeFile rootFile = null;
+        private ProgressPanel progressPanel = new ProgressPanel();
 
         public FormMain()
         {
@@ -33,14 +34,16 @@ namespace DevTools.Plugin.CodeLines.USL
                 HeaderText = "文件",
                 ValueType = typeof(string),
                 Width = 80,
-                Name = "colFile"
+                Name = "colFile",
+                SortMode = DataGridViewColumnSortMode.NotSortable
             });
             this.dataGridViewCount.Columns.Add(new DataGridViewTextBoxColumn()
             {
                 HeaderText = "总行数",
                 ValueType = typeof(int),
                 Width = 80,
-                Name = "colTotal"
+                Name = "colTotal",
+                SortMode = DataGridViewColumnSortMode.NotSortable
             });
             foreach (PropertyInfo info in typeof(CodeLineCount).GetProperties())
             {
@@ -59,7 +62,8 @@ namespace DevTools.Plugin.CodeLines.USL
                             HeaderText = attr.DisplayName,
                             ValueType = typeof(int),
                             Width = 80,
-                            Name = "col" + info.Name
+                            Name = "col" + info.Name,
+                            SortMode = DataGridViewColumnSortMode.NotSortable
                         });
                     }
                 }
@@ -69,7 +73,8 @@ namespace DevTools.Plugin.CodeLines.USL
                 HeaderText = "修正后行数",
                 ValueType = typeof(int),
                 Width = 80,
-                Name = "colFixedCount"
+                Name = "colFixedCount",
+                SortMode = DataGridViewColumnSortMode.NotSortable
             });
         }
 
@@ -80,25 +85,41 @@ namespace DevTools.Plugin.CodeLines.USL
 
         private void FormMain_DragDrop(object sender, DragEventArgs e)
         {
+            Cursor = Cursors.WaitCursor;
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-                codeFileList.Clear();
-                Cursor = Cursors.WaitCursor;
+                rootFile = new CodeFolder();
+                rootFile.File = "全部";
+                rootFile.Progress += new ProgressEventHandler(rootFile_Progress);
+                progressPanel.Show(dataGridViewCount);
                 foreach (string file in files)
                 {
                     AbstractCodeFile codeFile = CodeFileFactory.Create(file);
                     if (null != codeFile)
                     {
-                        codeFile.Count();
-                        this.codeFileList.Add(codeFile);
+                        codeFile.Parent = rootFile;
                     }
                 }
-                Cursor = Cursors.Default;
+                rootFile.Count();
+                progressPanel.Hide();
+                rootFile.Sort();
                 SetTreeView();
                 //OutputCount();
                 SetDataGridViewValue();
             }
+            Cursor = Cursors.Default;
+        }
+
+        private void rootFile_Progress(object sender, ProgressEventArgs args)
+        {
+            this.progressPanel.MainMessage = args.MainMessage;
+            this.progressPanel.SetMainMaximum(args.MainMaximum);
+            this.progressPanel.SetMainValue(args.MainValue);
+
+            this.progressPanel.SubMessage = args.SubMessage;
+            this.progressPanel.SetSubMaximum(args.SubMaximum);
+            this.progressPanel.SetSubValue(args.SubValue);
         }
 
         private void SetTreeView()
@@ -110,16 +131,14 @@ namespace DevTools.Plugin.CodeLines.USL
             this.treeViewFile.ImageList.Images.Add("file", Properties.Resources.Generic_Document);
             this.treeViewFile.ImageKey = "file";
 
-            TreeNode rootNode = this.treeViewFile.Nodes.Add("全部");
-            CodeLineCount totalCountObj = new CodeLineCount();
-            rootNode.Tag = totalCountObj;
+            TreeNode rootNode = this.treeViewFile.Nodes.Add(Path.GetFileName(this.rootFile.File));
+            rootNode.Tag = this.rootFile;
             rootNode.Checked = true;
-            foreach (AbstractCodeFile codeFile in codeFileList)
+            foreach (AbstractCodeFile codeFile in this.rootFile.IncludeFiles)
             {
                 SetTreeView(codeFile, rootNode);
-                totalCountObj.Add(codeFile.CodeLineCount);
             }
-            labelTotal.Text = "总计：" + GenerateMessage(totalCountObj).Trim();
+            labelTotal.Text = "总计：" + GenerateMessage(this.rootFile.CodeLineCount).Trim();
 
             this.treeViewFile.ExpandAll();
             rootNode.EnsureVisible();
@@ -127,9 +146,12 @@ namespace DevTools.Plugin.CodeLines.USL
 
         private void SetTreeView(AbstractCodeFile codeFile, TreeNode parentNode)
         {
-            TreeNode newNode = parentNode.Nodes.Add(Path.GetFileName(codeFile.File));
-            newNode.Tag = codeFile;
-            newNode.Checked = true;
+            TreeNode newNode = new TreeNode(Path.GetFileName(codeFile.File))
+            {
+                Tag = codeFile,
+                Checked = true
+            };
+            parentNode.Nodes.Add(newNode);
 
             if (codeFile is CodeFolder)
             {
@@ -145,6 +167,7 @@ namespace DevTools.Plugin.CodeLines.USL
                     imageList.Add(imageKey, icon);
                 }
                 newNode.ImageKey = imageKey;
+                newNode.SelectedImageKey = imageKey;
             }
             
 
@@ -179,8 +202,6 @@ namespace DevTools.Plugin.CodeLines.USL
             {
                 row.DefaultCellStyle.BackColor = Color.GreenYellow;
             }
-
-            // TODO: 统计代码行数时，显示进度条
 
             foreach (TreeNode subNode in node.Nodes)
             {
@@ -218,7 +239,7 @@ namespace DevTools.Plugin.CodeLines.USL
             StringBuilder countMessage = new StringBuilder();
 
             CodeLineCount totalCountObj = new CodeLineCount();
-            foreach (AbstractCodeFile codeFile in codeFileList)
+            foreach (AbstractCodeFile codeFile in this.rootFile.IncludeFiles)
             {
                 countMessage.Append(GenerateMessage(codeFile));
                 totalCountObj.Add(codeFile.CodeLineCount);
@@ -270,7 +291,7 @@ namespace DevTools.Plugin.CodeLines.USL
             {
                 RefeshDataGridViewValue();
                 TreeNode rootNode = this.treeViewFile.Nodes[0];
-                CodeLineCount totalCountObj = rootNode.Tag as CodeLineCount;
+                CodeLineCount totalCountObj = (rootNode.Tag as AbstractCodeFile).CodeLineCount;
                 labelTotal.Text = "总计：" + GenerateMessage(totalCountObj).Trim();
             }
         }
@@ -302,15 +323,18 @@ namespace DevTools.Plugin.CodeLines.USL
         {
             if (e.Node.Level > 0)
             {
-                CodeLineCount count = this.treeViewFile.Nodes[0].Tag as CodeLineCount;
+                CodeLineCount count = (this.treeViewFile.Nodes[0].Tag as AbstractCodeFile).CodeLineCount;
                 AbstractCodeFile codeFile = e.Node.Tag as AbstractCodeFile;
-                if (e.Node.Checked)
+                if (codeFile.IncludeFiles.Count == 0)
                 {
-                    count.Add(codeFile.CodeLineCount);
-                }
-                else
-                {
-                    count.Sub(codeFile.CodeLineCount);
+                    if (e.Node.Checked)
+                    {
+                        count.Add(codeFile.CodeLineCount);
+                    }
+                    else
+                    {
+                        count.Sub(codeFile.CodeLineCount);
+                    }
                 }
 
                 foreach (DataGridViewRow row in dataGridViewCount.Rows)
@@ -347,7 +371,10 @@ namespace DevTools.Plugin.CodeLines.USL
 
         private void NodeChecked(TreeNode node, bool isChecked)
         {
-            node.Checked = isChecked;
+            if (node.Checked != isChecked)
+            {
+                node.Checked = isChecked;
+            }
             foreach (TreeNode subNode in node.Nodes)
             {
                 NodeChecked(subNode, isChecked);
@@ -359,6 +386,7 @@ namespace DevTools.Plugin.CodeLines.USL
             if (e.Node.Tag is CodeFolder || e.Node.Level == 0)
             {
                 e.Node.ImageKey = "folderClose";
+                e.Node.SelectedImageKey = "folderClose";
             }
 
             if (e.Node.Level > 0)
@@ -371,15 +399,18 @@ namespace DevTools.Plugin.CodeLines.USL
         {
             foreach (TreeNode subNode in node.Nodes)
             {
-                foreach (DataGridViewRow row in dataGridViewCount.Rows)
+                if (!visible || node.IsExpanded)
                 {
-                    if (row.Tag.Equals(subNode.Tag))
+                    foreach (DataGridViewRow row in dataGridViewCount.Rows)
                     {
-                        row.Visible = visible;
-                        break;
+                        if (row.Tag.Equals(subNode.Tag))
+                        {
+                            row.Visible = visible;
+                            break;
+                        }
                     }
+                    SetRowVisible(subNode, visible);
                 }
-                SetRowVisible(subNode, visible);
             }
         }
 
@@ -388,11 +419,36 @@ namespace DevTools.Plugin.CodeLines.USL
             if (e.Node.Tag is CodeFolder || e.Node.Level == 0)
             {
                 e.Node.ImageKey = "folderOpen";
+                e.Node.SelectedImageKey = "folderOpen";
             }
 
             if (e.Node.Level > 0)
             {
                 SetRowVisible(e.Node, true);
+            }
+        }
+
+        private void menuCollapseSubNode_Click(object sender, System.EventArgs e)
+        {
+            TreeNode selectNode = treeViewFile.SelectedNode;
+            if (null != selectNode)
+            {
+                foreach (TreeNode subNode in selectNode.Nodes)
+                {
+                    subNode.Collapse();
+                }
+            }
+        }
+
+        private void menuExpandSubNode_Click(object sender, System.EventArgs e)
+        {
+            TreeNode selectNode = treeViewFile.SelectedNode;
+            if (null != selectNode)
+            {
+                foreach (TreeNode subNode in selectNode.Nodes)
+                {
+                    subNode.Expand();
+                }
             }
         }
     }

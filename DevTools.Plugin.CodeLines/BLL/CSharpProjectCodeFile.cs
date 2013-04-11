@@ -45,9 +45,9 @@ namespace DevTools.Plugin.CodeLines.BLL
             foreach (XmlNode node in csNodeList)
             {
                 string fileName = node.Attributes["Include"].Value;
-                string codeFile = Path.Combine(fileDir, fileName);
+                string file = Path.Combine(fileDir, fileName);
 
-                if (System.IO.File.Exists(codeFile))
+                if (System.IO.File.Exists(file))
                 {
                     string[] fileNamePart = fileName.Split('\\');
                     string key = string.Empty;
@@ -62,27 +62,32 @@ namespace DevTools.Plugin.CodeLines.BLL
                             if (0 == i)
                             {
                                 codeFolder.Parent = this;
-                                this.IncludeFiles.Add(codeFolder);
                             }
                             else
                             {
                                 codeFolder.Parent = this.codeFileDict[Path.GetDirectoryName(key)];
-                                this.codeFileDict[Path.GetDirectoryName(key)].IncludeFiles.Add(codeFolder);
                             }
                         }
                     }
 
-                    AbstractCodeFile file = CodeFileFactory.Create(codeFile);
-                    if (null != file)
+                    AbstractCodeFile codeFile = CodeFileFactory.Create(file);
+                    if (null != codeFile)
                     {
                         if (this.codeFileDict.ContainsKey(key))
                         {
-                            file.Parent = this.codeFileDict[key];
-                            this.codeFileDict[key].IncludeFiles.Add(file);
+                            codeFile.Parent = this.codeFileDict[key];
                         }
-                        file.Count();
+                        else
+                        {
+                            codeFile.Parent = this;
+                        }
                     }
                 }
+            }
+
+            foreach (AbstractCodeFile codeFile in this.IncludeFiles)
+            {
+                codeFile.Count();
             }
         }
     }

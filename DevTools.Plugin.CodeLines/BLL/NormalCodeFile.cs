@@ -11,6 +11,7 @@ namespace DevTools.Plugin.CodeLines.BLL
             {
                 this.codeLineCount = new Entity.CodeLineCount();
                 count.Count(ref this.codeLineCount);
+                OnProgress(this);
             }
         }
     }
