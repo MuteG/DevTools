@@ -1,4 +1,4 @@
-﻿namespace DevTools.Plugin.CodeLines.USL
+﻿namespace DevTools.Common.UI
 {
     partial class ProgressPanel
     {

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace DevTools.Plugin.CodeLines.USL
+namespace DevTools.Common.UI
 {
     /// <summary>
     /// 进度显示面板

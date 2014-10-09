@@ -1,0 +1,20 @@
+﻿-- 0：表名
+SELECT
+    ID           = col.colorder, 
+    [Name]       = col.name,
+    [SystemType] = types.name, 
+    [Length]     = CAST(CASE WHEN types.name IN (N'nchar', N'nvarchar') AND col.length <> -1 THEN col.length/2 
+                             ELSE col.length END
+                        AS int)
+FROM
+    syscolumns col 
+    LEFT JOIN systypes types
+        ON col.xtype = types.xusertype 
+    INNER JOIN sysobjects obj
+        ON col.id     = obj.id
+        AND obj.xtype = 'U'
+        AND obj.name  <> 'dtproperties' 
+WHERE
+    obj.name='{0}'
+ORDER BY
+    col.colorder 

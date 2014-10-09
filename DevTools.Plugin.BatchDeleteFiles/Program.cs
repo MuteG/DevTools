@@ -1,14 +1,14 @@
 ﻿using System;
 using DevTools.Plugin;
-using DevTools.Plugin.CodeLines.USL;
+using DevTools.Plugin.BatchDeleteFiles.USL;
 using System.Windows.Forms;
 
-namespace DevTools.Plugin.CodeLines
+namespace DevTools.Plugin.BatchDeleteFiles
 {
     /// <summary>
-    /// Description of Program.
+    /// 启动单元
     /// </summary>
-    [Plugin(true, CanConfig = false, DisplayName = "代码行数统计")]
+    [Plugin(true, CanConfig = false, DisplayName = "批量删除文件")]
     public class Program : AbstractPlugins
     {
         public Program()

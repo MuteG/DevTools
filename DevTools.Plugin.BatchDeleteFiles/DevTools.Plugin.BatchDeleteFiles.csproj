@@ -1,23 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <PropertyGroup>
-    <ProjectGuid>{B294AB89-AE9D-42B7-A1CF-FEAE766461D6}</ProjectGuid>
+    <ProjectGuid>{8D82C832-8164-4FC7-836F-FD63CC10F32B}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
-    <RootNamespace>DevTools.Plugin.CodeLines</RootNamespace>
-    <AssemblyName>DevTools.Plugin.CodeLines</AssemblyName>
+    <RootNamespace>DevTools.Plugin.BatchDeleteFiles</RootNamespace>
+    <AssemblyName>DevTools.Plugin.BatchDeleteFiles</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
     <NoWin32Manifest>False</NoWin32Manifest>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <NoStdLib>False</NoStdLib>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,18 +43,11 @@
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <OutputPath>..\..\bin\plugin\</OutputPath>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NPOI">
-      <HintPath>..\..\..\..\DotNet\Component\NPOI\bin\.net 4.0\NPOI.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -65,45 +56,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BLL\AbstractCodeFile.cs" />
-    <Compile Include="BLL\CodeFileFactory.cs" />
-    <Compile Include="BLL\CodeFolder.cs" />
-    <Compile Include="BLL\CSharpSolutionCodeFile.cs" />
-    <Compile Include="BLL\NormalCodeFile.cs" />
-    <Compile Include="BLL\CSharpProjectCodeFile.cs" />
-    <Compile Include="BLL\ProgressEventHandler.cs" />
-    <Compile Include="DAL\FileInfoAttribute.cs" />
-    <Compile Include="Entity\CountAttribute.cs" />
-    <Compile Include="DAL\AbstractCounter.cs" />
-    <Compile Include="DAL\XmlCounter.cs" />
-    <Compile Include="Entity\CodeLineCount.cs" />
-    <Compile Include="BLL\CounterFactory.cs" />
-    <Compile Include="DAL\CSharpCounter.cs" />
-    <Compile Include="DAL\CSharpResourceCounter.cs" />
-    <Compile Include="DAL\CSharpSolutionCounter.cs" />
-    <Compile Include="DAL\DiffCounter.cs" />
-    <Compile Include="DAL\ExcelCounter.cs" />
-    <Compile Include="DAL\HtmlCounter.cs" />
-    <Compile Include="DAL\ICountable.cs" />
-    <Compile Include="DAL\JavaCounter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DAL\SQLCounter.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="USL\FormMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="USL\FormMain.cs" />
     <Compile Include="USL\FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="BLL\ProgressEventArgs.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\folderopen.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DevTools.Common\DevTools.Common.csproj">
@@ -113,27 +71,15 @@
     <ProjectReference Include="..\DevTools.Plugin\DevTools.Plugin.csproj">
       <Project>{6BDBE09A-50B2-41F1-A37E-0777C7B105F4}</Project>
       <Name>DevTools.Plugin</Name>
-      <Private>False</Private>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <Folder Include="USL" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="USL\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\folder_open.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\folder_closed_16x16.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Generic_Document.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

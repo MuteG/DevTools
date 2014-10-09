@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DB658C23-B8E6-4EC7-8F74-BEE5A24C08EF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DevTools.Plugin.DBTool</RootNamespace>
+    <AssemblyName>DevTools.Plugin.DBTool</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BLL\AbstractCodeGenerator.cs" />
+    <Compile Include="BLL\AbstractDecoratorGenterator.cs" />
+    <Compile Include="BLL\Command.cs" />
+    <Compile Include="BLL\CSharpCodeGenerator.cs" />
+    <Compile Include="BLL\GenerateFlag.cs" />
+    <Compile Include="BLL\IGenerator.cs" />
+    <Compile Include="BLL\ListLogWriter.cs" />
+    <Compile Include="BLL\SqlScriptGenerator.cs" />
+    <Compile Include="BLL\StoreProcedureHeaderGenerator.cs" />
+    <Compile Include="BLL\StoreProcedureInputGenerator.cs" />
+    <Compile Include="Config\DBConnection.cs" />
+    <Compile Include="Config\DBToolConfig.cs" />
+    <Compile Include="DAL\DBOperator.cs" />
+    <Compile Include="Entiry\Constant.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="USL\FormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="USL\FormMain.Designer.cs">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="USL\FormPrefix.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="USL\FormPrefix.Designer.cs">
+      <DependentUpon>FormPrefix.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DevTools.Common\DevTools.Common.csproj">
+      <Project>{CACE1882-4B6D-4D43-8094-575786F79E8A}</Project>
+      <Name>DevTools.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DevTools.Config\DevTools.Config.csproj">
+      <Project>{79FA7D4B-E9A3-4F39-9A32-D0E3CD5A2881}</Project>
+      <Name>DevTools.Config</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DevTools.Plugin\DevTools.Plugin.csproj">
+      <Project>{6BDBE09A-50B2-41F1-A37E-0777C7B105F4}</Project>
+      <Name>DevTools.Plugin</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="USL\FormMain.resx">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="USL\FormPrefix.resx">
+      <DependentUpon>FormPrefix.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQL_GetDatabaseName.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQL_GetStoreProcedureName.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQL_GetTableColumns.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQL_GetTableIndex.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQL_GetTableName.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Template_CSharpClassBody.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Template_CSharpClassEquals.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Template_CSharpClassEqualsProperties.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Template_CSharpProperty.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Template_CSharpStoreProcedure_Body.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Template_CSharpStoreProcedure_Parameter.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Template_StoreProcedureBody.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Template_StoreProcedureHeader.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

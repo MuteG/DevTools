@@ -1,0 +1,6 @@
+SELECT [name] AS PROCEDURE_NAME
+FROM sys.procedures
+WHERE type='P'
+    AND is_ms_shipped = 0
+    AND name not like 'sp_%'
+ORDER BY [name]

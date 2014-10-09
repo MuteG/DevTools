@@ -4,6 +4,8 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+
+using DevTools.Common.UI;
 using DevTools.Plugin.CodeLines.BLL;
 using DevTools.Plugin.CodeLines.Entity;
 

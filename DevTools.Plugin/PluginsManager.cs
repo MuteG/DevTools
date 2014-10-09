@@ -13,6 +13,7 @@ namespace DevTools.Plugin
         static PluginsManager()
         {
             PluginFolder = Path.Combine(Application.StartupPath, "plugin");
+            PluginFolder = Application.StartupPath;
             
             CheckPluginFolder();
         }
@@ -33,7 +34,7 @@ namespace DevTools.Plugin
         {
             List<IPlugin> plugins = new List<IPlugin>();
 
-            foreach (string pluginFile in Directory.GetFiles(PluginFolder))
+            foreach (string pluginFile in Directory.GetFiles(PluginFolder, "*.dll", SearchOption.TopDirectoryOnly))
             {
                 if (!Path.GetFileName(pluginFile).StartsWith("DevTools.Plugin."))
                 {

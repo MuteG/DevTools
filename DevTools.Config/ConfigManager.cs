@@ -67,15 +67,22 @@ namespace DevTools.Config
         private static void LoadConfig(Assembly assembly)
         {
             ConfigBase config = GetConfigInstance(assembly);
-            ConfigPanelBase configPanel = GetConfigPanelInstance(assembly);
-            string key = assembly.GetName().Name;
-            
-            LoadConfig(ref config, key);
-
-            configDict.Add(key, config);
-            ConfigList.Add(config);
-            configPanel.Config = config;
-            configPanelDict.Add(key, configPanel);
+            if (null != config)
+            {
+                string key = assembly.GetName().Name;
+                
+                LoadConfig(ref config, key);
+    
+                configDict.Add(key, config);
+                ConfigList.Add(config);
+                
+                ConfigPanelBase configPanel = GetConfigPanelInstance(assembly);
+                if (null != configPanel)
+                {
+                    configPanel.Config = config;
+                    configPanelDict.Add(key, configPanel);
+                }
+            }
         }
 
         private static void LoadConfig(ref ConfigBase config, string key)

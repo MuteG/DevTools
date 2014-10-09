@@ -7,33 +7,33 @@ namespace DevTools.Plugin
     {
         #region IPlugin 成员
 
-        private bool _Visible = false;
+        private bool visible = false;
 
         public bool Visible
         {
             get
             {
-                return _Visible;
+                return visible;
             }
         }
 
-        private bool _CanConfig = false;
+        private bool canConfig = false;
 
         public bool CanConfig
         {
             get
             {
-                return _CanConfig;
+                return canConfig;
             }
         }
 
-        private string _DisplayName = string.Empty;
+        private string displayName = string.Empty;
 
         public string DisplayName
         {
             get
             {
-                return _DisplayName;
+                return displayName;
             }
         }
 
@@ -43,9 +43,9 @@ namespace DevTools.Plugin
             if (attributes.Length > 0)
             {
                 PluginAttribute attribute = attributes[0] as PluginAttribute;
-                _Visible = attribute.Visible;
-                _CanConfig = attribute.CanConfig;
-                _DisplayName = attribute.DisplayName;
+                visible = attribute.Visible;
+                canConfig = attribute.CanConfig;
+                displayName = attribute.DisplayName;
             }
         }
 

@@ -1,0 +1,19 @@
+﻿    /// <summary>
+    /// 返回哈希代码
+    /// </summary>
+    /// <returns>返回哈希代码</returns>
+    public override int GetHashCode()
+    {{
+        return base.GetHashCode();
+    }}
+
+    /// <summary>
+    /// 比较两个对象是否相等
+    /// </summary>
+    /// <param name="obj">要进行比较的对象</param>
+    /// <returns>如果两个对象的主键相等，则返回true；否则返回false</returns>
+    public override bool Equals(object obj)
+    {{
+        {0} another = obj as {0};
+        return {1};
+    }}

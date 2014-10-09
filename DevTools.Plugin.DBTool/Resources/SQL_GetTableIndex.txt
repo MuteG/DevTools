@@ -1,0 +1,30 @@
+﻿-- 0：表名
+SELECT
+    IndexId     = idx.indid,
+    IndexName   = idx.Name,
+    ColumnName  = col.Name,
+    Sort        = CASE INDEXKEY_PROPERTY(idx.id, idx.indid, idxk.keyno, 'IsDescending')
+                  WHEN 1 THEN 'DESC'
+                  WHEN 0 THEN 'ASC'
+                  ELSE '' END,
+    PrimaryKey  = CASE objPK.xtype
+                  WHEN 'PK' THEN 'PK'
+                  ELSE ''END,
+    [Disabled]  = '' --只有SQL Server 2005之后才支持“禁用索引”功能，为了兼容性，此处设置为“不禁用”
+FROM
+    sysindexes idx
+    INNER JOIN sysobjects c
+        ON idx.id=c.id
+        AND c.xtype='U'
+    LEFT JOIN sysobjects objPK
+        ON objPK.[name]=idx.[name]
+    LEFT JOIN sysindexkeys idxk
+        ON idx.id = idxk.id
+        AND idx.indid = idxk.indid
+    LEFT JOIN syscolumns col
+        ON col.colid = idxk.colid
+        AND col.id = idxk.id
+WHERE
+    c.name='{0}'
+    AND col.Name IS NOT NULL
+ORDER BY IndexId

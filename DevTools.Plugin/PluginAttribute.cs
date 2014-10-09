@@ -14,7 +14,7 @@
         public bool Visible { get; set; }
 
         /// <summary>
-        /// 是否可配置
+        /// 是否带有配置面板
         /// </summary>
         public bool CanConfig { get; set; }
 
