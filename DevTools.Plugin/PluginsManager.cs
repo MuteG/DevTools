@@ -13,7 +13,6 @@ namespace DevTools.Plugin
         static PluginsManager()
         {
             PluginFolder = Path.Combine(Application.StartupPath, "plugin");
-            PluginFolder = Application.StartupPath;
             
             CheckPluginFolder();
         }
