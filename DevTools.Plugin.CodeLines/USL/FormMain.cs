@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
-
+using DevTools.Common.IO;
 using DevTools.Common.UI;
 using DevTools.Plugin.CodeLines.BLL;
 using DevTools.Plugin.CodeLines.Entity;
@@ -128,8 +130,10 @@ namespace DevTools.Plugin.CodeLines.USL
         {
             this.treeViewFile.Nodes.Clear();
             this.treeViewFile.ImageList = new ImageList();
-            this.treeViewFile.ImageList.Images.Add("folderOpen", Properties.Resources.folder_open);
-            this.treeViewFile.ImageList.Images.Add("folderClose", Properties.Resources.folder_closed_16x16);
+            this.treeViewFile.ImageList.ImageSize = new Size(16, 16);
+            this.treeViewFile.ImageList.TransparentColor = Color.Black;
+            this.treeViewFile.ImageList.Images.Add("folderOpen", Properties.Resources.FolderOpen_16x_32);
+            this.treeViewFile.ImageList.Images.Add("folderClose", Properties.Resources.Folder_16x_32);
             this.treeViewFile.ImageList.Images.Add("file", Properties.Resources.Generic_Document);
             this.treeViewFile.ImageKey = "file";
 
@@ -165,7 +169,8 @@ namespace DevTools.Plugin.CodeLines.USL
                 string imageKey = Path.GetExtension(codeFile.File);
                 if (!imageList.ContainsKey(imageKey))
                 {
-                    Icon icon = Icon.ExtractAssociatedIcon(codeFile.File);
+                    Bitmap icon = IconHelper.GetBitmap(codeFile.File);
+                    
                     imageList.Add(imageKey, icon);
                 }
                 newNode.ImageKey = imageKey;

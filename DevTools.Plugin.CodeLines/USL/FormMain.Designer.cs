@@ -81,10 +81,10 @@
             this.listViewInclude.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listViewInclude.CheckBoxes = true;
             this.listViewInclude.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listViewInclude.Location = new System.Drawing.Point(2, 17);
+            this.listViewInclude.Location = new System.Drawing.Point(2, 15);
             this.listViewInclude.MultiSelect = false;
             this.listViewInclude.Name = "listViewInclude";
-            this.listViewInclude.Size = new System.Drawing.Size(788, 27);
+            this.listViewInclude.Size = new System.Drawing.Size(788, 29);
             this.listViewInclude.TabIndex = 0;
             this.listViewInclude.UseCompatibleStateImageBehavior = false;
             this.listViewInclude.View = System.Windows.Forms.View.List;
@@ -129,19 +129,19 @@
             this.menuCollapseSubNode,
             this.menuExpandSubNode});
             this.contextMenuStripTree.Name = "contextMenuStripTree";
-            this.contextMenuStripTree.Size = new System.Drawing.Size(153, 70);
+            this.contextMenuStripTree.Size = new System.Drawing.Size(136, 48);
             // 
             // menuCollapseSubNode
             // 
             this.menuCollapseSubNode.Name = "menuCollapseSubNode";
-            this.menuCollapseSubNode.Size = new System.Drawing.Size(152, 22);
+            this.menuCollapseSubNode.Size = new System.Drawing.Size(135, 22);
             this.menuCollapseSubNode.Text = "折叠子节点";
             this.menuCollapseSubNode.Click += new System.EventHandler(this.menuCollapseSubNode_Click);
             // 
             // menuExpandSubNode
             // 
             this.menuExpandSubNode.Name = "menuExpandSubNode";
-            this.menuExpandSubNode.Size = new System.Drawing.Size(152, 22);
+            this.menuExpandSubNode.Size = new System.Drawing.Size(135, 22);
             this.menuExpandSubNode.Text = "展开子节点";
             this.menuExpandSubNode.Click += new System.EventHandler(this.menuExpandSubNode_Click);
             // 
@@ -172,7 +172,7 @@
             this.dataGridViewCount.BackgroundColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -211,7 +211,7 @@
             this.labelTotal.AutoSize = true;
             this.labelTotal.Location = new System.Drawing.Point(12, 442);
             this.labelTotal.Name = "labelTotal";
-            this.labelTotal.Size = new System.Drawing.Size(41, 12);
+            this.labelTotal.Size = new System.Drawing.Size(35, 12);
             this.labelTotal.TabIndex = 16;
             this.labelTotal.Text = "总计：";
             // 

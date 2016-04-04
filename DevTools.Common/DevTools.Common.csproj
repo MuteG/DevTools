@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Data\DatabaseConnectionBuilder.cs" />
     <Compile Include="Data\DatabaseType.cs" />
+    <Compile Include="IO\IconHelper.cs" />
     <Compile Include="Log\LogType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\SQLHelper.cs" />
@@ -70,10 +71,7 @@
       <DependentUpon>ProgressPanel.cs</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="IO\" />
-    <Folder Include="UI" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="UI\ProgressPanel.resx">
       <DependentUpon>ProgressPanel.cs</DependentUpon>

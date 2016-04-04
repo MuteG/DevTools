@@ -1,28 +1,35 @@
 ﻿using System.IO;
 using DevTools.Plugin.CodeLines.Entity;
-using NPOI.HSSF.UserModel;
-using NPOI.SS.UserModel;
+using OfficeOpenXml;
 
 namespace DevTools.Plugin.CodeLines.DAL
 {
     /// <summary>
     /// Excel文件行数计数器
     /// </summary>
-    [FileInfo(".xls")]
+    [FileInfo(".xls,.xlsx")]
     public class ExcelCounter : AbstractCounter
     {
         public override void Count(ref CodeLineCount count)
         {
-            using (FileStream stream = new FileStream(this.TargetFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            try
             {
-                IWorkbook book = new HSSFWorkbook(stream);
-                for (int i = 0; i < book.NumberOfSheets; i++)
+                using (FileStream stream = new FileStream(this.TargetFile, FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
+                using (ExcelPackage package = new ExcelPackage(stream))
                 {
-                    ISheet sheet = book.GetSheetAt(i);
-                    count.Total += sheet.PhysicalNumberOfRows;
-
-                    //TODO 判断图片以及绘制的图形占用了多少行
+                    ExcelWorkbook book = package.Workbook;
+                    foreach (ExcelWorksheet sheet in book.Worksheets)
+                    {
+                        if (sheet.Dimension != null)
+                        {
+                            count.Total += sheet.Dimension.Rows;
+                        }
+                    }
                 }
+            }
+            catch
+            {
+                
             }
         }
 
