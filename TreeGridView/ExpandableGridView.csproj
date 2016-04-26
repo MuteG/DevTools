@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TreeGridColumn.cs" />
     <Compile Include="TreeGridNodeCollection.cs" />
     <Compile Include="TreeGridEvents.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

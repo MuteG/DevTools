@@ -295,28 +295,4 @@ namespace AdvancedDataGridView
 			get { return base.OwningRow as TreeGridNode; }
 		}
 	}
-
-	public class TreeGridColumn : DataGridViewTextBoxColumn
-	{
-		internal Image _defaultNodeImage;
-		
-		public TreeGridColumn()
-		{		
-			this.CellTemplate = new TreeGridCell();
-		}
-
-		// Need to override Clone for design-time support.
-		public override object Clone()
-		{
-			TreeGridColumn c = (TreeGridColumn)base.Clone();
-			c._defaultNodeImage = this._defaultNodeImage;
-			return c;
-		}
-
-		public Image DefaultNodeImage
-		{
-			get { return _defaultNodeImage; }
-			set { _defaultNodeImage = value; }
-		}
-	}
 }
