@@ -52,6 +52,7 @@
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.labelTotal = new System.Windows.Forms.Label();
+            this.treeGridView = new AdvancedDataGridView.TreeGridView();
             this.groupBoxInclude.SuspendLayout();
             this.contextMenuStripTree.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -59,6 +60,7 @@
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.treeGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBoxInclude
@@ -215,6 +217,21 @@
             this.labelTotal.TabIndex = 16;
             this.labelTotal.Text = "总计：";
             // 
+            // treeGridView
+            // 
+            this.treeGridView.AllowUserToAddRows = false;
+            this.treeGridView.AllowUserToDeleteRows = false;
+            this.treeGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.treeGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.treeGridView.ImageList = null;
+            this.treeGridView.Location = new System.Drawing.Point(12, 65);
+            this.treeGridView.Name = "treeGridView";
+            this.treeGridView.RowHeadersVisible = false;
+            this.treeGridView.Size = new System.Drawing.Size(793, 374);
+            this.treeGridView.TabIndex = 17;
+            // 
             // FormMain
             // 
             this.AllowDrop = true;
@@ -223,6 +240,7 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(817, 463);
             this.Controls.Add(this.labelTotal);
+            this.Controls.Add(this.treeGridView);
             this.Controls.Add(this.splitContainer);
             this.Controls.Add(this.groupBoxInclude);
             this.Name = "FormMain";
@@ -238,6 +256,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.treeGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -253,5 +272,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripTree;
         private System.Windows.Forms.ToolStripMenuItem menuCollapseSubNode;
         private System.Windows.Forms.ToolStripMenuItem menuExpandSubNode;
+        private AdvancedDataGridView.TreeGridView treeGridView;
     }
 }

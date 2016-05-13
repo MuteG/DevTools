@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using AdvancedDataGridView;
 using DevTools.Common.IO;
 using DevTools.Common.UI;
 using DevTools.Plugin.CodeLines.BLL;
@@ -25,6 +26,7 @@ namespace DevTools.Plugin.CodeLines.USL
         {
             InitializeComponent();
             this.treeViewFile.Nodes.Clear();
+            this.treeGridView.Nodes.Clear();
 
             InitializeInclude();
         }
@@ -32,8 +34,8 @@ namespace DevTools.Plugin.CodeLines.USL
         private void InitializeInclude()
         {
             this.listViewInclude.Items.Clear();
-            this.dataGridViewCount.Columns.Clear();
-            this.dataGridViewCount.Columns.Add(new DataGridViewTextBoxColumn()
+            this.treeGridView.Columns.Clear();
+            this.treeGridView.Columns.Add(new TreeGridColumn()
             {
                 HeaderText = "文件",
                 ValueType = typeof(string),
@@ -41,7 +43,7 @@ namespace DevTools.Plugin.CodeLines.USL
                 Name = "colFile",
                 SortMode = DataGridViewColumnSortMode.NotSortable
             });
-            this.dataGridViewCount.Columns.Add(new DataGridViewTextBoxColumn()
+            this.treeGridView.Columns.Add(new DataGridViewTextBoxColumn()
             {
                 HeaderText = "总行数",
                 ValueType = typeof(int),
@@ -61,7 +63,7 @@ namespace DevTools.Plugin.CodeLines.USL
                         item.Checked = attr.IsInclude;
                         item.Tag = info;
 
-                        this.dataGridViewCount.Columns.Add(new DataGridViewTextBoxColumn()
+                        this.treeGridView.Columns.Add(new DataGridViewTextBoxColumn()
                         {
                             HeaderText = attr.DisplayName,
                             ValueType = typeof(int),
@@ -72,7 +74,7 @@ namespace DevTools.Plugin.CodeLines.USL
                     }
                 }
             }
-            this.dataGridViewCount.Columns.Add(new DataGridViewTextBoxColumn()
+            this.treeGridView.Columns.Add(new DataGridViewTextBoxColumn()
             {
                 HeaderText = "修正后行数",
                 ValueType = typeof(int),
@@ -128,16 +130,15 @@ namespace DevTools.Plugin.CodeLines.USL
 
         private void SetTreeView()
         {
-            this.treeViewFile.Nodes.Clear();
-            this.treeViewFile.ImageList = new ImageList();
-            this.treeViewFile.ImageList.ImageSize = new Size(16, 16);
-            this.treeViewFile.ImageList.TransparentColor = Color.Black;
-            this.treeViewFile.ImageList.Images.Add("folderOpen", Properties.Resources.FolderOpen_16x_32);
-            this.treeViewFile.ImageList.Images.Add("folderClose", Properties.Resources.Folder_16x_32);
-            this.treeViewFile.ImageList.Images.Add("file", Properties.Resources.Generic_Document);
-            this.treeViewFile.ImageKey = "file";
+            this.treeGridView.Nodes.Clear();
+            this.treeGridView.ImageList = new ImageList();
+            this.treeGridView.ImageList.ImageSize = new Size(16, 16);
+            this.treeGridView.ImageList.TransparentColor = Color.Black;
+            this.treeGridView.ImageList.Images.Add("folderOpen", Properties.Resources.FolderOpen_16x_32);
+            this.treeGridView.ImageList.Images.Add("folderClose", Properties.Resources.Folder_16x_32);
+            this.treeGridView.ImageList.Images.Add("file", Properties.Resources.Generic_Document);
 
-            TreeNode rootNode = this.treeViewFile.Nodes.Add(Path.GetFileName(this.rootFile.File));
+            TreeGridNode rootNode = this.treeGridView.Nodes.Add(Path.GetFileName(this.rootFile.File));
             rootNode.Tag = this.rootFile;
             rootNode.Checked = true;
             foreach (AbstractCodeFile codeFile in this.rootFile.IncludeFiles)
@@ -146,26 +147,22 @@ namespace DevTools.Plugin.CodeLines.USL
             }
             labelTotal.Text = "总计：" + GenerateMessage(this.rootFile.CodeLineCount).Trim();
 
-            this.treeViewFile.ExpandAll();
-            rootNode.EnsureVisible();
+            this.treeGridView.Nodes[0].Expand();
+            //rootNode.EnsureVisible();
         }
 
-        private void SetTreeView(AbstractCodeFile codeFile, TreeNode parentNode)
+        private void SetTreeView(AbstractCodeFile codeFile, TreeGridNode parentNode)
         {
-            TreeNode newNode = new TreeNode(Path.GetFileName(codeFile.File))
-            {
-                Tag = codeFile,
-                Checked = true
-            };
-            parentNode.Nodes.Add(newNode);
+            TreeGridNode newNode = parentNode.Nodes.Add(Path.GetFileName(codeFile.File));
+            newNode.Tag = codeFile;
 
             if (codeFile is CodeFolder)
             {
-                newNode.ImageKey = "folderOpen";
+                newNode.ImageIndex = this.treeGridView.ImageList.Images.IndexOfKey("folderOpen");
             }
             else
             {
-                ImageList.ImageCollection imageList = this.treeViewFile.ImageList.Images;
+                ImageList.ImageCollection imageList = this.treeGridView.ImageList.Images;
                 string imageKey = Path.GetExtension(codeFile.File);
                 if (!imageList.ContainsKey(imageKey))
                 {
@@ -173,10 +170,9 @@ namespace DevTools.Plugin.CodeLines.USL
                     
                     imageList.Add(imageKey, icon);
                 }
-                newNode.ImageKey = imageKey;
-                newNode.SelectedImageKey = imageKey;
+                newNode.ImageIndex = this.treeGridView.ImageList.Images.IndexOfKey(imageKey);
             }
-            
+
 
             foreach (AbstractCodeFile item in codeFile.IncludeFiles)
             {
@@ -186,21 +182,21 @@ namespace DevTools.Plugin.CodeLines.USL
 
         private void SetDataGridViewValue()
         {
-            this.dataGridViewCount.Rows.Clear();
-            if (this.treeViewFile.Nodes.Count > 0)
+            if (this.treeGridView.Nodes.Count > 0)
             {
-                TreeNode rootNode = this.treeViewFile.Nodes[0];
-                foreach (TreeNode subNode in rootNode.Nodes)
+                TreeGridNode rootNode = this.treeGridView.Nodes[0];
+                foreach (TreeGridNode subNode in rootNode.Nodes)
                 {
                     SetDataGridViewValue(subNode);
                 }
             }
         }
 
-        private void SetDataGridViewValue(TreeNode node)
+        private void SetDataGridViewValue(TreeGridNode node)
         {
             AbstractCodeFile codeFile = node.Tag as AbstractCodeFile;
-            DataGridViewRow row = SetDataGridViewValue(codeFile);
+            DataGridViewRow row = node;
+            SetDataGridViewValue(codeFile, node);
             if (codeFile.IncludeFiles.Count > 0)
             {
                 row.DefaultCellStyle.BackColor = Color.Aquamarine;
@@ -210,17 +206,15 @@ namespace DevTools.Plugin.CodeLines.USL
                 row.DefaultCellStyle.BackColor = Color.GreenYellow;
             }
 
-            foreach (TreeNode subNode in node.Nodes)
+            foreach (TreeGridNode subNode in node.Nodes)
             {
                 SetDataGridViewValue(subNode);
             }
         }
 
-        private DataGridViewRow SetDataGridViewValue(AbstractCodeFile codeFile)
+        private DataGridViewRow SetDataGridViewValue(AbstractCodeFile codeFile, DataGridViewRow row)
         {
             CodeLineCount countObj = codeFile.CodeLineCount;
-            int rowIndex = this.dataGridViewCount.Rows.Add();
-            DataGridViewRow row = this.dataGridViewCount.Rows[rowIndex];
             row.Tag = codeFile;
             row.Cells["colFile"].Value = Path.GetFileName(codeFile.File);
             row.Cells["colTotal"].Value = countObj.Total;

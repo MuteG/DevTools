@@ -8,12 +8,13 @@
 //PARTICULAR PURPOSE.
 //---------------------------------------------------------------------
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
 namespace AdvancedDataGridView
 {
-	public class TreeGridNodeCollection : System.Collections.Generic.IList<TreeGridNode>, System.Collections.IList
+	public class TreeGridNodeCollection : IList<TreeGridNode>, IList
 	{
 		internal System.Collections.Generic.List<TreeGridNode> _list;
 		internal TreeGridNode _owner;
@@ -28,14 +29,13 @@ namespace AdvancedDataGridView
 		{
 			// The row needs to exist in the child collection before the parent is notified.
 			item._grid = this._owner._grid;
-
-            bool hadChildren = this._owner.HasChildren;
-			item._owner = this;
+            item._parent = this._owner;
 
 			this._list.Add(item);
-
+            this._owner._grid.Rows.Add(item);
 			this._owner.AddChildNode(item);
 
+            bool hadChildren = this._owner.HasChildren;
             // if the owner didn't have children but now does (asserted) and it is sited update it
             if (!hadChildren && this._owner.IsSited)
             {
@@ -74,35 +74,37 @@ namespace AdvancedDataGridView
         {
             // The row needs to exist in the child collection before the parent is notified.
             item._grid = this._owner._grid;
-            item._owner = this;
+            item._parent = this._owner;
 
             this._list.Insert(index, item);
-
             this._owner.InsertChildNode(index, item);
         }
 
-        public bool Remove(TreeGridNode item)
+        public bool Remove(TreeGridNode node)
 		{
 			// The parent is notified first then the row is removed from the child collection.
-			this._owner.RemoveChildNode(item);
-			item._grid = null;
-			return this._list.Remove(item);
-		}
+            this._owner._grid.Rows.Remove(node);
+            node._grid = null;
+            node._parent = null;
+            return this._list.Remove(node);
+        }
 
         public void RemoveAt(int index)
 		{
-			TreeGridNode row = this._list[index];
-
+            TreeGridNode node = this._list[index];
 			// The parent is notified first then the row is removed from the child collection.
-			this._owner.RemoveChildNode(row);
-			row._grid = null;
+            this._owner._grid.Rows.Remove(node);
+            node._grid = null;
+            node._parent = null;
 			this._list.RemoveAt(index);
 		}
 
         public void Clear()
 		{
-			// The parent is notified first then the row is removed from the child collection.
-			this._owner.ClearNodes();
+            foreach (System.Windows.Forms.DataGridViewRow row in this)
+            {
+                this._owner.DataGridView.Rows.Remove(row);
+            }
 			this._list.Clear();
 		}
 
