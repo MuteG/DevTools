@@ -452,5 +452,10 @@ namespace DevTools.Plugin.CodeLines.USL
                 }
             }
         }
+
+        private void FormMain_Load(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

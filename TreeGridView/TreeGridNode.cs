@@ -1,121 +1,87 @@
-﻿//---------------------------------------------------------------------
-// 
-//  Copyright (c) Microsoft Corporation.  All rights reserved.
-// 
-//THIS CODE AND INFORMATION ARE PROVIDED AS IS WITHOUT WARRANTY OF ANY
-//KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
-//IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
-//PARTICULAR PURPOSE.
-//---------------------------------------------------------------------
-using System;
-using System.Windows.Forms;
-using System.Drawing;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿/* ------------------------------------------------------------------
+ * 
+ *  Copyright (c) Microsoft Corporation.  All rights reserved.
+ * 
+ *  THIS CODE AND INFORMATION ARE PROVIDED AS IS WITHOUT WARRANTY OF ANY
+ *  KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
+ *  PARTICULAR PURPOSE.
+ * 
+ * ------------------------------------------------------------------- */
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.ComponentModel.Design.Serialization;
+using System.Diagnostics;
+using System.Drawing;
 using System.Drawing.Design;
-using System.Text;
+using System.Windows.Forms;
 
 namespace AdvancedDataGridView
 {
-    [
-        ToolboxItem(false),
-        DesignTimeVisible(false)
-    ]
+    [ToolboxItem(false)]
+    [DesignTimeVisible(false)]
     public class TreeGridNode : DataGridViewRow
     {
-        internal TreeGridView _grid;
-        internal TreeGridNode _parent;
-        internal bool IsExpanded;
-        internal bool IsRoot;
-        internal bool _isSited;
-        internal bool _isFirstSibling;
-        internal bool _isLastSibling;
-        internal Image _image;
-        internal int _imageIndex;
+        internal bool isSited;
+        internal Image image;
+        internal int imageIndex;
 
-        private Random rndSeed = new Random();
-        public int UniqueValue = -1;
-        TreeGridCell _treeCell;
         private TreeGridNodeCollection childrenNodes = null;
-
-        private int _index;
-        private int _level;
-        private bool childCellsCreated = false;
-
-        internal TreeGridNode(TreeGridView owner)
-            : this()
-        {
-            this._grid = owner;
-            this.IsExpanded = true;
-        }
 
         public TreeGridNode()
         {
-            _index = -1;
-            _level = -1;
-            IsExpanded = false;
-            UniqueValue = this.rndSeed.Next();
-            _isSited = false;
-            _isFirstSibling = false;
-            _isLastSibling = false;
-            _imageIndex = -1;
+            IsExpanded = true;
+            isSited = false;
+            imageIndex = -1;
         }
 
         public override object Clone()
         {
             TreeGridNode r = (TreeGridNode)base.Clone();
-            r.UniqueValue = -1;
-            r._level = this._level;
-            r._grid = this._grid;
-            r._parent = this.Parent;
-
-            r._imageIndex = this._imageIndex;
-            if (r._imageIndex == -1)
-                r.Image = this.Image;
-
+            r.Grid = this.Grid;
+            r.Parent = this.Parent;
             r.IsExpanded = this.IsExpanded;
-            //r.treeCell = new TreeGridCell();
+
+            r.imageIndex = this.imageIndex;
+            if (r.imageIndex == -1)
+            {
+                r.Image = this.Image;
+            }
 
             return r;
         }
 
-        internal protected virtual void UnSited()
+        internal protected void Unsite()
         {
             foreach (TreeGridNode childNode in this.Nodes)
             {
-                childNode.UnSited();
+                childNode.Unsite();
             }
-            // This row is being removed from being displayed on the grid.
-            foreach (DataGridViewCell DGVcell in this.Cells)
+            foreach (DataGridViewCell cell in this.Cells)
             {
-                TreeGridCell cell = DGVcell as TreeGridCell;
-                if (cell != null)
+                TreeGridCell treeCell = cell as TreeGridCell;
+                if (treeCell != null)
                 {
-                    cell.UnSited();
+                    treeCell.UnSited();
                 }
             }
-            this._isSited = false;
+            this.isSited = false;
         }
 
-        internal protected virtual void Sited()
+        internal protected void Site()
         {
             foreach (TreeGridNode childNode in this.Nodes)
             {
-                childNode.Sited();
+                childNode.Site();
             }
             // This row is being added to the grid.
-            this._isSited = true;
-            this.childCellsCreated = true;
-            Debug.Assert(this._grid != null);
+            this.isSited = true;
+            Debug.Assert(this.Grid != null);
 
             TreeGridCell cell;
             foreach (DataGridViewCell DGVcell in this.Cells)
             {
                 cell = DGVcell as TreeGridCell;
-                if (cell != null)
+                if (cell != null && !cell.IsSited)
                 {
                     cell.Sited();// Level = this.Level;
                 }
@@ -123,11 +89,11 @@ namespace AdvancedDataGridView
 
         }
 
-        // Represents the index of this row in the Grid
-        [System.ComponentModel.Description("Represents the index of this row in the Grid. Advanced usage."),
-        System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced),
-         Browsable(false),
-         DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        /// <summary>
+        /// Represents the index of this row in the Grid
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int RowIndex
         {
             get
@@ -136,91 +102,84 @@ namespace AdvancedDataGridView
             }
         }
 
-        // Represents the index of this row based upon its position in the collection.
-        [Browsable(false),
-         DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        /// <summary>
+        /// Represents the index of this row based upon its position in the collection.
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new int Index
         {
             get
             {
-                if (_index == -1)
+                if (this.Parent == null)
                 {
-                    // get the index from the collection if unknown
-                    _index = this._parent.Nodes.IndexOf(this);
+                    return -1;
                 }
-
-                return _index;
-            }
-            internal set
-            {
-                _index = value;
+                else
+                {
+                    return this.Parent.Nodes.IndexOf(this);
+                }
             }
         }
 
-        [Browsable(false),
-        EditorBrowsable(EditorBrowsableState.Never),
-        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ImageList ImageList
         {
             get
             {
-                if (this._grid != null)
-                    return this._grid.ImageList;
+                if (this.Grid != null)
+                    return this.Grid.ImageList;
                 else
                     return null;
             }
         }
 
-        [Browsable(false),
-        EditorBrowsable(EditorBrowsableState.Never),
-        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool Checked { get; set; }
 
-        private bool ShouldSerializeImageIndex()
-        {
-            return (this._imageIndex != -1 && this._image == null);
-        }
+        public bool IsExpanded { get; private set; }
 
-        [Category("Appearance"),
-        Description("..."), DefaultValue(-1),
-        TypeConverter(typeof(ImageIndexConverter)),
-        Editor("System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
+        [Category("Appearance")]
+        [Description("..."), DefaultValue(-1)]
+        [TypeConverter(typeof(ImageIndexConverter))]
+        [Editor("System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
         public int ImageIndex
         {
-            get { return _imageIndex; }
+            get { return imageIndex; }
             set
             {
-                _imageIndex = value;
-                if (_imageIndex != -1)
+                imageIndex = value;
+                if (imageIndex != -1)
                 {
-                    // when a imageIndex is provided we do not store the image.
-                    this._image = null;
+                    this.image = null;
                 }
-                if (this._isSited)
+                if (this.isSited)
                 {
                     // when the image changes the cell's style must be updated
-                    this._treeCell.UpdateStyle();
+                    (this.Cells[0] as TreeGridCell).UpdateStyle();
                     if (this.Displayed)
-                        this._grid.InvalidateRow(this.RowIndex);
+                        this.Grid.InvalidateRow(this.RowIndex);
                 }
             }
         }
 
-        private bool ShouldSerializeImage()
-        {
-            return (this._imageIndex == -1 && this._image != null);
-        }
-
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Image Image
         {
             get
             {
-                if (_image == null && _imageIndex != -1)
+                if (image == null && imageIndex != -1)
                 {
-                    if (this.ImageList != null && this._imageIndex < this.ImageList.Images.Count)
+                    if (this.ImageList != null && this.imageIndex < this.ImageList.Images.Count)
                     {
                         // get image from image index
-                        return this.ImageList.Images[this._imageIndex];
+                        return this.ImageList.Images[this.imageIndex];
                     }
                     else
                         return null;
@@ -228,69 +187,31 @@ namespace AdvancedDataGridView
                 else
                 {
                     // image from image property
-                    return this._image;
+                    return this.image;
                 };
             }
             set
             {
-                _image = value;
-                if (_image != null)
+                image = value;
+                if (image != null)
                 {
                     // when a image is provided we do not store the imageIndex.
-                    this._imageIndex = -1;
+                    this.imageIndex = -1;
                 }
-                if (this._isSited)
+                if (this.isSited)
                 {
                     // when the image changes the cell's style must be updated
-                    this._treeCell.UpdateStyle();
+                    (this.Cells[0] as TreeGridCell).UpdateStyle();
                     if (this.Displayed)
-                        this._grid.InvalidateRow(this.RowIndex);
+                        this.Grid.InvalidateRow(this.RowIndex);
                 }
             }
         }
 
-        protected override DataGridViewCellCollection CreateCellsInstance()
-        {
-            DataGridViewCellCollection cells = base.CreateCellsInstance();
-            cells.CollectionChanged += cells_CollectionChanged;
-            return cells;
-        }
-
-        void cells_CollectionChanged(object sender, System.ComponentModel.CollectionChangeEventArgs e)
-        {
-            // Exit if there already is a tree cell for this row
-            if (_treeCell != null) return;
-
-            if (e.Action == System.ComponentModel.CollectionChangeAction.Add || e.Action == System.ComponentModel.CollectionChangeAction.Refresh)
-            {
-                TreeGridCell treeCell = null;
-
-                if (e.Element == null)
-                {
-                    foreach (DataGridViewCell cell in base.Cells)
-                    {
-                        if (cell.GetType().IsAssignableFrom(typeof(TreeGridCell)))
-                        {
-                            treeCell = (TreeGridCell)cell;
-                            break;
-                        }
-
-                    }
-                }
-                else
-                {
-                    treeCell = e.Element as TreeGridCell;
-                }
-
-                if (treeCell != null)
-                    _treeCell = treeCell;
-            }
-        }
-
-        [Category("Data"),
-         Description("The collection of root nodes in the treelist."),
-         DesignerSerializationVisibility(DesignerSerializationVisibility.Content),
-         Editor(typeof(CollectionEditor), typeof(UITypeEditor))]
+        [Category("Data")]
+        [Description("The collection of root nodes in the treelist.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Editor(typeof(CollectionEditor), typeof(UITypeEditor))]
         public TreeGridNodeCollection Nodes
         {
             get
@@ -301,79 +222,57 @@ namespace AdvancedDataGridView
                 }
                 return childrenNodes;
             }
-            set { ;}
         }
 
-        // Create a new Cell property because by default a row is not in the grid and won't
-        // have any cells. We have to fabricate the cell collection ourself.
-        [Browsable(false),
-         DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new DataGridViewCellCollection Cells
+        internal bool IsRoot
         {
             get
             {
-                if (!childCellsCreated && this.DataGridView == null)
-                {
-                    if (this._grid == null) return null;
-
-                    this.CreateCells(this._grid);
-                    childCellsCreated = true;
-                }
-                return base.Cells;
+                return this.Level == 0;
             }
         }
 
-        [Browsable(false),
-         DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Level
         {
             get
             {
-                if (this._level == -1)
+                if (this.Parent == null)
                 {
-                    // calculate level
-                    int walk = 0;
-                    TreeGridNode walkRow = this.Parent;
-                    while (walkRow != null)
-                    {
-                        walk++;
-                        walkRow = walkRow.Parent;
-                    }
-                    this._level = walk;
+                    return 0;
                 }
-                return this._level;
-            }
-        }
-
-        [Browsable(false),
-         DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public TreeGridNode Parent
-        {
-            get
-            {
-                return this._parent;
-            }
-        }
-
-        [Browsable(false),
-         DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public virtual bool HasChildren
-        {
-            get
-            {
-                return (this.childrenNodes != null && this.Nodes.Count != 0);
+                else
+                {
+                    return this.Parent.Level + 1;
+                }
             }
         }
 
         [Browsable(false)]
-        public bool IsSited
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public TreeGridView Grid { get; internal set; }
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public TreeGridNode Parent { get; internal set; }
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public bool HasChildren
         {
             get
             {
-                return this._isSited;
+                return this.Nodes.Count > 0;
             }
         }
+
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public bool IsSited { get; private set; }
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsFirstSibling
         {
             get
@@ -383,68 +282,80 @@ namespace AdvancedDataGridView
         }
 
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsLastSibling
         {
             get
             {
-                TreeGridNode parent = this.Parent;
-                if (parent != null && parent.HasChildren)
-                {
-                    return (this.Index == parent.Nodes.Count - 1);
-                }
-                else
-                    return true;
+                return
+                    this.Index > -1 &&
+                    this.Index == this.Parent.Nodes.Count - 1;
             }
         }
 
-        public virtual bool Collapse()
+        public void Collapse()
         {
-            return this._grid.CollapseNode(this);
+            this.Collapse(true, false);
         }
 
-        public virtual bool Expand()
+        public void CollapseAll()
         {
-            if (this._grid != null)
-                return this._grid.ExpandNode(this);
-            else
+            this.Collapse(true, true);
+        }
+
+        private void Collapse(bool collapseSelf, bool collapseChild)
+        {
+            CollapsingEventArgs args = new CollapsingEventArgs(this);
+            if (collapseSelf)
+            {
+                this.IsExpanded = false;
+                this.Grid.OnNodeCollapsing(args);
+            }
+            if (!args.Cancel)
+            {
+                foreach (TreeGridNode node in this.Nodes)
+                {
+                    node.Collapse(collapseChild, collapseChild);
+                    node.Visible = false;
+                }
+                this.Grid.InvalidateCell(this.Cells[0]);
+                this.Grid.OnNodeCollapsed(this);
+            }
+        }
+
+        public void Expand()
+        {
+            this.Expand(true, false);
+        }
+
+        public void ExpandAll()
+        {
+            this.Expand(true, true);
+        }
+
+        private void Expand(bool expandSelf, bool expandChild)
+        {
+            ExpandingEventArgs args = new ExpandingEventArgs(this);
+            if (expandSelf)
             {
                 this.IsExpanded = true;
-                return true;
+                this.Grid.OnNodeExpanding(args);
             }
-        }
-
-        internal protected virtual bool InsertChildNode(int index, TreeGridNode node)
-        {
-            //TODO: do we need to use index parameter?
-            if ((this._isSited || this.IsRoot) && this.IsExpanded)
-                this._grid.SiteNode(node);
-            return true;
-        }
-
-        internal protected virtual bool InsertChildNodes(int index, params TreeGridNode[] nodes)
-        {
-            foreach (TreeGridNode node in nodes)
+            if (!args.Cancel)
             {
-                this.InsertChildNode(index, node);
+                foreach (TreeGridNode node in this.Nodes)
+                {
+                    node.Expand(expandChild, expandChild);
+                    node.Visible = true;
+                }
+                this.Grid.InvalidateCell(this.Cells[0]);
+                this.Grid.OnNodeExpanded(this);
             }
-            return true;
-        }
-
-        internal protected virtual bool AddChildNode(TreeGridNode node)
-        {
-            if ((this._isSited || this.IsRoot) && this.IsExpanded && !node._isSited)
-                this._grid.SiteNode(node);
-
-            return true;
         }
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder(36);
-            sb.Append("TreeGridNode { Index=");
-            sb.Append(this.RowIndex.ToString(System.Globalization.CultureInfo.CurrentCulture));
-            sb.Append(" }");
-            return sb.ToString();
+            return string.Format("TreeGridNode {{ Index={0}, RowIndex={1} }}", this.Index, this.RowIndex);
         }
     }
 }

@@ -1,21 +1,20 @@
-//---------------------------------------------------------------------
-// 
-//  Copyright (c) Microsoft Corporation.  All rights reserved.
-// 
-//THIS CODE AND INFORMATION ARE PROVIDED AS IS WITHOUT WARRANTY OF ANY
-//KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
-//IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
-//PARTICULAR PURPOSE.
-//---------------------------------------------------------------------
+/* ------------------------------------------------------------------
+ * 
+ *  Copyright (c) Microsoft Corporation.  All rights reserved.
+ * 
+ *  THIS CODE AND INFORMATION ARE PROVIDED AS IS WITHOUT WARRANTY OF ANY
+ *  KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
+ *  PARTICULAR PURPOSE.
+ * 
+ * ------------------------------------------------------------------- */
 using System;
-using System.Windows.Forms;
-using System.Drawing;
-using System.Diagnostics;
-using System.Windows.Forms.VisualStyles;
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.ComponentModel.Design.Serialization;
+using System.Diagnostics;
 using System.Drawing.Design;
+using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace AdvancedDataGridView
 {
@@ -50,8 +49,7 @@ namespace AdvancedDataGridView
             this.AllowUserToAddRows = false;
             this.AllowUserToDeleteRows = false;
             this._root = new TreeGridNode();
-            this._root._grid = this;
-            this._root.IsRoot = true;
+            this._root.Grid = this;
 
             // Ensures that all rows are added unshared by listening to the CollectionChanged event.
             base.Rows.CollectionChanged += delegate(object sender, System.ComponentModel.CollectionChangeEventArgs e) { };
@@ -238,48 +236,9 @@ namespace AdvancedDataGridView
                 row = base.Rows[e.RowIndex + count] as TreeGridNode;
                 if (row != null)
                 {
-                    row.Sited();
+                    row.Site();
                 }
                 count--;
-            }
-        }
-
-        internal protected virtual bool CollapseNode(TreeGridNode node)
-        {
-            if (node.IsExpanded)
-            {
-                CollapsingEventArgs exp = new CollapsingEventArgs(node);
-                this.OnNodeCollapsing(exp);
-
-                if (!exp.Cancel)
-                {
-                    this.LockVerticalScrollBarUpdate(true);
-                    this.SuspendLayout();
-                    _inExpandCollapse = true;
-                    node.IsExpanded = false;
-
-                    foreach (TreeGridNode childNode in node.Nodes)
-                    {
-                        Debug.Assert(childNode.RowIndex != -1, "Row is NOT in the grid.");
-                        childNode.UnSited();
-                    }
-
-                    CollapsedEventArgs exped = new CollapsedEventArgs(node);
-                    this.OnNodeCollapsed(exped);
-                    //TODO: Convert this to a specific NodeCell property
-                    _inExpandCollapse = false;
-                    this.LockVerticalScrollBarUpdate(false);
-                    this.ResumeLayout(true);
-                    this.InvalidateCell(node.Cells[0]);
-
-                }
-
-                return !exp.Cancel;
-            }
-            else
-            {
-                // row isn't expanded, so we didn't do anything.				
-                return false;
             }
         }
 
@@ -288,7 +247,7 @@ namespace AdvancedDataGridView
             //TODO: Raise exception if parent node is not the root or is not sited.
             int rowIndex = -1;
             TreeGridNode currentRow;
-            node._grid = this;
+            //node.Grid = this;
 
             if (node.Parent != null && node.Parent.IsRoot == false)
             {
@@ -372,49 +331,6 @@ namespace AdvancedDataGridView
             }
         }
 
-        internal protected virtual bool ExpandNode(TreeGridNode node)
-        {
-            if (!node.IsExpanded || this._virtualNodes)
-            {
-                ExpandingEventArgs exp = new ExpandingEventArgs(node);
-                this.OnNodeExpanding(exp);
-
-                if (!exp.Cancel)
-                {
-                    this.LockVerticalScrollBarUpdate(true);
-                    this.SuspendLayout();
-                    _inExpandCollapse = true;
-                    node.IsExpanded = true;
-
-                    //TODO Convert this to a InsertRange
-                    foreach (TreeGridNode childNode in node.Nodes)
-                    {
-                        Debug.Assert(childNode.RowIndex == -1, "Row is already in the grid.");
-
-                        this.SiteNode(childNode);
-                        //this.BaseRows.Insert(rowIndex + 1, childRow);
-                        //TODO : remove -- just a test.
-                        //childNode.Cells[0].Value = "child";
-                    }
-
-                    ExpandedEventArgs exped = new ExpandedEventArgs(node);
-                    this.OnNodeExpanded(exped);
-                    //TODO: Convert this to a specific NodeCell property
-                    _inExpandCollapse = false;
-                    this.LockVerticalScrollBarUpdate(false);
-                    this.ResumeLayout(true);
-                    this.InvalidateCell(node.Cells[0]);
-                }
-
-                return !exp.Cancel;
-            }
-            else
-            {
-                // row is already expanded, so we didn't do anything.
-                return false;
-            }
-        }
-
         protected override void OnMouseUp(MouseEventArgs e)
         {
             // used to keep extra mouse moves from selecting more rows when collapsing
@@ -437,21 +353,22 @@ namespace AdvancedDataGridView
         public event CollapsingEventHandler NodeCollapsing;
         public event CollapsedEventHandler NodeCollapsed;
 
-        protected virtual void OnNodeExpanding(ExpandingEventArgs e)
+        protected internal virtual void OnNodeExpanding(ExpandingEventArgs e)
         {
             if (this.NodeExpanding != null)
             {
                 NodeExpanding(this, e);
             }
         }
-        protected virtual void OnNodeExpanded(ExpandedEventArgs e)
+        protected internal virtual void OnNodeExpanded(TreeGridNode node)
         {
+            ExpandedEventArgs e = new ExpandedEventArgs(node);
             if (this.NodeExpanded != null)
             {
                 NodeExpanded(this, e);
             }
         }
-        protected virtual void OnNodeCollapsing(CollapsingEventArgs e)
+        protected internal virtual void OnNodeCollapsing(CollapsingEventArgs e)
         {
             if (this.NodeCollapsing != null)
             {
@@ -459,8 +376,9 @@ namespace AdvancedDataGridView
             }
 
         }
-        protected virtual void OnNodeCollapsed(CollapsedEventArgs e)
+        protected internal virtual void OnNodeCollapsed(TreeGridNode node)
         {
+            CollapsedEventArgs e = new CollapsedEventArgs(node);
             if (this.NodeCollapsed != null)
             {
                 NodeCollapsed(this, e);

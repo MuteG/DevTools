@@ -1,16 +1,16 @@
-﻿//---------------------------------------------------------------------
-// 
-//  Copyright (c) Microsoft Corporation.  All rights reserved.
-// 
-//THIS CODE AND INFORMATION ARE PROVIDED AS IS WITHOUT WARRANTY OF ANY
-//KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
-//IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
-//PARTICULAR PURPOSE.
-//---------------------------------------------------------------------
+﻿/* ------------------------------------------------------------------
+ * 
+ *  Copyright (c) Microsoft Corporation.  All rights reserved.
+ * 
+ *  THIS CODE AND INFORMATION ARE PROVIDED AS IS WITHOUT WARRANTY OF ANY
+ *  KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+ *  IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
+ *  PARTICULAR PURPOSE.
+ * 
+ * ------------------------------------------------------------------- */
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AdvancedDataGridView
 {
@@ -28,18 +28,17 @@ namespace AdvancedDataGridView
 		public void Add(TreeGridNode item)
 		{
 			// The row needs to exist in the child collection before the parent is notified.
-			item._grid = this._owner._grid;
-            item._parent = this._owner;
+            item.Grid = this._owner.Grid;
+            item.Parent = this._owner;
 
 			this._list.Add(item);
-            this._owner._grid.Rows.Add(item);
-			this._owner.AddChildNode(item);
+            this._owner.Grid.Rows.Add(item);
+            item.Site();
 
-            bool hadChildren = this._owner.HasChildren;
             // if the owner didn't have children but now does (asserted) and it is sited update it
-            if (!hadChildren && this._owner.IsSited)
+            if (this._owner.IsSited)
             {
-                this._owner._grid.InvalidateRow(this._owner.RowIndex);
+                this._owner.Grid.InvalidateRow(this._owner.RowIndex);
             }
 		}
 
@@ -73,19 +72,20 @@ namespace AdvancedDataGridView
         public void Insert(int index, TreeGridNode item)
         {
             // The row needs to exist in the child collection before the parent is notified.
-            item._grid = this._owner._grid;
-            item._parent = this._owner;
+            item.Grid = this._owner.Grid;
+            item.Parent = this._owner;
 
             this._list.Insert(index, item);
-            this._owner.InsertChildNode(index, item);
+            this._owner.Grid.Rows.Insert(index, item);
+            item.Site();
         }
 
         public bool Remove(TreeGridNode node)
 		{
 			// The parent is notified first then the row is removed from the child collection.
-            this._owner._grid.Rows.Remove(node);
-            node._grid = null;
-            node._parent = null;
+            this._owner.Grid.Rows.Remove(node);
+            node.Grid = null;
+            node.Parent = null;
             return this._list.Remove(node);
         }
 
@@ -93,17 +93,20 @@ namespace AdvancedDataGridView
 		{
             TreeGridNode node = this._list[index];
 			// The parent is notified first then the row is removed from the child collection.
-            this._owner._grid.Rows.Remove(node);
-            node._grid = null;
-            node._parent = null;
+            this._owner.Grid.Rows.Remove(node);
+            node.Grid = null;
+            node.Parent = null;
 			this._list.RemoveAt(index);
-		}
+        }
 
         public void Clear()
 		{
             foreach (System.Windows.Forms.DataGridViewRow row in this)
             {
-                this._owner.DataGridView.Rows.Remove(row);
+                if (this._owner.DataGridView != null)
+                {
+                    this._owner.DataGridView.Rows.Remove(row);
+                }
             }
 			this._list.Clear();
 		}
@@ -250,5 +253,4 @@ namespace AdvancedDataGridView
 
 		#endregion
 	}
-
 }
