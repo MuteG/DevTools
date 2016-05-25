@@ -73,10 +73,35 @@ namespace AdvancedDataGridView
 		}
 	}
 
+    public class CheckedEventArgs : TreeGridNodeEventBase
+    {
+        private bool isChangedByProgram;
+
+        public CheckedEventArgs(TreeGridNode node)
+            : base(node)
+        {
+        }
+
+        public CheckedEventArgs(TreeGridNode node, bool isChangedByProgram)
+            : this(node)
+        {
+            this.isChangedByProgram = isChangedByProgram;
+        }
+
+        public bool IsChangedByProgram
+        {
+            get
+            {
+                return this.isChangedByProgram;
+            }
+        }
+    }
+
 	public delegate void ExpandingEventHandler(object sender, ExpandingEventArgs e);
 	public delegate void ExpandedEventHandler(object sender, ExpandedEventArgs e);
 
 	public delegate void CollapsingEventHandler(object sender, CollapsingEventArgs e);
 	public delegate void CollapsedEventHandler(object sender, CollapsedEventArgs e);
 
+    public delegate void CheckedEventHandler(object sender, CheckedEventArgs e);
 }

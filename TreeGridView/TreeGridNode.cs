@@ -22,6 +22,7 @@ namespace AdvancedDataGridView
     public class TreeGridNode : DataGridViewRow
     {
         internal bool isSited;
+        private bool isChecked = true;
         internal Image image;
         internal int imageIndex;
 
@@ -29,7 +30,8 @@ namespace AdvancedDataGridView
 
         public TreeGridNode()
         {
-            IsExpanded = true;
+            this.IsExpanded = true;
+            this.IsCheckStateChangedByProgram = false;
             isSited = false;
             imageIndex = -1;
         }
@@ -50,7 +52,7 @@ namespace AdvancedDataGridView
             return r;
         }
 
-        internal protected void Unsite()
+        internal void Unsite()
         {
             foreach (TreeGridNode childNode in this.Nodes)
             {
@@ -67,7 +69,7 @@ namespace AdvancedDataGridView
             this.isSited = false;
         }
 
-        internal protected void Site()
+        internal void Site()
         {
             foreach (TreeGridNode childNode in this.Nodes)
             {
@@ -139,8 +141,32 @@ namespace AdvancedDataGridView
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool Checked { get; set; }
+        public bool Checked
+        {
+            get
+            {
+                return this.isChecked;
+            }
+            set
+            {
+                if (this.isChecked != value)
+                {
+                    this.isChecked = value;
+                    this.Grid.InvalidateCell(this.Cells[0]);
+                    this.Grid.OnNodeChecked(this, this.IsCheckStateChangedByProgram);
+                    this.IsCheckStateChangedByProgram = false;
+                }
+            }
+        }
 
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        internal bool IsCheckStateChangedByProgram { get; set; }
+
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsExpanded { get; private set; }
 
         [Category("Appearance")]

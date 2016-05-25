@@ -25,7 +25,7 @@ namespace DevTools.Plugin.CodeLines.USL
         public FormMain()
         {
             InitializeComponent();
-            this.treeViewFile.Nodes.Clear();
+            //this.treeViewFile.Nodes.Clear();
             this.treeGridView.Nodes.Clear();
 
             InitializeInclude();
@@ -98,7 +98,7 @@ namespace DevTools.Plugin.CodeLines.USL
                 rootFile = new CodeFolder();
                 rootFile.File = "全部";
                 rootFile.Progress += new ProgressEventHandler(rootFile_Progress);
-                progressPanel.Show(dataGridViewCount);
+                progressPanel.Show(treeGridView);
                 foreach (string file in files)
                 {
                     AbstractCodeFile codeFile = CodeFileFactory.Create(file);
@@ -288,10 +288,10 @@ namespace DevTools.Plugin.CodeLines.USL
 
         private void listViewInclude_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-            if (this.treeViewFile.Nodes.Count > 0)
+            if (this.treeGridView.Nodes.Count > 0)
             {
                 RefeshDataGridViewValue();
-                TreeNode rootNode = this.treeViewFile.Nodes[0];
+                TreeGridNode rootNode = this.treeGridView.Nodes[0];
                 CodeLineCount totalCountObj = (rootNode.Tag as AbstractCodeFile).CodeLineCount;
                 labelTotal.Text = "总计：" + GenerateMessage(totalCountObj).Trim();
             }
@@ -309,7 +309,7 @@ namespace DevTools.Plugin.CodeLines.USL
                 }
             }
 
-            foreach (DataGridViewRow row in dataGridViewCount.Rows)
+            foreach (DataGridViewRow row in treeGridView.Rows)
             {
                 int fixedCount = (int)row.Cells["colTotal"].Value;
                 foreach (string columnName in fixColumnList)
@@ -320,11 +320,75 @@ namespace DevTools.Plugin.CodeLines.USL
             }
         }
 
-        private void treeViewFile_AfterCheck(object sender, TreeViewEventArgs e)
+        private void SetRowVisible(TreeNode node, bool visible)
         {
-            if (e.Node.Level > 0)
+            foreach (TreeNode subNode in node.Nodes)
             {
-                CodeLineCount count = (this.treeViewFile.Nodes[0].Tag as AbstractCodeFile).CodeLineCount;
+                if (!visible || node.IsExpanded)
+                {
+                    foreach (DataGridViewRow row in treeGridView.Rows)
+                    {
+                        if (row.Tag.Equals(subNode.Tag))
+                        {
+                            row.Visible = visible;
+                            break;
+                        }
+                    }
+                    SetRowVisible(subNode, visible);
+                }
+            }
+        }
+
+        private void menuCollapseSubNode_Click(object sender, System.EventArgs e)
+        {
+            TreeGridNode selectNode = treeGridView.SelectedNode;
+            if (null != selectNode)
+            {
+                foreach (TreeGridNode subNode in selectNode.Nodes)
+                {
+                    subNode.Collapse();
+                }
+            }
+        }
+
+        private void menuExpandSubNode_Click(object sender, System.EventArgs e)
+        {
+            TreeGridNode selectNode = treeGridView.SelectedNode;
+            if (null != selectNode)
+            {
+                foreach (TreeGridNode subNode in selectNode.Nodes)
+                {
+                    subNode.Expand();
+                }
+            }
+        }
+
+        private void FormMain_Load(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void treeGridView_NodeCollapsed(object sender, CollapsedEventArgs e)
+        {
+            if (e.Node.Tag is CodeFolder || e.Node.Level == 0)
+            {
+                e.Node.ImageIndex = 1;
+            }
+        }
+
+        private void treeGridView_NodeExpanded(object sender, ExpandedEventArgs e)
+        {
+            if (e.Node.Tag is CodeFolder || e.Node.Level == 0)
+            {
+                e.Node.ImageIndex = 0;
+            }
+        }
+
+        private void treeGridView_NodeChecked(object sender, CheckedEventArgs e)
+        {
+            if (e.Node.Level > 1)
+            {
+                CodeLineCount count = (this.treeGridView.Nodes[0].Tag as AbstractCodeFile).CodeLineCount;
                 AbstractCodeFile codeFile = e.Node.Tag as AbstractCodeFile;
                 if (codeFile.IncludeFiles.Count == 0)
                 {
@@ -338,7 +402,7 @@ namespace DevTools.Plugin.CodeLines.USL
                     }
                 }
 
-                foreach (DataGridViewRow row in dataGridViewCount.Rows)
+                foreach (DataGridViewRow row in treeGridView.Rows)
                 {
                     if (row.Tag.Equals(e.Node.Tag))
                     {
@@ -361,8 +425,7 @@ namespace DevTools.Plugin.CodeLines.USL
                     }
                 }
 
-                if (e.Action == TreeViewAction.ByMouse ||
-                    e.Action == TreeViewAction.ByKeyboard)
+                if (e.IsChangedByProgram)
                 {
                     NodeChecked(e.Node, e.Node.Checked);
                 }
@@ -370,92 +433,16 @@ namespace DevTools.Plugin.CodeLines.USL
             }
         }
 
-        private void NodeChecked(TreeNode node, bool isChecked)
+        private void NodeChecked(TreeGridNode node, bool isChecked)
         {
             if (node.Checked != isChecked)
             {
                 node.Checked = isChecked;
             }
-            foreach (TreeNode subNode in node.Nodes)
+            foreach (TreeGridNode subNode in node.Nodes)
             {
                 NodeChecked(subNode, isChecked);
             }
-        }
-
-        private void treeViewFile_AfterCollapse(object sender, TreeViewEventArgs e)
-        {
-            if (e.Node.Tag is CodeFolder || e.Node.Level == 0)
-            {
-                e.Node.ImageKey = "folderClose";
-                e.Node.SelectedImageKey = "folderClose";
-            }
-
-            if (e.Node.Level > 0)
-            {
-                SetRowVisible(e.Node, false);
-            }
-        }
-
-        private void SetRowVisible(TreeNode node, bool visible)
-        {
-            foreach (TreeNode subNode in node.Nodes)
-            {
-                if (!visible || node.IsExpanded)
-                {
-                    foreach (DataGridViewRow row in dataGridViewCount.Rows)
-                    {
-                        if (row.Tag.Equals(subNode.Tag))
-                        {
-                            row.Visible = visible;
-                            break;
-                        }
-                    }
-                    SetRowVisible(subNode, visible);
-                }
-            }
-        }
-
-        private void treeViewFile_AfterExpand(object sender, TreeViewEventArgs e)
-        {
-            if (e.Node.Tag is CodeFolder || e.Node.Level == 0)
-            {
-                e.Node.ImageKey = "folderOpen";
-                e.Node.SelectedImageKey = "folderOpen";
-            }
-
-            if (e.Node.Level > 0)
-            {
-                SetRowVisible(e.Node, true);
-            }
-        }
-
-        private void menuCollapseSubNode_Click(object sender, System.EventArgs e)
-        {
-            TreeNode selectNode = treeViewFile.SelectedNode;
-            if (null != selectNode)
-            {
-                foreach (TreeNode subNode in selectNode.Nodes)
-                {
-                    subNode.Collapse();
-                }
-            }
-        }
-
-        private void menuExpandSubNode_Click(object sender, System.EventArgs e)
-        {
-            TreeNode selectNode = treeViewFile.SelectedNode;
-            if (null != selectNode)
-            {
-                foreach (TreeNode subNode in selectNode.Nodes)
-                {
-                    subNode.Expand();
-                }
-            }
-        }
-
-        private void FormMain_Load(object sender, EventArgs e)
-        {
-            
         }
     }
 }

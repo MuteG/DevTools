@@ -85,7 +85,16 @@ namespace AdvancedDataGridView
                 imageHeight = 0;
             }
 
-            this.Style.Padding = new Padding(this.previousPadding.Left + (this.Level * INDENT_WIDTH) + imageWidth + INDENT_MARGIN,
+            int checkBoxWidth = 0;
+            using (Graphics g = this.OwningNode.Grid.CreateGraphics())
+            {
+                if (this.OwningNode.Grid.ShowCheckBox)
+                {
+                    checkBoxWidth = CheckBoxRenderer.GetGlyphSize(g, CheckBoxState.CheckedNormal).Width;
+                }
+            }
+
+            this.Style.Padding = new Padding(this.previousPadding.Left + (this.Level * INDENT_WIDTH) + imageWidth + checkBoxWidth + INDENT_MARGIN,
                 this.previousPadding.Top, this.previousPadding.Right, this.previousPadding.Bottom);
         }
 
@@ -127,9 +136,16 @@ namespace AdvancedDataGridView
             // paint the cell normally
             base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, value, formattedValue, errorText, cellStyle, advancedBorderStyle, paintParts);
 
+            int checkBoxWidth = 0, checkBoxHeight = 0;
+            if (node.Grid.ShowCheckBox)
+            {
+                Size chkSize = CheckBoxRenderer.GetGlyphSize(graphics, CheckBoxState.CheckedNormal);
+                checkBoxWidth = chkSize.Width;
+                checkBoxHeight = chkSize.Height;
+            }
+
             // TODO: Indent width needs to take image size into account
             Rectangle glyphRect = new Rectangle(cellBounds.X + this.GlyphMargin, cellBounds.Y, INDENT_WIDTH, cellBounds.Height - 1);
-            int glyphHalf = glyphRect.Width / 2;
 
             //TODO: Rehash this to take different Imagelayouts into account. This will speed up drawing
             //		for images of the same size (ImageLayout.None)
@@ -137,9 +153,9 @@ namespace AdvancedDataGridView
             {
                 Point pp;
                 if (imageHeight > cellBounds.Height)
-                    pp = new Point(glyphRect.X + GLYPH_WIDTH, cellBounds.Y);
+                    pp = new Point(glyphRect.X + checkBoxWidth + GLYPH_WIDTH, cellBounds.Y);
                 else
-                    pp = new Point(glyphRect.X + GLYPH_WIDTH, (cellBounds.Height / 2 - imageHeight / 2) + cellBounds.Y);
+                    pp = new Point(glyphRect.X + checkBoxWidth + GLYPH_WIDTH, (cellBounds.Height / 2 - imageHeight / 2) + cellBounds.Y);
 
                 // Graphics container to push/pop changes. This enables us to set clipping when painting
                 // the cell's image -- keeps it from bleeding outsize of cells.
@@ -218,6 +234,13 @@ namespace AdvancedDataGridView
                 else
                     RENDERER_CLOSED.DrawBackground(graphics, new Rectangle(glyphRect.X, glyphRect.Y + (glyphRect.Height - 10) / 2, 10, 10));
             }
+
+            if (node.Grid.ShowCheckBox)
+            {
+                CheckBoxRenderer.DrawCheckBox(graphics,
+                    new Point(glyphRect.Left + GLYPH_WIDTH, glyphRect.Top + (glyphRect.Height - checkBoxHeight) / 2),
+                    node.Checked ? CheckBoxState.CheckedNormal : CheckBoxState.UncheckedNormal);
+            }
         }
 
         protected override void OnMouseUp(DataGridViewCellMouseEventArgs e)
@@ -226,26 +249,32 @@ namespace AdvancedDataGridView
 
             TreeGridNode node = this.OwningNode;
             if (node != null)
-                node.Grid._inExpandCollapseMouseCapture = false;
+                node.Grid.inExpandCollapseMouseCapture = false;
         }
 
         protected override void OnMouseDown(DataGridViewCellMouseEventArgs e)
         {
-            if (e.Location.X > this.InheritedStyle.Padding.Left)
-            {
-                base.OnMouseDown(e);
-            }
-            else
+            if (e.Location.X > this.GlyphMargin && e.Location.X < this.GlyphMargin + GLYPH_WIDTH)
             {
                 TreeGridNode node = this.OwningNode;
                 if (node != null)
                 {
-                    node.Grid._inExpandCollapseMouseCapture = true;
+                    node.Grid.inExpandCollapseMouseCapture = true;
                     if (node.IsExpanded)
                         node.Collapse();
                     else
                         node.Expand();
                 }
+            }
+            else if (e.Location.X > this.GlyphMargin + GLYPH_WIDTH && e.Location.X < this.Style.Padding.Left - GLYPH_WIDTH)
+            {
+                // CheckBox
+                this.OwningNode.IsCheckStateChangedByProgram = true;
+                this.OwningNode.Checked = !this.OwningNode.Checked;
+            }
+            else
+            {
+                base.OnMouseDown(e);
             }
         }
 

@@ -27,16 +27,15 @@ namespace AdvancedDataGridView
     Docking(DockingBehavior.Ask)]
     public class TreeGridView : DataGridView
     {
-        private TreeGridNode _root;
-        private TreeGridColumn _expandableColumn;
-        internal ImageList _imageList;
-        private bool _inExpandCollapse = false;
-        internal bool _inExpandCollapseMouseCapture = false;
+        private TreeGridNode root;
+        private TreeGridColumn expandableColumn;
+        internal ImageList imageList;
+        private bool inExpandCollapse = false;
+        internal bool inExpandCollapseMouseCapture = false;
         private Control hideScrollBarControl;
-        private bool _showLines = true;
-        private bool _virtualNodes = false;
-
-        
+        private bool showLines = true;
+        private bool showCheckBox = true;
+        private bool virtualNodes = false;
 
         #region Constructor
         public TreeGridView()
@@ -47,11 +46,13 @@ namespace AdvancedDataGridView
             // This sample does not support adding or deleting rows by the user.
             this.AllowUserToAddRows = false;
             this.AllowUserToDeleteRows = false;
-            this._root = new TreeGridNode();
-            this._root.Grid = this;
+            this.root = new TreeGridNode();
+            this.root.Grid = this;
 
             // Ensures that all rows are added unshared by listening to the CollectionChanged event.
             base.Rows.CollectionChanged += delegate(object sender, System.ComponentModel.CollectionChangeEventArgs e) { };
+
+            this.MultiSelect = false;
         }
         #endregion
 
@@ -158,7 +159,7 @@ namespace AdvancedDataGridView
         {
             get
             {
-                return this._root.Nodes;
+                return this.root.Nodes;
             }
         }
 
@@ -174,8 +175,8 @@ namespace AdvancedDataGridView
         Description("Causes nodes to always show as expandable. Use the NodeExpanding event to add nodes.")]
         public bool VirtualNodes
         {
-            get { return _virtualNodes; }
-            set { _virtualNodes = value; }
+            get { return virtualNodes; }
+            set { virtualNodes = value; }
         }
 
         public TreeGridNode CurrentNode
@@ -187,25 +188,58 @@ namespace AdvancedDataGridView
         }
 
         [DefaultValue(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public bool ShowLines
         {
-            get { return this._showLines; }
+            get { return this.showLines; }
             set
             {
-                if (value != this._showLines)
+                if (value != this.showLines)
                 {
-                    this._showLines = value;
+                    this.showLines = value;
                     this.Invalidate();
+                }
+            }
+        }
+
+        [DefaultValue(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public bool ShowCheckBox
+        {
+            get { return this.showCheckBox; }
+            set
+            {
+                if (value != this.showCheckBox)
+                {
+                    this.showCheckBox = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public TreeGridNode SelectedNode
+        {
+            get
+            {
+                if (this.SelectedRows.Count > 0)
+                {
+                    return this.SelectedRows[0] as TreeGridNode;
+                }
+                else
+                {
+                    return null;
                 }
             }
         }
 
         public ImageList ImageList
         {
-            get { return this._imageList; }
+            get { return this.imageList; }
             set
             {
-                this._imageList = value;
+                this.imageList = value;
                 //TODO: should we invalidate cell styles when setting the image list?
 
             }
@@ -241,108 +275,18 @@ namespace AdvancedDataGridView
             }
         }
 
-        internal protected virtual void SiteNode(TreeGridNode node)
-        {
-            //TODO: Raise exception if parent node is not the root or is not sited.
-            int rowIndex = -1;
-            TreeGridNode currentRow;
-            //node.Grid = this;
-
-            if (node.Parent != null && node.Parent.IsRoot == false)
-            {
-                // row is a child
-                Debug.Assert(node.Parent != null && node.Parent.IsExpanded == true);
-
-                if (node.Index > 0)
-                {
-                    currentRow = node.Parent.Nodes[node.Index - 1];
-                }
-                else
-                {
-                    currentRow = node.Parent;
-                }
-            }
-            else
-            {
-                // row is being added to the root
-                if (node.Index > 0)
-                {
-                    currentRow = node.Parent.Nodes[node.Index - 1];
-                }
-                else
-                {
-                    currentRow = null;
-                }
-
-            }
-
-            if (currentRow != null)
-            {
-                while (currentRow.Level >= node.Level)
-                {
-                    if (currentRow.RowIndex < base.Rows.Count - 1)
-                    {
-                        currentRow = base.Rows[currentRow.RowIndex + 1] as TreeGridNode;
-                        Debug.Assert(currentRow != null);
-                    }
-                    else
-                        // no more rows, site this node at the end.
-                        break;
-
-                }
-                if (currentRow == node.Parent)
-                    rowIndex = currentRow.RowIndex + 1;
-                else if (currentRow.Level < node.Level)
-                    rowIndex = currentRow.RowIndex;
-                else
-                    rowIndex = currentRow.RowIndex + 1;
-            }
-            else
-                rowIndex = 0;
-
-
-            Debug.Assert(rowIndex != -1);
-            //this.SiteNode(node, rowIndex);
-
-            Debug.Assert(node.IsSited);
-            if (node.IsExpanded)
-            {
-                // add all child rows to display
-                foreach (TreeGridNode childNode in node.Nodes)
-                {
-                    //TODO: could use the more efficient SiteRow with index.
-                    this.SiteNode(childNode);
-                }
-            }
-        }
-
-
-        internal protected virtual void SiteNode(TreeGridNode node, int index)
-        {
-            if (index < base.Rows.Count)
-            {
-                base.Rows.Insert(index, node);
-            }
-            else
-            {
-                // for the last item.
-                base.Rows.Add(node);
-            }
-        }
-
         protected override void OnMouseUp(MouseEventArgs e)
         {
             // used to keep extra mouse moves from selecting more rows when collapsing
             base.OnMouseUp(e);
-            this._inExpandCollapseMouseCapture = false;
+            this.inExpandCollapseMouseCapture = false;
         }
         protected override void OnMouseMove(MouseEventArgs e)
         {
             // while we are expanding and collapsing a node mouse moves are
             // supressed to keep selections from being messed up.
-            if (!this._inExpandCollapseMouseCapture)
+            if (!this.inExpandCollapseMouseCapture)
                 base.OnMouseMove(e);
-
         }
         #endregion
 
@@ -351,6 +295,7 @@ namespace AdvancedDataGridView
         public event ExpandedEventHandler NodeExpanded;
         public event CollapsingEventHandler NodeCollapsing;
         public event CollapsedEventHandler NodeCollapsed;
+        public event CheckedEventHandler NodeChecked;
 
         protected internal virtual void OnNodeExpanding(ExpandingEventArgs e)
         {
@@ -381,6 +326,14 @@ namespace AdvancedDataGridView
             if (this.NodeCollapsed != null)
             {
                 NodeCollapsed(this, e);
+            }
+        }
+        protected internal virtual void OnNodeChecked(TreeGridNode node, bool isChangedByProgram)
+        {
+            CheckedEventArgs e = new CheckedEventArgs(node, isChangedByProgram);
+            if (this.NodeExpanded != null)
+            {
+                NodeChecked(this, e);
             }
         }
         #endregion
@@ -420,7 +373,7 @@ namespace AdvancedDataGridView
         private void LockVerticalScrollBarUpdate(bool lockUpdate/*, bool delayed*/)
         {
             // Temporarly hide/show the vertical scroll bar by changing its parent
-            if (!this._inExpandCollapse)
+            if (!this.inExpandCollapse)
             {
                 if (lockUpdate)
                 {
@@ -437,10 +390,10 @@ namespace AdvancedDataGridView
         {
             if (typeof(TreeGridColumn).IsAssignableFrom(e.Column.GetType()))
             {
-                if (_expandableColumn == null)
+                if (expandableColumn == null)
                 {
                     // identify the expanding column.			
-                    _expandableColumn = (TreeGridColumn)e.Column;
+                    expandableColumn = (TreeGridColumn)e.Column;
                 }
                 else
                 {
