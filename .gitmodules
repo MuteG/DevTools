@@ -1,0 +1,3 @@
+[submodule "TreeGridView"]
+	path = TreeGridView
+	url = https://github.com/MuteG/TreeGridView.git
