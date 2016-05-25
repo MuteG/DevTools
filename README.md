@@ -17,5 +17,5 @@ DevTools
 ===================
 1、[AdvancedDataGridView](https://blogs.msdn.microsoft.com/markrideout/2006/01/08/customizing-the-datagridview-to-support-expandingcollapsing-ala-treegridview/) (MIT)
   
-本工具基于MIT协议发布。
-======================
+本工具源码基于MIT许可发布。
+==========================
