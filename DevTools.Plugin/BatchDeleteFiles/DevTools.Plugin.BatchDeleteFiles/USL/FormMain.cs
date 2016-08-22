@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using DevTools.Common.Log;
 
 namespace DevTools.Plugin.BatchDeleteFiles.USL
 {
@@ -37,6 +38,12 @@ namespace DevTools.Plugin.BatchDeleteFiles.USL
         private void TextBoxRootFolder_KeyPress(object sender, KeyPressEventArgs e)
         {
             // TODO: Implement TextBoxRootFolder_KeyPress
+        }
+
+        private void FormMain_Load(object sender, EventArgs e)
+        {
+            DTLogger logger = new DTLogger();
+            logger.Debug("Delete Files");
         }
     }
 }

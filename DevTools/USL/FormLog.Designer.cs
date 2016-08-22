@@ -33,6 +33,7 @@
             // 
             // richTextBoxLog
             // 
+            this.richTextBoxLog.BackColor = System.Drawing.SystemColors.Window;
             this.richTextBoxLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBoxLog.Location = new System.Drawing.Point(0, 0);
             this.richTextBoxLog.Name = "richTextBoxLog";

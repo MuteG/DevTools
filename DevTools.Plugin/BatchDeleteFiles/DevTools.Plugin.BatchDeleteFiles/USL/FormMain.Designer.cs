@@ -59,7 +59,7 @@ namespace DevTools.Plugin.BatchDeleteFiles.USL
             // textBoxRootFolder
             // 
             this.textBoxRootFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-                                    | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxRootFolder.Location = new System.Drawing.Point(67, 12);
             this.textBoxRootFolder.Name = "textBoxRootFolder";
             this.textBoxRootFolder.Size = new System.Drawing.Size(387, 23);
@@ -99,7 +99,7 @@ namespace DevTools.Plugin.BatchDeleteFiles.USL
             // progressBar1
             // 
             this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-                                    | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBar1.Location = new System.Drawing.Point(12, 111);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(442, 17);
@@ -109,7 +109,7 @@ namespace DevTools.Plugin.BatchDeleteFiles.USL
             // progressBar2
             // 
             this.progressBar2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-                                    | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBar2.Location = new System.Drawing.Point(12, 148);
             this.progressBar2.Name = "progressBar2";
             this.progressBar2.Size = new System.Drawing.Size(442, 17);
@@ -164,8 +164,10 @@ namespace DevTools.Plugin.BatchDeleteFiles.USL
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "批量删除文件";
+            this.Load += new System.EventHandler(this.FormMain_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
         private System.Windows.Forms.Button buttonDelete;
         private System.Windows.Forms.Label labelCurrentFile;

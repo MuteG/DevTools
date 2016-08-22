@@ -72,6 +72,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\DevTools.Core\DevTools.Common\DevTools.Common.csproj">
+      <Project>{cace1882-4b6d-4d43-8094-575786f79e8a}</Project>
+      <Name>DevTools.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\DevTools.Core\DevTools.Plugin\DevTools.Plugin.csproj">
       <Project>{6bdbe09a-50b2-41f1-a37e-0777c7b105f4}</Project>
       <Name>DevTools.Plugin</Name>
