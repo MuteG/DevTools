@@ -17,15 +17,15 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\DevTools\bin\Debug\plugin\</OutputPath>
+    <OutputPath>..\..\..\DevTools\bin\Debug\plugin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\..\Release\plugin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -77,20 +77,27 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DevTools.Common\DevTools.Common.csproj">
-      <Project>{CACE1882-4B6D-4D43-8094-575786F79E8A}</Project>
+    <ProjectReference Include="..\..\..\DevTools.Core\DevTools.Common\DevTools.Common.csproj">
+      <Project>{cace1882-4b6d-4d43-8094-575786f79e8a}</Project>
       <Name>DevTools.Common</Name>
+      <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\DevTools.Config\DevTools.Config.csproj">
-      <Project>{79FA7D4B-E9A3-4F39-9A32-D0E3CD5A2881}</Project>
+    <ProjectReference Include="..\..\..\DevTools.Core\DevTools.Config\DevTools.Config.csproj">
+      <Project>{79fa7d4b-e9a3-4f39-9a32-d0e3cd5a2881}</Project>
       <Name>DevTools.Config</Name>
+      <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\DevTools.Plugin\DevTools.Plugin.csproj">
-      <Project>{6BDBE09A-50B2-41F1-A37E-0777C7B105F4}</Project>
+    <ProjectReference Include="..\..\..\DevTools.Core\DevTools.Language\DevTools.Language.csproj">
+      <Project>{0586c09e-13d4-4611-960e-e750e4dea4db}</Project>
+      <Name>DevTools.Language</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\DevTools.Core\DevTools.Plugin\DevTools.Plugin.csproj">
+      <Project>{6bdbe09a-50b2-41f1-a37e-0777c7b105f4}</Project>
       <Name>DevTools.Plugin</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

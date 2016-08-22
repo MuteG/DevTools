@@ -45,17 +45,17 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <OutputPath>..\..\bin\plugin\</OutputPath>
+    <OutputPath>..\..\..\Release\plugin\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <OutputPath>..\DevTools\bin\Debug\plugin\</OutputPath>
+    <OutputPath>..\..\..\DevTools\bin\Debug\plugin\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EPPlus, Version=4.0.5.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
-      <HintPath>..\packages\EPPlus.4.0.5\lib\net20\EPPlus.dll</HintPath>
+    <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\EPPlus.4.1.0\lib\net40\EPPlus.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -109,20 +109,27 @@
     <Compile Include="BLL\ProgressEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DevTools.Common\DevTools.Common.csproj">
-      <Project>{CACE1882-4B6D-4D43-8094-575786F79E8A}</Project>
+    <ProjectReference Include="..\..\..\DevTools.Core\DevTools.Common\DevTools.Common.csproj">
+      <Project>{cace1882-4b6d-4d43-8094-575786f79e8a}</Project>
       <Name>DevTools.Common</Name>
+      <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\DevTools.Plugin\DevTools.Plugin.csproj">
-      <Project>{6BDBE09A-50B2-41F1-A37E-0777C7B105F4}</Project>
+    <ProjectReference Include="..\..\..\DevTools.Core\DevTools.Config\DevTools.Config.csproj">
+      <Project>{79fa7d4b-e9a3-4f39-9a32-d0e3cd5a2881}</Project>
+      <Name>DevTools.Config</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\DevTools.Core\DevTools.Language\DevTools.Language.csproj">
+      <Project>{0586c09e-13d4-4611-960e-e750e4dea4db}</Project>
+      <Name>DevTools.Language</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\DevTools.Core\DevTools.Plugin\DevTools.Plugin.csproj">
+      <Project>{6bdbe09a-50b2-41f1-a37e-0777c7b105f4}</Project>
       <Name>DevTools.Plugin</Name>
       <Private>False</Private>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
-    <ProjectReference Include="..\TreeGridView\ExpandableGridView.csproj">
+    <ProjectReference Include="..\..\..\Lib\TreeGridView\ExpandableGridView.csproj">
       <Project>{2efe526f-79b3-49bc-9575-a7b258c59bb5}</Project>
       <Name>ExpandableGridView</Name>
     </ProjectReference>
@@ -137,6 +144,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\Generic_Document.ico" />
   </ItemGroup>
   <ItemGroup>

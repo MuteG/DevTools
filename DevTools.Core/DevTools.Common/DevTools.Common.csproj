@@ -23,7 +23,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>..\DevTools\bin\Debug\</OutputPath>
+    <OutputPath>..\..\DevTools\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -32,7 +32,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>None</DebugType>
     <Optimize>True</Optimize>
-    <OutputPath>..\..\bin\</OutputPath>
+    <OutputPath>..\..\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -47,6 +47,14 @@
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NLog.4.3.7\lib\net40\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLog.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NLog.Windows.Forms.4.2.3\lib\net35\NLog.Windows.Forms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.OracleClient" />
@@ -60,7 +68,10 @@
   <ItemGroup>
     <Compile Include="Data\DatabaseConnectionBuilder.cs" />
     <Compile Include="Data\DatabaseType.cs" />
+    <Compile Include="IO\FileSecurity.cs" />
     <Compile Include="IO\IconHelper.cs" />
+    <Compile Include="IO\XMLHelper.cs" />
+    <Compile Include="Log\DTLogger.cs" />
     <Compile Include="Log\LogType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\SQLHelper.cs" />
@@ -71,7 +82,9 @@
       <DependentUpon>ProgressPanel.cs</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="UI\ProgressPanel.resx">
       <DependentUpon>ProgressPanel.cs</DependentUpon>

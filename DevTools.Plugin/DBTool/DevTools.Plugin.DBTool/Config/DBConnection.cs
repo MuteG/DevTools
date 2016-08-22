@@ -13,6 +13,10 @@ namespace DevTools.Plugin.DBTool.Config
         [XmlAttribute("address")]
         public string Address { get; set; }
 
+        [XmlAttribute("host")]
+        public string Host { get; set; }
+
+
         /// <summary>
         /// 数据库登录用户
         /// </summary>

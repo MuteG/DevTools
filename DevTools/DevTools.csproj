@@ -45,7 +45,7 @@
     <ApplicationIcon>dt.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
@@ -58,7 +58,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>None</DebugType>
     <Optimize>True</Optimize>
-    <OutputPath>..\..\bin\</OutputPath>
+    <OutputPath>..\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -103,6 +103,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="USL\FormLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="USL\FormLog.Designer.cs">
+      <DependentUpon>FormLog.cs</DependentUpon>
+    </Compile>
     <Compile Include="USL\MenuManager.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -116,20 +122,30 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="USL\FormLOg.resx">
+      <DependentUpon>FormLog.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DevTools.Config\DevTools.Config.csproj">
-      <Project>{79FA7D4B-E9A3-4F39-9A32-D0E3CD5A2881}</Project>
+    <ProjectReference Include="..\DevTools.Core\DevTools.Common\DevTools.Common.csproj">
+      <Project>{cace1882-4b6d-4d43-8094-575786f79e8a}</Project>
+      <Name>DevTools.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DevTools.Core\DevTools.Config\DevTools.Config.csproj">
+      <Project>{79fa7d4b-e9a3-4f39-9a32-d0e3cd5a2881}</Project>
       <Name>DevTools.Config</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DevTools.Language\DevTools.Language.csproj">
-      <Project>{0586C09E-13D4-4611-960E-E750E4DEA4DB}</Project>
+    <ProjectReference Include="..\DevTools.Core\DevTools.Language\DevTools.Language.csproj">
+      <Project>{0586c09e-13d4-4611-960e-e750e4dea4db}</Project>
       <Name>DevTools.Language</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DevTools.Plugin\DevTools.Plugin.csproj">
-      <Project>{6BDBE09A-50B2-41F1-A37E-0777C7B105F4}</Project>
+    <ProjectReference Include="..\DevTools.Core\DevTools.Plugin\DevTools.Plugin.csproj">
+      <Project>{6bdbe09a-50b2-41f1-a37e-0777c7b105f4}</Project>
       <Name>DevTools.Plugin</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
