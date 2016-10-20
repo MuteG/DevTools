@@ -9,7 +9,11 @@ namespace DevTools.Common.Log
 
         public DTLogger()
         {
-            this.logger = LogManager.GetCurrentClassLogger();
+#if DEBUG
+            this.logger = LogManager.GetLogger("Debug");
+#else
+            this.logger = LogManager.GetLogger("Release");
+#endif
         }
 
         public void Debug(string format, params object[] args)

@@ -16,7 +16,6 @@ namespace DevTools.Plugin.DBTool.Common
     internal class Command
     {
         public static DBToolConfig config;
-        private static string conn;
         private static List<string> paramsList = new List<string>();
         private static int maxParamLength = 0;
         private static Stopwatch watch = Stopwatch.StartNew();

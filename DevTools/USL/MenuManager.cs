@@ -64,7 +64,6 @@ namespace DevTools.USL
         {
             AddSeparatorMenuItem();
 
-            AddMenuItem("menuItemLog", "Log", typeof(FormLog));
             AddMenuItem("menuItemConfig", "设置", typeof(FormConfig));
             AddMenuItem("menuItemAbout", "关于", typeof(AboutBox));
 
