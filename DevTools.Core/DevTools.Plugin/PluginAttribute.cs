@@ -22,6 +22,10 @@
         /// 显示名称
         /// </summary>
         public string DisplayName { get; set; }
+
+        public Type ConfigType { get; set; }
+
+        public Type ConfigPanelType { get; set; }
         
         /// <summary>
         /// 用指定的属性来初始化Plugin特性的新实例
@@ -32,6 +36,8 @@
             this.Visible = visible;
             this.CanConfig = true; //默认可配置
             this.DisplayName = string.Empty;
+            this.ConfigType = null;
+            this.ConfigPanelType = null;
         }
     }
 }

@@ -1,0 +1,6 @@
+SELECT
+    NAME
+FROM
+    V$DATABASE
+ORDER BY
+    NAME

@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Drawing;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Windows.Forms;
-
 using DevTools.Language;
 
 namespace DevTools.Config.USL
@@ -22,16 +21,24 @@ namespace DevTools.Config.USL
             LoadConfigList();
             LoadLanguage();
         }
+
+        private List<ConfigPanelBase> configPanelList = new List<ConfigPanelBase>();
         
         private void LoadConfigList()
         {
+            configPanelList.Clear();
             foreach (ConfigBase config in ConfigManager.ConfigList)
             {
                 string moduleName = config.GetType().Assembly.GetName().Name;
-                int index = this.listBoxConfig.Items.Add(moduleName);
+                int index = this.listBoxConfig.Items.Add(ConfigManager.GetDisplayName(config));
                 ConfigPanelBase configPanel = ConfigManager.GetConfigPanel(config);
                 configPanel.Config = config;
                 this.panelConfig.Controls.Add(configPanel);
+                configPanelList.Add(configPanel);
+            }
+            if (ConfigManager.ConfigList.Count > 0)
+            {
+                this.listBoxConfig.SelectedIndex = 0;
             }
         }
         
@@ -40,11 +47,9 @@ namespace DevTools.Config.USL
             LanguageManager.GetString(this);
             LanguageManager.GetString(buttonSave);
             LanguageManager.GetString(buttonClose);
-            
-            foreach (var item in listBoxConfig.Items)
+
+            foreach (ConfigPanelBase configPanel in configPanelList)
             {
-                ConfigBase config = ConfigManager.GetConfig(item.ToString());
-                ConfigPanelBase configPanel = ConfigManager.GetConfigPanel(config);
                 configPanel.LoadLanguage();
             }
         }
@@ -53,9 +58,7 @@ namespace DevTools.Config.USL
         {
             if (this.listBoxConfig.SelectedIndex > -1)
             {
-                string moduleName = this.listBoxConfig.SelectedItem.ToString();
-                ConfigBase config = ConfigManager.GetConfig(moduleName);
-                ConfigPanelBase configPanel = ConfigManager.GetConfigPanel(config);
+                ConfigPanelBase configPanel = configPanelList[this.listBoxConfig.SelectedIndex];
                 configPanel.Show();
                 configPanel.BringToFront();
             }
@@ -63,8 +66,13 @@ namespace DevTools.Config.USL
         
         private void ButtonSaveClick(object sender, EventArgs e)
         {
+            foreach (ConfigPanelBase configPanel in configPanelList)
+            {
+                configPanel.Save();
+            }
             ConfigManager.Save();
             LoadLanguage();
+            MessageBox.Show("All configuration have been saved.");
         }
         
         private void FormConfigFormClosing(object sender, FormClosingEventArgs e)

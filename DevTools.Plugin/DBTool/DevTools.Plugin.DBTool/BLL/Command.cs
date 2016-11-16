@@ -6,10 +6,10 @@ using System.Text;
 using System.Windows.Forms;
 using DevTools.Plugin.DBTool.Data;
 using DevTools.Plugin.DBTool.Data.Operator;
-using DevTools.Plugin.DBTool.Config;
 using DevTools.Plugin.DBTool.Common.Generator;
 using DevTools.Common.Log;
 using DevTools.Plugin.DBTool.Properties;
+using DevTools.Plugin.DBTool.Core.Config;
 
 namespace DevTools.Plugin.DBTool.Common
 {

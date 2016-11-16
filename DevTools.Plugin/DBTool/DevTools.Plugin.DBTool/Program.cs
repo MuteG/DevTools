@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using DevTools.Plugin.DBTool.Core.Config;
 using DevTools.Plugin.DBTool.USL;
 
 namespace DevTools.Plugin.DBTool
@@ -7,7 +8,7 @@ namespace DevTools.Plugin.DBTool
     /// <summary>
     /// 模块入口
     /// </summary>
-    [Plugin(true, CanConfig = false, DisplayName = "数据库工具")]
+    [Plugin(true, CanConfig = true, ConfigType = typeof(DBToolConfig), ConfigPanelType = typeof(DBToolConfigPanel), DisplayName = "数据库工具")]
     public class Program : AbstractPlugins
     {
         public override void StartUp()

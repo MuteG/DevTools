@@ -40,6 +40,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.9.0.0, Culture=neutral, PublicKeyToken=5cded1a1a0a7b481, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\DockPanelSuite.2.10.0\lib\net40\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\AbstractCodeGenerator.cs" />
@@ -52,8 +56,6 @@
     <Compile Include="BLL\SqlScriptGenerator.cs" />
     <Compile Include="BLL\StoreProcedureHeaderGenerator.cs" />
     <Compile Include="BLL\StoreProcedureInputGenerator.cs" />
-    <Compile Include="Config\DBConnection.cs" />
-    <Compile Include="Config\DBToolConfig.cs" />
     <Compile Include="DAL\DBOperator.cs" />
     <Compile Include="Entiry\Constant.cs" />
     <Compile Include="Program.cs" />
@@ -97,6 +99,10 @@
       <Name>DevTools.Plugin</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\DevTools.Plugin.DBTool.Core\DevTools.Plugin.DBTool.Core.csproj">
+      <Project>{38bfe991-4ce5-4f9d-946e-68c6d243ee8e}</Project>
+      <Name>DevTools.Plugin.DBTool.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -106,11 +112,21 @@
     <EmbeddedResource Include="USL\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="USL\FormPrefix.en.resx">
+      <DependentUpon>FormPrefix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="USL\FormPrefix.ja-JP.resx">
+      <DependentUpon>FormPrefix.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="USL\FormPrefix.resx">
+      <DependentUpon>FormPrefix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="USL\FormPrefix.zh-CN.resx">
       <DependentUpon>FormPrefix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\SQL_GetDatabaseName.txt" />
   </ItemGroup>
   <ItemGroup>

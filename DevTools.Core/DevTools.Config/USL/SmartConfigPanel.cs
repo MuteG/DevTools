@@ -18,7 +18,11 @@ namespace DevTools.Config.USL
         protected override void ShowConfig(ConfigBase config)
         {
             //TODO : 根据config自动生成配置界面
-            base.ShowConfig(config);
+        }
+
+        protected override void SaveConfig(ConfigBase config)
+        {
+            throw new NotImplementedException();
         }
     }
 }

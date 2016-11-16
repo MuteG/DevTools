@@ -1,4 +1,4 @@
-﻿namespace DevTools.Common.Data
+﻿namespace DevTools.Plugin.DBTool.Core.Config
 {
     /// <summary>
     /// 数据库类型

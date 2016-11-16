@@ -41,21 +41,15 @@ namespace DevTools.Config.USL
             this.config = config;
             ShowConfig(config);
         }
-        
-        protected virtual void ShowConfig(ConfigBase config)
-        {
-            
-        }
+
+        protected virtual void ShowConfig(ConfigBase config) { }
         
         public void Save()
         {
-            SaveConfig(ref this.config);
+            SaveConfig(this.config);
         }
-        
-        protected virtual void SaveConfig(ref ConfigBase config)
-        {
-            
-        }
+
+        protected virtual void SaveConfig(ConfigBase config) { }
         
         public virtual void LoadLanguage()
         {

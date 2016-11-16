@@ -24,6 +24,7 @@ namespace DevTools.Config
         
         private static Dictionary<string, ConfigBase> configDict;
         private static Dictionary<string, ConfigPanelBase> configPanelDict;
+        private static Dictionary<string, string> configDisplayDict;
         
         private const string CONFIG_EXT = ".conf";
         private const string CONFIG_FOLDER = "config";
@@ -33,6 +34,7 @@ namespace DevTools.Config
             ConfigList = new List<ConfigBase>();
             configDict = new Dictionary<string, ConfigBase>();
             configPanelDict = new Dictionary<string, ConfigPanelBase>();
+            configDisplayDict = new Dictionary<string, string>();
             
             ConfigFolder = Path.Combine(Application.StartupPath, CONFIG_FOLDER);
             
@@ -69,7 +71,7 @@ namespace DevTools.Config
             ConfigBase config = GetConfigInstance(assembly);
             if (null != config)
             {
-                string key = assembly.GetName().Name;
+                string key = config.GetType().Assembly.GetName().Name;
                 
                 LoadConfig(ref config, key);
     
@@ -110,6 +112,10 @@ namespace DevTools.Config
                 {
                     Assembly pluginAssembly = plugin.GetType().Assembly;
                     LoadConfig(pluginAssembly);
+
+                    ConfigBase config = GetConfigInstance(pluginAssembly);
+                    string key = config.GetType().Assembly.GetName().Name;
+                    configDisplayDict[key] = plugin.DisplayName;
                 }
             }
         }
@@ -119,9 +125,14 @@ namespace DevTools.Config
             ConfigBase config = null;
             foreach (Type publicType in assembly.GetExportedTypes())
             {
-                if (publicType.IsSubclassOf(typeof(ConfigBase)))
+                if (typeof(IPlugin).IsAssignableFrom(publicType))
                 {
-                    config = Activator.CreateInstance(publicType) as ConfigBase;
+                    object[] attributes = publicType.GetCustomAttributes(typeof(PluginAttribute), false);
+                    if (attributes.Length > 0)
+                    {
+                        PluginAttribute attr = attributes[0] as PluginAttribute;
+                        config = Activator.CreateInstance(attr.ConfigType) as ConfigBase;
+                    }
                     break;
                 }
             }
@@ -133,9 +144,14 @@ namespace DevTools.Config
             ConfigPanelBase configPanel = null;
             foreach (Type publicType in assembly.GetExportedTypes())
             {
-                if (publicType.IsSubclassOf(typeof(ConfigPanelBase)))
+                if (typeof(IPlugin).IsAssignableFrom(publicType))
                 {
-                    configPanel = Activator.CreateInstance(publicType) as ConfigPanelBase;
+                    object[] attributes = publicType.GetCustomAttributes(typeof(PluginAttribute), false);
+                    if (attributes.Length > 0)
+                    {
+                        PluginAttribute attr = attributes[0] as PluginAttribute;
+                        configPanel = Activator.CreateInstance(attr.ConfigPanelType) as ConfigPanelBase;
+                    }
                     break;
                 }
             }
@@ -165,6 +181,12 @@ namespace DevTools.Config
                 configPanelDict.Add(key, configPanel);
             }
             return configPanel;
+        }
+
+        public static string GetDisplayName(ConfigBase config)
+        {
+            string key = config.GetType().Assembly.GetName().Name;
+            return configDisplayDict[key];
         }
         
         internal static ConfigBase GetConfig(string moduleName)
