@@ -39,7 +39,10 @@ namespace DevTools.Config.USL
         private void SetConfig(ConfigBase config)
         {
             this.config = config;
-            ShowConfig(config);
+            if (config != null)
+            {
+                ShowConfig(config);
+            }
         }
 
         protected virtual void ShowConfig(ConfigBase config) { }

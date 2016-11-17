@@ -29,10 +29,8 @@ namespace DevTools.Config.USL
             configPanelList.Clear();
             foreach (ConfigBase config in ConfigManager.ConfigList)
             {
-                string moduleName = config.GetType().Assembly.GetName().Name;
                 int index = this.listBoxConfig.Items.Add(ConfigManager.GetDisplayName(config.Key));
                 ConfigPanelBase configPanel = ConfigManager.GetConfigPanel(config.Key);
-                configPanel.Config = config;
                 configPanel.Dock = DockStyle.Fill;
                 this.panelConfig.Controls.Add(configPanel);
                 configPanelList.Add(configPanel);

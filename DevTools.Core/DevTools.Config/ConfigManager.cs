@@ -158,7 +158,12 @@ namespace DevTools.Config
 
         public static ConfigPanelBase GetConfigPanel(string key)
         {
-            return configPanelDict[key];
+            ConfigPanelBase panel = configPanelDict[key];
+            if (panel.Config == null)
+            {
+                panel.Config = GetConfig(key);
+            }
+            return panel;
         }
 
         public static string GetDisplayName(string key)
@@ -170,11 +175,16 @@ namespace DevTools.Config
         {
             foreach (ConfigBase config in configDict.Values)
             {
-                string configFileName = config.Key + CONFIG_EXT;
-                string configFile = Path.Combine(ConfigFolder, configFileName);
-                XMLHelper xml = new XMLHelper(configFile, true);
-                xml.Save(config);
+                Save(config);
             }
+        }
+
+        public static void Save(ConfigBase config)
+        {
+            string configFileName = config.Key + CONFIG_EXT;
+            string configFile = Path.Combine(ConfigFolder, configFileName);
+            XMLHelper xml = new XMLHelper(configFile, true);
+            xml.Save(config);
         }
     }
 }

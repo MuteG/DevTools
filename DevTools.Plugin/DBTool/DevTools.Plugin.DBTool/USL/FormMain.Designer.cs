@@ -32,11 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.cbxAddress = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.tbxUserName = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.tbxPassword = new System.Windows.Forms.TextBox();
-            this.chkSaveLogin = new System.Windows.Forms.CheckBox();
             this.btnConnect = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.cbxDatabaseName = new System.Windows.Forms.ComboBox();
@@ -68,6 +63,7 @@
             this.gbxOperateTarget = new System.Windows.Forms.GroupBox();
             this.gbxGenerateCode = new System.Windows.Forms.GroupBox();
             this.chkCutPrefix = new System.Windows.Forms.CheckBox();
+            this.btnConfig = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.gbxDatabaseConnection.SuspendLayout();
             this.gbxOperateTarget.SuspendLayout();
@@ -76,6 +72,9 @@
             // 
             // cbxAddress
             // 
+            this.cbxAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbxAddress.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxAddress.FormattingEnabled = true;
             this.cbxAddress.Location = new System.Drawing.Point(47, 19);
             this.cbxAddress.Name = "cbxAddress";
@@ -92,54 +91,10 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "地址";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(5, 47);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 12);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "用户名";
-            // 
-            // tbxUserName
-            // 
-            this.tbxUserName.Location = new System.Drawing.Point(47, 45);
-            this.tbxUserName.Name = "tbxUserName";
-            this.tbxUserName.Size = new System.Drawing.Size(139, 19);
-            this.tbxUserName.TabIndex = 3;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(5, 73);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(29, 12);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "密码";
-            // 
-            // tbxPassword
-            // 
-            this.tbxPassword.Location = new System.Drawing.Point(47, 70);
-            this.tbxPassword.Name = "tbxPassword";
-            this.tbxPassword.PasswordChar = '*';
-            this.tbxPassword.Size = new System.Drawing.Size(139, 19);
-            this.tbxPassword.TabIndex = 5;
-            // 
-            // chkSaveLogin
-            // 
-            this.chkSaveLogin.AutoSize = true;
-            this.chkSaveLogin.Checked = true;
-            this.chkSaveLogin.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSaveLogin.Location = new System.Drawing.Point(8, 100);
-            this.chkSaveLogin.Name = "chkSaveLogin";
-            this.chkSaveLogin.Size = new System.Drawing.Size(96, 16);
-            this.chkSaveLogin.TabIndex = 6;
-            this.chkSaveLogin.Text = "记住登录信息";
-            this.chkSaveLogin.UseVisualStyleBackColor = true;
-            // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(111, 96);
+            this.btnConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnConnect.Location = new System.Drawing.Point(111, 48);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(75, 23);
             this.btnConnect.TabIndex = 7;
@@ -397,17 +352,13 @@
             // gbxDatabaseConnection
             // 
             this.gbxDatabaseConnection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbxDatabaseConnection.Controls.Add(this.label2);
-            this.gbxDatabaseConnection.Controls.Add(this.label3);
+            this.gbxDatabaseConnection.Controls.Add(this.btnConfig);
             this.gbxDatabaseConnection.Controls.Add(this.cbxAddress);
-            this.gbxDatabaseConnection.Controls.Add(this.chkSaveLogin);
             this.gbxDatabaseConnection.Controls.Add(this.label1);
-            this.gbxDatabaseConnection.Controls.Add(this.tbxUserName);
             this.gbxDatabaseConnection.Controls.Add(this.btnConnect);
-            this.gbxDatabaseConnection.Controls.Add(this.tbxPassword);
             this.gbxDatabaseConnection.Location = new System.Drawing.Point(422, 10);
             this.gbxDatabaseConnection.Name = "gbxDatabaseConnection";
-            this.gbxDatabaseConnection.Size = new System.Drawing.Size(195, 126);
+            this.gbxDatabaseConnection.Size = new System.Drawing.Size(195, 78);
             this.gbxDatabaseConnection.TabIndex = 24;
             this.gbxDatabaseConnection.TabStop = false;
             this.gbxDatabaseConnection.Text = "数据库连接";
@@ -458,6 +409,17 @@
             this.chkCutPrefix.Text = "智能去前缀";
             this.chkCutPrefix.UseVisualStyleBackColor = true;
             // 
+            // btnConfig
+            // 
+            this.btnConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnConfig.Location = new System.Drawing.Point(30, 49);
+            this.btnConfig.Name = "btnConfig";
+            this.btnConfig.Size = new System.Drawing.Size(75, 23);
+            this.btnConfig.TabIndex = 8;
+            this.btnConfig.Text = "设定";
+            this.btnConfig.UseVisualStyleBackColor = true;
+            this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -493,11 +455,6 @@
 
         private System.Windows.Forms.ComboBox cbxAddress;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox tbxUserName;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox tbxPassword;
-        private System.Windows.Forms.CheckBox chkSaveLogin;
         private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox cbxDatabaseName;
@@ -529,6 +486,7 @@
         private System.Windows.Forms.GroupBox gbxOperateTarget;
         private System.Windows.Forms.GroupBox gbxGenerateCode;
         private System.Windows.Forms.CheckBox chkCutPrefix;
+        private System.Windows.Forms.Button btnConfig;
     }
 }
 
