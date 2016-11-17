@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-
+using DevTools.Common.Log;
 using DevTools.USL;
 
 namespace DevTools
@@ -14,6 +13,8 @@ namespace DevTools
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+            Application.ThreadException += Application_ThreadException;
 
             bool isFirstInstance;
             using (Mutex mtx = new Mutex(true, "DevTools", out isFirstInstance))
@@ -23,18 +24,28 @@ namespace DevTools
                     try
                     {
                         Config.ConfigBase config = new DevToolsConfig();
-                        Config.ConfigManager.GetConfig(ref config);
+                        config = Config.ConfigManager.GetConfig(config.Key);
                         Language.LanguageManager.Code = (config as DevToolsConfig).Language;
+                        using (MenuManager menu = new MenuManager())
+                        {
+                            menu.Show();
+                            Application.Run();
+                        }
                     }
                     catch { }
-                    using (MenuManager menu = new MenuManager())
+                    finally
                     {
-                        menu.Show();
-                        Application.Run();
                         mtx.ReleaseMutex();
                     }
                 }
             }
+        }
+
+        static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
+        {
+            DTLogger logger = new DTLogger();
+            logger.Error(e.Exception.Message);
+            logger.Error(e.Exception.StackTrace);
         }
     }
 }

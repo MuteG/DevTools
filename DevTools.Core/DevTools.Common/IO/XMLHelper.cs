@@ -1,10 +1,11 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
 namespace DevTools.Common.IO
 {
-    public class XMLHelper<T> where T : class, new()
+    public class XMLHelper
     {
         public string XMLFile { get; private set; }
 
@@ -21,7 +22,7 @@ namespace DevTools.Common.IO
         {
         }
 
-        public T Load()
+        public object Load(Type type)
         {
             Stream readStream = Stream.Null;
             if (this.IsSerurity)
@@ -36,8 +37,8 @@ namespace DevTools.Common.IO
             {
                 using (XmlReader reader = XmlReader.Create(readStream))
                 {
-                    XmlSerializer xs = XmlSerializer.FromTypes(new[] { typeof(T) })[0];
-                    return xs.Deserialize(reader) as T;
+                    XmlSerializer xs = XmlSerializer.FromTypes(new[] { type })[0];
+                    return xs.Deserialize(reader);
                 }
             }
             finally
@@ -49,7 +50,7 @@ namespace DevTools.Common.IO
             }
         }
 
-        public void Save(T obj)
+        public void Save(object obj)
         {
             if (!File.Exists(this.XMLFile))
             {
@@ -68,7 +69,7 @@ namespace DevTools.Common.IO
             {
                 using (XmlWriter writer = XmlWriter.Create(writeStream))
                 {
-                    XmlSerializer xs = XmlSerializer.FromTypes(new[] { typeof(T) })[0];
+                    XmlSerializer xs = XmlSerializer.FromTypes(new[] { obj.GetType() })[0];
                     xs.Serialize(writer, obj);
                 }
             }

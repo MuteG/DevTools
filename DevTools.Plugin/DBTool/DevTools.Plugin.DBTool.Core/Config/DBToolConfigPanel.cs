@@ -68,6 +68,10 @@ namespace DevTools.Plugin.DBTool.Core.Config
 
         private void comboBoxName_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (comboBoxName.SelectedItem == null)
+            {
+                return;
+            }
             DBToolConnection conn = comboBoxName.SelectedItem as DBToolConnection;
             textBoxDataSource.Text = conn.DataSource;
             textBoxUsername.Text = conn.Username;

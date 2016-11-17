@@ -103,6 +103,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="USL\DevToolsConfigPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="USL\DevToolsConfigPanel.Designer.cs">
+      <DependentUpon>DevToolsConfigPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="USL\MenuManager.cs" />
   </ItemGroup>
   <ItemGroup>

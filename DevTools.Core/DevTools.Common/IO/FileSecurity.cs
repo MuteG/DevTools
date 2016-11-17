@@ -26,13 +26,7 @@ namespace DevTools.Common.IO
                 content = reader.ReadToEnd();
             }
 
-            RijndaelManaged security = new RijndaelManaged();
-            security.IV = IV;
-            security.Key = KEY;
-
-            FileStream writeSteam = File.OpenWrite(file);
-            CryptoStream cryptoStream = new CryptoStream(writeSteam,
-                security.CreateEncryptor(), CryptoStreamMode.Write);
+            CryptoStream cryptoStream = GetCryptoStreamForWrite(file);
             using (StreamWriter writer = new StreamWriter(cryptoStream))
             {
                 writer.Write(content);
@@ -54,13 +48,7 @@ namespace DevTools.Common.IO
 
         public static void DecryptFile(string file)
         {
-            RijndaelManaged security = new RijndaelManaged();
-            security.IV = IV;
-            security.Key = KEY;
-
-            FileStream readStream = File.OpenRead(file);
-            CryptoStream cryptoStream = new CryptoStream(readStream,
-                security.CreateDecryptor(), CryptoStreamMode.Read);
+            CryptoStream cryptoStream = GetCryptoStreamForRead(file);
             string content = string.Empty;
             using (StreamReader reader = new StreamReader(cryptoStream))
             {

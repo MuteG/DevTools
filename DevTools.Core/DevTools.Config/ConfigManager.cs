@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-
+using DevTools.Common.IO;
 using DevTools.Config.USL;
 using DevTools.Plugin;
-using YAXLib;
 
 namespace DevTools.Config
 {
@@ -19,8 +19,14 @@ namespace DevTools.Config
         /// 获取配置文件所在文件夹的绝对路径
         /// </summary>
         public static string ConfigFolder { get; private set; }
-        
-        internal static List<ConfigBase> ConfigList { get; private set; }
+
+        internal static List<ConfigBase> ConfigList
+        {
+            get
+            {
+                return configDict.Values.ToList();
+            }
+        }
         
         private static Dictionary<string, ConfigBase> configDict;
         private static Dictionary<string, ConfigPanelBase> configPanelDict;
@@ -31,54 +37,35 @@ namespace DevTools.Config
         
         static ConfigManager()
         {
-            ConfigList = new List<ConfigBase>();
             configDict = new Dictionary<string, ConfigBase>();
             configPanelDict = new Dictionary<string, ConfigPanelBase>();
             configDisplayDict = new Dictionary<string, string>();
             
             ConfigFolder = Path.Combine(Application.StartupPath, CONFIG_FOLDER);
-            
-            CheckConfigFolder();
-            
-            LoadConfig();
-        }
-        
-        private static void CheckConfigFolder()
-        {
+
             if (!Directory.Exists(ConfigFolder))
             {
                 Directory.CreateDirectory(ConfigFolder);
             }
-        }
-        
-        private static void LoadConfig()
-        {
-            configDict.Clear();
-            
+
             LoadAppConfig();
-            
+
             LoadPluginConfig();
         }
         
         private static void LoadAppConfig()
         {
             Assembly appAssembly = Assembly.GetEntryAssembly();
-            LoadConfig(appAssembly);
-        }
-        
-        private static void LoadConfig(Assembly assembly)
-        {
-            ConfigBase config = GetConfigInstance(assembly);
+            ConfigBase config;
+            ConfigPanelBase configPanel;
+            GetAssemblyConfig(appAssembly, out config, out configPanel);
             if (null != config)
             {
-                string key = config.GetType().Assembly.GetName().Name;
-                
-                LoadConfig(ref config, key);
-    
-                configDict.Add(key, config);
-                ConfigList.Add(config);
-                
-                ConfigPanelBase configPanel = GetConfigPanelInstance(assembly);
+                string key = config.Key;
+
+                configDict[key] = config;
+                configDisplayDict[key] = "Main";
+
                 if (null != configPanel)
                 {
                     configPanel.Config = config;
@@ -87,19 +74,43 @@ namespace DevTools.Config
             }
         }
 
-        private static void LoadConfig(ref ConfigBase config, string key)
+        private static void GetAssemblyConfig(Assembly assembly,
+            out ConfigBase config, out ConfigPanelBase configPanel)
+        {
+            config = null;
+            configPanel = null;
+            foreach (Type type in assembly.GetExportedTypes())
+            {
+                if (config == null && type.IsSubclassOf(typeof(ConfigBase)))
+                {
+                    config = Activator.CreateInstance(type) as ConfigBase;
+                    config = LoadConfig(config, config.Key);
+                }
+                if (configPanel == null && type.IsSubclassOf(typeof(ConfigPanelBase)))
+                {
+                    configPanel = Activator.CreateInstance(type) as ConfigPanelBase;
+                }
+                if (config != null && configPanel != null)
+                {
+                    break;
+                }
+            }
+        }
+
+        private static ConfigBase LoadConfig(ConfigBase config, string key)
         {
             string configFileName = key + CONFIG_EXT;
             string configFile = Path.Combine(ConfigFolder, configFileName);
-            YAXSerializer serializer = new YAXSerializer(config.GetType());
+            XMLHelper xml = new XMLHelper(configFile, true);
             if (File.Exists(configFile))
             {
-                config = serializer.DeserializeFromFile(configFile) as ConfigBase;
+                config = xml.Load(config.GetType()) as ConfigBase;
             }
             else
             {
-                serializer.SerializeToFile(config, configFile);
+                xml.Save(config);
             }
+            return config;
         }
 
         private static void LoadPluginConfig()
@@ -110,105 +121,59 @@ namespace DevTools.Config
             {
                 if (plugin.CanConfig)
                 {
-                    Assembly pluginAssembly = plugin.GetType().Assembly;
-                    LoadConfig(pluginAssembly);
-
-                    ConfigBase config = GetConfigInstance(pluginAssembly);
-                    string key = config.GetType().Assembly.GetName().Name;
+                    ConfigBase config;
+                    ConfigPanelBase configPanel;
+                    GetPluginConfigInstance(plugin, out config, out configPanel);
+                    string key = config.Key;
+                    configDict[key] = config;
                     configDisplayDict[key] = plugin.DisplayName;
-                }
-            }
-        }
-        
-        private static ConfigBase GetConfigInstance(Assembly assembly)
-        {
-            ConfigBase config = null;
-            foreach (Type publicType in assembly.GetExportedTypes())
-            {
-                if (typeof(IPlugin).IsAssignableFrom(publicType))
-                {
-                    object[] attributes = publicType.GetCustomAttributes(typeof(PluginAttribute), false);
-                    if (attributes.Length > 0)
+                    if (null != configPanel)
                     {
-                        PluginAttribute attr = attributes[0] as PluginAttribute;
-                        config = Activator.CreateInstance(attr.ConfigType) as ConfigBase;
+                        configPanel.Config = config;
+                        configPanelDict[key] = configPanel;
                     }
-                    break;
                 }
             }
-            return config;
         }
         
-        private static ConfigPanelBase GetConfigPanelInstance(Assembly assembly)
+        private static void GetPluginConfigInstance(IPlugin plugin,
+            out ConfigBase config, out ConfigPanelBase configPanel)
         {
-            ConfigPanelBase configPanel = null;
-            foreach (Type publicType in assembly.GetExportedTypes())
+            config = null;
+            configPanel = null;
+            object[] attributes = plugin.GetType().GetCustomAttributes(typeof(PluginAttribute), false);
+            if (attributes.Length > 0)
             {
-                if (typeof(IPlugin).IsAssignableFrom(publicType))
-                {
-                    object[] attributes = publicType.GetCustomAttributes(typeof(PluginAttribute), false);
-                    if (attributes.Length > 0)
-                    {
-                        PluginAttribute attr = attributes[0] as PluginAttribute;
-                        configPanel = Activator.CreateInstance(attr.ConfigPanelType) as ConfigPanelBase;
-                    }
-                    break;
-                }
+                PluginAttribute attr = attributes[0] as PluginAttribute;
+                config = Activator.CreateInstance(attr.ConfigType) as ConfigBase;
+                config = LoadConfig(config, config.Key);
+                configPanel = Activator.CreateInstance(attr.ConfigPanelType) as ConfigPanelBase;
             }
-            return configPanel;
-        }
-        
-        public static void GetConfig(ref ConfigBase config)
-        {
-            string key = config.GetType().Assembly.GetName().Name;
-            if (configDict.ContainsKey(key))
-            {
-                config = configDict[key];
-            }
-        }
-        
-        public static ConfigPanelBase GetConfigPanel(ConfigBase config)
-        {
-            ConfigPanelBase configPanel = null;
-            string key = config.GetType().Assembly.GetName().Name;
-            if (configPanelDict.ContainsKey(key))
-            {
-                configPanel = configPanelDict[key];
-            }
-            else
-            {
-                configPanel = new SmartConfigPanel() { Config = config };
-                configPanelDict.Add(key, configPanel);
-            }
-            return configPanel;
         }
 
-        public static string GetDisplayName(ConfigBase config)
+        public static ConfigBase GetConfig(string key)
         {
-            string key = config.GetType().Assembly.GetName().Name;
+            return configDict[key];
+        }
+
+        public static ConfigPanelBase GetConfigPanel(string key)
+        {
+            return configPanelDict[key];
+        }
+
+        public static string GetDisplayName(string key)
+        {
             return configDisplayDict[key];
         }
-        
-        internal static ConfigBase GetConfig(string moduleName)
-        {
-            ConfigBase config = null;
-            string key = moduleName;
-            if (configDict.ContainsKey(key))
-            {
-                config = configDict[key];
-            }
-            return config;
-        }
-        
+                
         public static void Save()
         {
             foreach (ConfigBase config in configDict.Values)
             {
-                string key = config.GetType().Assembly.GetName().Name;
-                string configFileName = key + CONFIG_EXT;
+                string configFileName = config.Key + CONFIG_EXT;
                 string configFile = Path.Combine(ConfigFolder, configFileName);
-                YAXSerializer serializer = new YAXSerializer(config.GetType());
-                serializer.SerializeToFile(config, configFile);
+                XMLHelper xml = new XMLHelper(configFile, true);
+                xml.Save(config);
             }
         }
     }
