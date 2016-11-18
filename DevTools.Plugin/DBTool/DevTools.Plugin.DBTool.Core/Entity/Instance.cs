@@ -16,7 +16,7 @@ namespace DevTools.Plugin.DBTool.Core.Entity
                 {
                     databases = new List<Database>();
                     DBBrowserLoader loader = new DBBrowserLoader();
-                    IDBBrowsable browser = loader.GetBrowser(conn.Type);
+                    IDBBrowsable browser = loader.GetBrowser(conn);
                     foreach (string databaseName in browser.GetDatabaseNames())
                     {
                         databases.Add(new Database(conn) { Name = databaseName });

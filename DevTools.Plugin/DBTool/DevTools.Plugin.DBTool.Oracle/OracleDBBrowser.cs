@@ -81,7 +81,7 @@ namespace DevTools.Plugin.DBTool.Oracle
                 Index index = new Index();
                 while (reader.Read())
                 {
-                    string name = reader["Name"] as string;
+                    string name = reader["IndexName"] as string;
                     if (string.Compare(name, index.Name) != 0)
                     {
                         index = new Index();

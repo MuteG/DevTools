@@ -22,7 +22,7 @@ namespace DevTools.Plugin.DBTool.Core.Data
             set
             {
                 dbToolConn = value;
-                CreateConnection(dbToolConn);
+                conn = CreateConnection(dbToolConn);
             }
         }
 
@@ -59,6 +59,7 @@ namespace DevTools.Plugin.DBTool.Core.Data
             {
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = sql;
+                cmd.Parameters.AddRange(parmeters);
                 return cmd.ExecuteReader() as TReader;
             }
         }

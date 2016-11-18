@@ -65,6 +65,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="USL\DataObjectTree.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="USL\DataObjectTree.Designer.cs">
+      <DependentUpon>DataObjectTree.cs</DependentUpon>
+    </Compile>
     <Compile Include="USL\FormConfig.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,6 +120,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="USL\DataObjectTree.resx">
+      <DependentUpon>DataObjectTree.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="USL\FormConfig.resx">
       <DependentUpon>FormConfig.cs</DependentUpon>
@@ -173,6 +182,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Template_StoreProcedureHeader.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ActionAdd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ActionRemove.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\database.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

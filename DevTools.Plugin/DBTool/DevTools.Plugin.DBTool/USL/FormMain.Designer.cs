@@ -60,14 +60,21 @@
             this.btnGenerateCSharp = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.gbxDatabaseConnection = new System.Windows.Forms.GroupBox();
+            this.btnConfig = new System.Windows.Forms.Button();
             this.gbxOperateTarget = new System.Windows.Forms.GroupBox();
             this.gbxGenerateCode = new System.Windows.Forms.GroupBox();
             this.chkCutPrefix = new System.Windows.Forms.CheckBox();
-            this.btnConfig = new System.Windows.Forms.Button();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.splitter1 = new System.Windows.Forms.Splitter();
+            this.dataObjectTree = new DevTools.Plugin.DBTool.USL.DataObjectTree();
             this.contextMenuStrip1.SuspendLayout();
             this.gbxDatabaseConnection.SuspendLayout();
             this.gbxOperateTarget.SuspendLayout();
             this.gbxGenerateCode.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // cbxAddress
@@ -78,7 +85,7 @@
             this.cbxAddress.FormattingEnabled = true;
             this.cbxAddress.Location = new System.Drawing.Point(47, 19);
             this.cbxAddress.Name = "cbxAddress";
-            this.cbxAddress.Size = new System.Drawing.Size(139, 20);
+            this.cbxAddress.Size = new System.Drawing.Size(155, 20);
             this.cbxAddress.TabIndex = 0;
             this.cbxAddress.SelectedIndexChanged += new System.EventHandler(this.cbxAddress_SelectedIndexChanged);
             // 
@@ -94,7 +101,7 @@
             // btnConnect
             // 
             this.btnConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnConnect.Location = new System.Drawing.Point(111, 48);
+            this.btnConnect.Location = new System.Drawing.Point(127, 48);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(75, 23);
             this.btnConnect.TabIndex = 7;
@@ -186,9 +193,9 @@
             this.lstDatabaseStructure.ContextMenuStrip = this.contextMenuStrip1;
             this.lstDatabaseStructure.FullRowSelect = true;
             this.lstDatabaseStructure.GridLines = true;
-            this.lstDatabaseStructure.Location = new System.Drawing.Point(10, 10);
+            this.lstDatabaseStructure.Location = new System.Drawing.Point(6, 3);
             this.lstDatabaseStructure.Name = "lstDatabaseStructure";
-            this.lstDatabaseStructure.Size = new System.Drawing.Size(406, 400);
+            this.lstDatabaseStructure.Size = new System.Drawing.Size(437, 483);
             this.lstDatabaseStructure.TabIndex = 15;
             this.lstDatabaseStructure.UseCompatibleStateImageBehavior = false;
             this.lstDatabaseStructure.View = System.Windows.Forms.View.Details;
@@ -248,9 +255,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbLogList.BackColor = System.Drawing.Color.LightGoldenrodYellow;
             this.rtbLogList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtbLogList.Location = new System.Drawing.Point(10, 416);
+            this.rtbLogList.Location = new System.Drawing.Point(6, 492);
             this.rtbLogList.Name = "rtbLogList";
-            this.rtbLogList.Size = new System.Drawing.Size(406, 99);
+            this.rtbLogList.Size = new System.Drawing.Size(459, 99);
             this.rtbLogList.TabIndex = 16;
             this.rtbLogList.Text = "";
             // 
@@ -269,7 +276,7 @@
             // btnClearLog
             // 
             this.btnClearLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClearLog.Location = new System.Drawing.Point(453, 492);
+            this.btnClearLog.Location = new System.Drawing.Point(504, 568);
             this.btnClearLog.Name = "btnClearLog";
             this.btnClearLog.Size = new System.Drawing.Size(75, 23);
             this.btnClearLog.TabIndex = 18;
@@ -280,7 +287,7 @@
             // btnExit
             // 
             this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExit.Location = new System.Drawing.Point(533, 492);
+            this.btnExit.Location = new System.Drawing.Point(585, 568);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(75, 23);
             this.btnExit.TabIndex = 19;
@@ -356,12 +363,23 @@
             this.gbxDatabaseConnection.Controls.Add(this.cbxAddress);
             this.gbxDatabaseConnection.Controls.Add(this.label1);
             this.gbxDatabaseConnection.Controls.Add(this.btnConnect);
-            this.gbxDatabaseConnection.Location = new System.Drawing.Point(422, 10);
+            this.gbxDatabaseConnection.Location = new System.Drawing.Point(449, 3);
             this.gbxDatabaseConnection.Name = "gbxDatabaseConnection";
-            this.gbxDatabaseConnection.Size = new System.Drawing.Size(195, 78);
+            this.gbxDatabaseConnection.Size = new System.Drawing.Size(211, 78);
             this.gbxDatabaseConnection.TabIndex = 24;
             this.gbxDatabaseConnection.TabStop = false;
             this.gbxDatabaseConnection.Text = "数据库连接";
+            // 
+            // btnConfig
+            // 
+            this.btnConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnConfig.Location = new System.Drawing.Point(46, 49);
+            this.btnConfig.Name = "btnConfig";
+            this.btnConfig.Size = new System.Drawing.Size(75, 23);
+            this.btnConfig.TabIndex = 8;
+            this.btnConfig.Text = "设定";
+            this.btnConfig.UseVisualStyleBackColor = true;
+            this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
             // 
             // gbxOperateTarget
             // 
@@ -375,7 +393,7 @@
             this.gbxOperateTarget.Controls.Add(this.label7);
             this.gbxOperateTarget.Controls.Add(this.label5);
             this.gbxOperateTarget.Controls.Add(this.btnRefresh);
-            this.gbxOperateTarget.Location = new System.Drawing.Point(422, 142);
+            this.gbxOperateTarget.Location = new System.Drawing.Point(465, 87);
             this.gbxOperateTarget.Name = "gbxOperateTarget";
             this.gbxOperateTarget.Size = new System.Drawing.Size(195, 153);
             this.gbxOperateTarget.TabIndex = 25;
@@ -390,7 +408,7 @@
             this.gbxGenerateCode.Controls.Add(this.chkHead);
             this.gbxGenerateCode.Controls.Add(this.btnGenerateScript);
             this.gbxGenerateCode.Controls.Add(this.btnGenerateCSharp);
-            this.gbxGenerateCode.Location = new System.Drawing.Point(422, 301);
+            this.gbxGenerateCode.Location = new System.Drawing.Point(465, 246);
             this.gbxGenerateCode.Name = "gbxGenerateCode";
             this.gbxGenerateCode.Size = new System.Drawing.Size(195, 111);
             this.gbxGenerateCode.TabIndex = 26;
@@ -409,31 +427,76 @@
             this.chkCutPrefix.Text = "智能去前缀";
             this.chkCutPrefix.UseVisualStyleBackColor = true;
             // 
-            // btnConfig
+            // menuStrip1
             // 
-            this.btnConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnConfig.Location = new System.Drawing.Point(30, 49);
-            this.btnConfig.Name = "btnConfig";
-            this.btnConfig.Size = new System.Drawing.Size(75, 23);
-            this.btnConfig.TabIndex = 8;
-            this.btnConfig.Text = "设定";
-            this.btnConfig.UseVisualStyleBackColor = true;
-            this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(923, 24);
+            this.menuStrip1.TabIndex = 27;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Location = new System.Drawing.Point(0, 643);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(923, 22);
+            this.statusStrip1.TabIndex = 28;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(923, 25);
+            this.toolStrip1.TabIndex = 29;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.rtbLogList);
+            this.panel1.Controls.Add(this.btnClearLog);
+            this.panel1.Controls.Add(this.btnExit);
+            this.panel1.Controls.Add(this.lstDatabaseStructure);
+            this.panel1.Controls.Add(this.gbxDatabaseConnection);
+            this.panel1.Controls.Add(this.gbxGenerateCode);
+            this.panel1.Controls.Add(this.gbxOperateTarget);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(260, 49);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(663, 594);
+            this.panel1.TabIndex = 30;
+            // 
+            // splitter1
+            // 
+            this.splitter1.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.splitter1.Location = new System.Drawing.Point(257, 49);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(3, 594);
+            this.splitter1.TabIndex = 28;
+            this.splitter1.TabStop = false;
+            // 
+            // dataObjectTree
+            // 
+            this.dataObjectTree.Dock = System.Windows.Forms.DockStyle.Left;
+            this.dataObjectTree.Location = new System.Drawing.Point(0, 49);
+            this.dataObjectTree.Name = "dataObjectTree";
+            this.dataObjectTree.Size = new System.Drawing.Size(257, 594);
+            this.dataObjectTree.TabIndex = 27;
             // 
             // FormMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(629, 527);
-            this.Controls.Add(this.lstDatabaseStructure);
-            this.Controls.Add(this.gbxGenerateCode);
-            this.Controls.Add(this.gbxOperateTarget);
-            this.Controls.Add(this.gbxDatabaseConnection);
-            this.Controls.Add(this.btnClearLog);
-            this.Controls.Add(this.rtbLogList);
-            this.Controls.Add(this.btnExit);
+            this.ClientSize = new System.Drawing.Size(923, 665);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.splitter1);
+            this.Controls.Add(this.dataObjectTree);
+            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "数据库脚本生成工具";
@@ -447,7 +510,9 @@
             this.gbxOperateTarget.PerformLayout();
             this.gbxGenerateCode.ResumeLayout(false);
             this.gbxGenerateCode.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -487,6 +552,12 @@
         private System.Windows.Forms.GroupBox gbxGenerateCode;
         private System.Windows.Forms.CheckBox chkCutPrefix;
         private System.Windows.Forms.Button btnConfig;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.Panel panel1;
+        private DataObjectTree dataObjectTree;
+        private System.Windows.Forms.Splitter splitter1;
     }
 }
 

@@ -1,4 +1,3 @@
--- 0ÅFï\ñº
 SELECT
     ATCOL.COLUMN_ID     AS "ID"
     , ATCOL.COLUMN_NAME AS "Name"

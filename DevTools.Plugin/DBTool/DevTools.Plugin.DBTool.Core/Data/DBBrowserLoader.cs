@@ -39,6 +39,17 @@ namespace DevTools.Plugin.DBTool.Core.Data
             return Browsers.FirstOrDefault(b => b.DatabaseType == type);
         }
 
+        public IDBBrowsable GetBrowser(DBToolConnection conn)
+        {
+            Load();
+            IDBBrowsable browser = Browsers.FirstOrDefault(b => b.DatabaseType == conn.Type);
+            if (browser != null)
+            {
+                browser.Connection = conn;
+            }
+            return browser;
+        }
+
         public void Dispose()
         {
             foreach (IDisposable browser in this.Browsers)

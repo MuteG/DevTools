@@ -18,7 +18,7 @@ namespace DevTools.Plugin.DBTool.Core.Entity
                 {
                     tables = new List<Table>();
                     DBBrowserLoader loader = new DBBrowserLoader();
-                    IDBBrowsable browser = loader.GetBrowser(conn.Type);
+                    IDBBrowsable browser = loader.GetBrowser(conn);
                     foreach (string tableName in browser.GetTableNames(Name))
                     {
                         tables.Add(new Table(conn) { Name = tableName });

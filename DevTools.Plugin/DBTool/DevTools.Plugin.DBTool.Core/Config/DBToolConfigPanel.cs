@@ -87,8 +87,7 @@ namespace DevTools.Plugin.DBTool.Core.Config
             DBToolConnection conn = testConfig.Connections[0];
 
             DBBrowserLoader loader = new DBBrowserLoader();
-            IDBBrowsable browser = loader.GetBrowser(conn.Type);
-            browser.Connection = conn;
+            IDBBrowsable browser = loader.GetBrowser(conn);
             bool testSuccessed = browser.TestConnection();
             if (testSuccessed)
             {

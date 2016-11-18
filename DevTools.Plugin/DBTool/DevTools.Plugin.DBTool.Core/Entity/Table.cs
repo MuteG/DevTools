@@ -19,7 +19,7 @@ namespace DevTools.Plugin.DBTool.Core.Entity
                 {
                     columns = new List<Column>();
                     DBBrowserLoader loader = new DBBrowserLoader();
-                    IDBBrowsable browser = loader.GetBrowser(conn.Type);
+                    IDBBrowsable browser = loader.GetBrowser(conn);
                     columns = browser.GetColumns(Name);
                 }
                 return columns;
@@ -36,10 +36,10 @@ namespace DevTools.Plugin.DBTool.Core.Entity
                 {
                     indexes = new List<Index>();
                     DBBrowserLoader loader = new DBBrowserLoader();
-                    IDBBrowsable browser = loader.GetBrowser(conn.Type);
+                    IDBBrowsable browser = loader.GetBrowser(conn);
                     indexes = browser.GetIndexes(Name);
                 }
-                return Indexes;
+                return indexes;
             }
         }
 

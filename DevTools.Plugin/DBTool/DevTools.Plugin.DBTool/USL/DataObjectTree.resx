@@ -117,53 +117,66 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Template_CSharpStoreProcedure_Body" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Template_CSharpStoreProcedure_Body.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="Template_StoreProcedureHeader" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Template_StoreProcedureHeader.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="SQL_GetDatabaseName" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SQL_GetDatabaseName.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
-  </data>
-  <data name="Template_StoreProcedureBody" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Template_StoreProcedureBody.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
-  </data>
-  <data name="SQL_GetTableIndex" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SQL_GetTableIndex.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="Template_CSharpClassBody" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Template_CSharpClassBody.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
-  </data>
-  <data name="Template_CSharpClassEqualsProperties" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Template_CSharpClassEqualsProperties.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
-  </data>
-  <data name="ActionAdd" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ActionAdd.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SQL_GetTableColumns" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SQL_GetTableColumns.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="SQL_GetTableName" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SQL_GetTableName.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
-  </data>
-  <data name="Template_CSharpClassEquals" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Template_CSharpClassEquals.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="Template_CSharpProperty" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Template_CSharpProperty.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="SQL_GetStoreProcedureName" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SQL_GetStoreProcedureName.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
-  </data>
-  <data name="ActionRemove" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ActionRemove.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Template_CSharpStoreProcedure_Parameter" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Template_CSharpStoreProcedure_Parameter.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
-  </data>
-  <data name="database" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\database.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="imageList1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>127, 17</value>
+  </metadata>
+  <data name="imageList1.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
+        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
+        ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAABS
+        CwAAAk1TRnQBSQFMAgEBBQEAARABAAEQAQABEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        AwABQAMAASADAAEBAQABCAYAAQgYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
+        AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
+        AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
+        AWYDAAGZAwABzAIAATMDAAIzAgABMwFmAgABMwGZAgABMwHMAgABMwH/AgABZgMAAWYBMwIAAmYCAAFm
+        AZkCAAFmAcwCAAFmAf8CAAGZAwABmQEzAgABmQFmAgACmQIAAZkBzAIAAZkB/wIAAcwDAAHMATMCAAHM
+        AWYCAAHMAZkCAALMAgABzAH/AgAB/wFmAgAB/wGZAgAB/wHMAQABMwH/AgAB/wEAATMBAAEzAQABZgEA
+        ATMBAAGZAQABMwEAAcwBAAEzAQAB/wEAAf8BMwIAAzMBAAIzAWYBAAIzAZkBAAIzAcwBAAIzAf8BAAEz
+        AWYCAAEzAWYBMwEAATMCZgEAATMBZgGZAQABMwFmAcwBAAEzAWYB/wEAATMBmQIAATMBmQEzAQABMwGZ
+        AWYBAAEzApkBAAEzAZkBzAEAATMBmQH/AQABMwHMAgABMwHMATMBAAEzAcwBZgEAATMBzAGZAQABMwLM
+        AQABMwHMAf8BAAEzAf8BMwEAATMB/wFmAQABMwH/AZkBAAEzAf8BzAEAATMC/wEAAWYDAAFmAQABMwEA
+        AWYBAAFmAQABZgEAAZkBAAFmAQABzAEAAWYBAAH/AQABZgEzAgABZgIzAQABZgEzAWYBAAFmATMBmQEA
+        AWYBMwHMAQABZgEzAf8BAAJmAgACZgEzAQADZgEAAmYBmQEAAmYBzAEAAWYBmQIAAWYBmQEzAQABZgGZ
+        AWYBAAFmApkBAAFmAZkBzAEAAWYBmQH/AQABZgHMAgABZgHMATMBAAFmAcwBmQEAAWYCzAEAAWYBzAH/
+        AQABZgH/AgABZgH/ATMBAAFmAf8BmQEAAWYB/wHMAQABzAEAAf8BAAH/AQABzAEAApkCAAGZATMBmQEA
+        AZkBAAGZAQABmQEAAcwBAAGZAwABmQIzAQABmQEAAWYBAAGZATMBzAEAAZkBAAH/AQABmQFmAgABmQFm
+        ATMBAAGZATMBZgEAAZkBZgGZAQABmQFmAcwBAAGZATMB/wEAApkBMwEAApkBZgEAA5kBAAKZAcwBAAKZ
+        Af8BAAGZAcwCAAGZAcwBMwEAAWYBzAFmAQABmQHMAZkBAAGZAswBAAGZAcwB/wEAAZkB/wIAAZkB/wEz
+        AQABmQHMAWYBAAGZAf8BmQEAAZkB/wHMAQABmQL/AQABzAMAAZkBAAEzAQABzAEAAWYBAAHMAQABmQEA
+        AcwBAAHMAQABmQEzAgABzAIzAQABzAEzAWYBAAHMATMBmQEAAcwBMwHMAQABzAEzAf8BAAHMAWYCAAHM
+        AWYBMwEAAZkCZgEAAcwBZgGZAQABzAFmAcwBAAGZAWYB/wEAAcwBmQIAAcwBmQEzAQABzAGZAWYBAAHM
+        ApkBAAHMAZkBzAEAAcwBmQH/AQACzAIAAswBMwEAAswBZgEAAswBmQEAA8wBAALMAf8BAAHMAf8CAAHM
+        Af8BMwEAAZkB/wFmAQABzAH/AZkBAAHMAf8BzAEAAcwC/wEAAcwBAAEzAQAB/wEAAWYBAAH/AQABmQEA
+        AcwBMwIAAf8CMwEAAf8BMwFmAQAB/wEzAZkBAAH/ATMBzAEAAf8BMwH/AQAB/wFmAgAB/wFmATMBAAHM
+        AmYBAAH/AWYBmQEAAf8BZgHMAQABzAFmAf8BAAH/AZkCAAH/AZkBMwEAAf8BmQFmAQAB/wKZAQAB/wGZ
+        AcwBAAH/AZkB/wEAAf8BzAIAAf8BzAEzAQAB/wHMAWYBAAH/AcwBmQEAAf8CzAEAAf8BzAH/AQAC/wEz
+        AQABzAH/AWYBAAL/AZkBAAL/AcwBAAJmAf8BAAFmAf8BZgEAAWYC/wEAAf8CZgEAAf8BZgH/AQAC/wFm
+        AQABIQEAAaUBAANfAQADdwEAA4YBAAOWAQADywEAA7IBAAPXAQAD3QEAA+MBAAPqAQAD8QEAA/gBAAHw
+        AfsB/wEAAaQCoAEAA4ADAAH/AgAB/wMAAv8BAAH/AwAB/wEAAf8BAAL/AgAD/0IAD/QxAAH0AxQC9AMU
+        AvQDFAH0MQAB9AEUAfQBFAL0ARQB9AEUAvQBFAH0ARQB9DEAAfQDFAL0AxQC9AMUAfQxAAL0ARQE9AEU
+        BPQBFAL0MgAB9AEUBPQBFAT0ARQB9DMAAfQLFAH0MwAG9AEUBvQ4AAH0ARQB9DsAA/QBFAP0OQAB9AUU
+        AfQ5AAH0ARQD9AEUAfQ5AAH0ARQD9AEUAfQ5AAH0BRQB9DkAB/Q2AA30BAAK9BMADvQEAAH0CxQB9AIA
+        Af8B9AHyAewB6gQUAeoB7AHyAfQB/xEAAfQMFAH0BAAB9AgUAvQBFAH0AgAB9AHvChQB7wH0AgAQ9AEU
+        CvQBFAH0BAAB9AsUAfQCAAH0DBQB9AIAAfQNFAL0ARQK9AEUArwB9AIAAfQLFAH0AgAB9AwUAfQCAAH0
+        ARQD9AEUA/QBFAP0ARQC9AEUAfQMFAH0AgAN9AIAAfQMFAH0AgAB9AEUA/QBFAP0ARQD9AEUAvQBFAH0
+        ARQI9AEUAfQBFAH0AgAB9AsUAfQCAAH0DBQB9AIAAfQNFAL0ARQB9AEUCPQBFAH0ARQB9AIAAfQIFAL0
+        ARQB9AIAAfQMFAH0AgAB9AEUA/QBFAP0ARQD9AEUAvQBFAH0ARQB9AYUAfQBFAH0ARQB9AIAAfQLFAH0
+        AgAB9AwUAfQCAAH0ARQD9AEUA/QBFAP0ARQC9AEUAfQBFAj0ARQB9AEUAfQCAAH0CxQB9AIAAfQMFAH0
+        AgAB9A0UAvQBFAH0ARQI9AEUAfQBFAH0AgAN9AIAAfQBFAETAfcB8QT0AfEB9wETARQB9AIAAfQBFAP0
+        ARQD9AEUA/QBFAL0DBQB9AEUAfQCAAH0CxQB9AIAAfMBEwHyCPQB8gEUAfQCAAH0ARQD9AEUA/QBFAP0
+        ARQC9AwUAfQBFAH0AgAB9AgUAvQBFAH0AgAB8wETAfII9AHyARQB9AIAAfQNFAT0ARQK9AEUAfQCAAH0
+        CxQB9AIAAfQB7wETAfcB8QT0AfEB9wETAe8B9AIAAfQNFAH0AgAB9AwUAfQCAAH0CxQB9AIAAf8B9AHy
+        AewB6gQUAeoB7AHyAfQB/wIAAfQNFAH0AgAB9AwUAfQCAA30BAAK9AQAD/QCAA70AUIBTQE+BwABPgMA
+        ASgDAAFAAwABIAMAAQEBAAEBBgABARYAA/8BAAL/BgABgAcAAYAHAAGABwABgAcAAYAHAAHAAQEGAAHA
+        AQEGAAHAAQEGAAH+AT8GAAH4AQ8GAAH4AQ8GAAH4AQ8GAAH4AQ8GAAH4AQ8GAAH4AQ8GAAHAAQEB4AEH
+        Av8BAAEDAcABAQGAAQEC/wEAAQMBwAEBAYABAQGAAgABAwHAAQEBgAEBAYADAAHAAQEBgAEBAYADAAHA
+        AQEBgAEBAYADAAHAAQEBgAEBAYADAAHAAQEBgAEBAYADAAHAAQEBgAEBAYADAAHAAQEBgAEBAYADAAHA
+        AQEBgAEBAYADAAHAAQEBgAEBAYADAAHAAQEBgAEBAYADAAHAAQEBgAEBAYABAAHAAQABwAEBAYABAQGA
+        AQABwAEAAcABAQHgAQcBgAEAAcABAAs=
+</value>
   </data>
 </root>
