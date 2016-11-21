@@ -30,16 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            this.cbxAddress = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnConnect = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.cbxDatabaseName = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.cbxTableName = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.cbxOperateType = new System.Windows.Forms.ComboBox();
-            this.btnRefresh = new System.Windows.Forms.Button();
             this.lstDatabaseStructure = new System.Windows.Forms.ListView();
             this.colCheckBox = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -49,19 +39,11 @@
             this.mnuItemSelectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuItemSelectNone = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuItemSelectAgainst = new System.Windows.Forms.ToolStripMenuItem();
-            this.rtbLogList = new System.Windows.Forms.RichTextBox();
             this.btnGenerateScript = new System.Windows.Forms.Button();
-            this.btnClearLog = new System.Windows.Forms.Button();
-            this.btnExit = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.cbxSqlType = new System.Windows.Forms.ComboBox();
             this.chkInput = new System.Windows.Forms.CheckBox();
             this.chkHead = new System.Windows.Forms.CheckBox();
             this.btnGenerateCSharp = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.gbxDatabaseConnection = new System.Windows.Forms.GroupBox();
-            this.btnConfig = new System.Windows.Forms.Button();
-            this.gbxOperateTarget = new System.Windows.Forms.GroupBox();
             this.gbxGenerateCode = new System.Windows.Forms.GroupBox();
             this.chkCutPrefix = new System.Windows.Forms.CheckBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -69,115 +51,29 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.panel1 = new System.Windows.Forms.Panel();
             this.splitter1 = new System.Windows.Forms.Splitter();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.rtbLogList = new System.Windows.Forms.RichTextBox();
+            this.btnExit = new System.Windows.Forms.Button();
+            this.btnClearLog = new System.Windows.Forms.Button();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cbxSqlType = new System.Windows.Forms.ComboBox();
+            this.cbxTableName = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.cbxOperateType = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cbxDatabaseName = new System.Windows.Forms.ComboBox();
+            this.gbxOperateTarget = new System.Windows.Forms.GroupBox();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.dataObjectTree = new DevTools.Plugin.DBTool.USL.DataObjectTree();
+            this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
             this.contextMenuStrip1.SuspendLayout();
-            this.gbxDatabaseConnection.SuspendLayout();
-            this.gbxOperateTarget.SuspendLayout();
             this.gbxGenerateCode.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.gbxOperateTarget.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // cbxAddress
-            // 
-            this.cbxAddress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbxAddress.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxAddress.FormattingEnabled = true;
-            this.cbxAddress.Location = new System.Drawing.Point(47, 19);
-            this.cbxAddress.Name = "cbxAddress";
-            this.cbxAddress.Size = new System.Drawing.Size(155, 20);
-            this.cbxAddress.TabIndex = 0;
-            this.cbxAddress.SelectedIndexChanged += new System.EventHandler(this.cbxAddress_SelectedIndexChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(5, 21);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(29, 12);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "地址";
-            // 
-            // btnConnect
-            // 
-            this.btnConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnConnect.Location = new System.Drawing.Point(127, 48);
-            this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(75, 23);
-            this.btnConnect.TabIndex = 7;
-            this.btnConnect.Text = "连接";
-            this.btnConnect.UseVisualStyleBackColor = true;
-            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(5, 21);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(41, 12);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "数据库";
-            // 
-            // cbxDatabaseName
-            // 
-            this.cbxDatabaseName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxDatabaseName.FormattingEnabled = true;
-            this.cbxDatabaseName.Location = new System.Drawing.Point(57, 19);
-            this.cbxDatabaseName.Name = "cbxDatabaseName";
-            this.cbxDatabaseName.Size = new System.Drawing.Size(129, 20);
-            this.cbxDatabaseName.TabIndex = 9;
-            this.cbxDatabaseName.SelectedIndexChanged += new System.EventHandler(this.cbxDatabaseName_SelectedIndexChanged);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(5, 73);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(29, 12);
-            this.label5.TabIndex = 10;
-            this.label5.Text = "表名";
-            // 
-            // cbxTableName
-            // 
-            this.cbxTableName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxTableName.FormattingEnabled = true;
-            this.cbxTableName.Location = new System.Drawing.Point(57, 70);
-            this.cbxTableName.Name = "cbxTableName";
-            this.cbxTableName.Size = new System.Drawing.Size(129, 20);
-            this.cbxTableName.TabIndex = 11;
-            this.cbxTableName.SelectedIndexChanged += new System.EventHandler(this.cbxTableName_SelectedIndexChanged);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(5, 47);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 12);
-            this.label6.TabIndex = 12;
-            this.label6.Text = "操作对象";
-            // 
-            // cbxOperateType
-            // 
-            this.cbxOperateType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxOperateType.FormattingEnabled = true;
-            this.cbxOperateType.Items.AddRange(new object[] {
-            "表结构",
-            "存储过程"});
-            this.cbxOperateType.Location = new System.Drawing.Point(57, 45);
-            this.cbxOperateType.Name = "cbxOperateType";
-            this.cbxOperateType.Size = new System.Drawing.Size(129, 20);
-            this.cbxOperateType.TabIndex = 13;
-            this.cbxOperateType.SelectedIndexChanged += new System.EventHandler(this.cbxOperateType_SelectedIndexChanged);
-            // 
-            // btnRefresh
-            // 
-            this.btnRefresh.Location = new System.Drawing.Point(111, 122);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
-            this.btnRefresh.TabIndex = 14;
-            this.btnRefresh.Text = "刷新";
-            this.btnRefresh.UseVisualStyleBackColor = true;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // lstDatabaseStructure
             // 
@@ -193,9 +89,10 @@
             this.lstDatabaseStructure.ContextMenuStrip = this.contextMenuStrip1;
             this.lstDatabaseStructure.FullRowSelect = true;
             this.lstDatabaseStructure.GridLines = true;
-            this.lstDatabaseStructure.Location = new System.Drawing.Point(6, 3);
+            this.lstDatabaseStructure.Location = new System.Drawing.Point(0, 0);
             this.lstDatabaseStructure.Name = "lstDatabaseStructure";
-            this.lstDatabaseStructure.Size = new System.Drawing.Size(437, 483);
+            this.lstDatabaseStructure.Size = new System.Drawing.Size(411, 486);
+            this.lstDatabaseStructure.SmallImageList = this.imageList1;
             this.lstDatabaseStructure.TabIndex = 15;
             this.lstDatabaseStructure.UseCompatibleStateImageBehavior = false;
             this.lstDatabaseStructure.View = System.Windows.Forms.View.Details;
@@ -249,18 +146,6 @@
             this.mnuItemSelectAgainst.Text = "反选";
             this.mnuItemSelectAgainst.Click += new System.EventHandler(this.mnuItemSelectAgainst_Click);
             // 
-            // rtbLogList
-            // 
-            this.rtbLogList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.rtbLogList.BackColor = System.Drawing.Color.LightGoldenrodYellow;
-            this.rtbLogList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtbLogList.Location = new System.Drawing.Point(6, 492);
-            this.rtbLogList.Name = "rtbLogList";
-            this.rtbLogList.Size = new System.Drawing.Size(459, 99);
-            this.rtbLogList.TabIndex = 16;
-            this.rtbLogList.Text = "";
-            // 
             // btnGenerateScript
             // 
             this.btnGenerateScript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -272,51 +157,6 @@
             this.toolTip1.SetToolTip(this.btnGenerateScript, "存入剪贴板");
             this.btnGenerateScript.UseVisualStyleBackColor = true;
             this.btnGenerateScript.Click += new System.EventHandler(this.btnGenerateScript_Click);
-            // 
-            // btnClearLog
-            // 
-            this.btnClearLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClearLog.Location = new System.Drawing.Point(504, 568);
-            this.btnClearLog.Name = "btnClearLog";
-            this.btnClearLog.Size = new System.Drawing.Size(75, 23);
-            this.btnClearLog.TabIndex = 18;
-            this.btnClearLog.Text = "清空日志";
-            this.btnClearLog.UseVisualStyleBackColor = true;
-            this.btnClearLog.Click += new System.EventHandler(this.btnClearLog_Click);
-            // 
-            // btnExit
-            // 
-            this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExit.Location = new System.Drawing.Point(585, 568);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(75, 23);
-            this.btnExit.TabIndex = 19;
-            this.btnExit.Text = "退出程序";
-            this.btnExit.UseVisualStyleBackColor = true;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(5, 99);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(53, 12);
-            this.label7.TabIndex = 20;
-            this.label7.Text = "操作类型";
-            // 
-            // cbxSqlType
-            // 
-            this.cbxSqlType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxSqlType.FormattingEnabled = true;
-            this.cbxSqlType.Items.AddRange(new object[] {
-            "查询",
-            "添加",
-            "删除",
-            "更新"});
-            this.cbxSqlType.Location = new System.Drawing.Point(57, 96);
-            this.cbxSqlType.Name = "cbxSqlType";
-            this.cbxSqlType.Size = new System.Drawing.Size(129, 20);
-            this.cbxSqlType.TabIndex = 21;
             // 
             // chkInput
             // 
@@ -356,50 +196,6 @@
             this.btnGenerateCSharp.UseVisualStyleBackColor = true;
             this.btnGenerateCSharp.Click += new System.EventHandler(this.btnGenerateCSharp_Click);
             // 
-            // gbxDatabaseConnection
-            // 
-            this.gbxDatabaseConnection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbxDatabaseConnection.Controls.Add(this.btnConfig);
-            this.gbxDatabaseConnection.Controls.Add(this.cbxAddress);
-            this.gbxDatabaseConnection.Controls.Add(this.label1);
-            this.gbxDatabaseConnection.Controls.Add(this.btnConnect);
-            this.gbxDatabaseConnection.Location = new System.Drawing.Point(449, 3);
-            this.gbxDatabaseConnection.Name = "gbxDatabaseConnection";
-            this.gbxDatabaseConnection.Size = new System.Drawing.Size(211, 78);
-            this.gbxDatabaseConnection.TabIndex = 24;
-            this.gbxDatabaseConnection.TabStop = false;
-            this.gbxDatabaseConnection.Text = "数据库连接";
-            // 
-            // btnConfig
-            // 
-            this.btnConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnConfig.Location = new System.Drawing.Point(46, 49);
-            this.btnConfig.Name = "btnConfig";
-            this.btnConfig.Size = new System.Drawing.Size(75, 23);
-            this.btnConfig.TabIndex = 8;
-            this.btnConfig.Text = "设定";
-            this.btnConfig.UseVisualStyleBackColor = true;
-            this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
-            // 
-            // gbxOperateTarget
-            // 
-            this.gbxOperateTarget.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbxOperateTarget.Controls.Add(this.cbxDatabaseName);
-            this.gbxOperateTarget.Controls.Add(this.label4);
-            this.gbxOperateTarget.Controls.Add(this.cbxOperateType);
-            this.gbxOperateTarget.Controls.Add(this.label6);
-            this.gbxOperateTarget.Controls.Add(this.cbxTableName);
-            this.gbxOperateTarget.Controls.Add(this.cbxSqlType);
-            this.gbxOperateTarget.Controls.Add(this.label7);
-            this.gbxOperateTarget.Controls.Add(this.label5);
-            this.gbxOperateTarget.Controls.Add(this.btnRefresh);
-            this.gbxOperateTarget.Location = new System.Drawing.Point(465, 87);
-            this.gbxOperateTarget.Name = "gbxOperateTarget";
-            this.gbxOperateTarget.Size = new System.Drawing.Size(195, 153);
-            this.gbxOperateTarget.TabIndex = 25;
-            this.gbxOperateTarget.TabStop = false;
-            this.gbxOperateTarget.Text = "操作对象";
-            // 
             // gbxGenerateCode
             // 
             this.gbxGenerateCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -408,7 +204,7 @@
             this.gbxGenerateCode.Controls.Add(this.chkHead);
             this.gbxGenerateCode.Controls.Add(this.btnGenerateScript);
             this.gbxGenerateCode.Controls.Add(this.btnGenerateCSharp);
-            this.gbxGenerateCode.Location = new System.Drawing.Point(465, 246);
+            this.gbxGenerateCode.Location = new System.Drawing.Point(417, 246);
             this.gbxGenerateCode.Name = "gbxGenerateCode";
             this.gbxGenerateCode.Size = new System.Drawing.Size(195, 111);
             this.gbxGenerateCode.TabIndex = 26;
@@ -445,6 +241,9 @@
             // 
             // toolStrip1
             // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton1,
+            this.toolStripSplitButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(923, 25);
@@ -457,31 +256,201 @@
             this.panel1.Controls.Add(this.btnClearLog);
             this.panel1.Controls.Add(this.btnExit);
             this.panel1.Controls.Add(this.lstDatabaseStructure);
-            this.panel1.Controls.Add(this.gbxDatabaseConnection);
             this.panel1.Controls.Add(this.gbxGenerateCode);
             this.panel1.Controls.Add(this.gbxOperateTarget);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(260, 49);
+            this.panel1.Location = new System.Drawing.Point(308, 49);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(663, 594);
+            this.panel1.Size = new System.Drawing.Size(615, 594);
             this.panel1.TabIndex = 30;
             // 
             // splitter1
             // 
             this.splitter1.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.splitter1.Location = new System.Drawing.Point(257, 49);
+            this.splitter1.Location = new System.Drawing.Point(305, 49);
             this.splitter1.Name = "splitter1";
             this.splitter1.Size = new System.Drawing.Size(3, 594);
             this.splitter1.TabIndex = 28;
             this.splitter1.TabStop = false;
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "key");
+            // 
+            // rtbLogList
+            // 
+            this.rtbLogList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbLogList.BackColor = System.Drawing.Color.LightGoldenrodYellow;
+            this.rtbLogList.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbLogList.Location = new System.Drawing.Point(215, 492);
+            this.rtbLogList.Name = "rtbLogList";
+            this.rtbLogList.Size = new System.Drawing.Size(202, 99);
+            this.rtbLogList.TabIndex = 16;
+            this.rtbLogList.Text = "";
+            // 
+            // btnExit
+            // 
+            this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExit.Location = new System.Drawing.Point(537, 568);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(75, 23);
+            this.btnExit.TabIndex = 19;
+            this.btnExit.Text = "退出程序";
+            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
+            // btnClearLog
+            // 
+            this.btnClearLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearLog.Location = new System.Drawing.Point(456, 568);
+            this.btnClearLog.Name = "btnClearLog";
+            this.btnClearLog.Size = new System.Drawing.Size(75, 23);
+            this.btnClearLog.TabIndex = 18;
+            this.btnClearLog.Text = "清空日志";
+            this.btnClearLog.UseVisualStyleBackColor = true;
+            this.btnClearLog.Click += new System.EventHandler(this.btnClearLog_Click);
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(111, 122);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnRefresh.TabIndex = 14;
+            this.btnRefresh.Text = "刷新";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(5, 73);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(29, 12);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "表名";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(5, 99);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(53, 12);
+            this.label7.TabIndex = 20;
+            this.label7.Text = "操作类型";
+            // 
+            // cbxSqlType
+            // 
+            this.cbxSqlType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxSqlType.FormattingEnabled = true;
+            this.cbxSqlType.Items.AddRange(new object[] {
+            "查询",
+            "添加",
+            "删除",
+            "更新"});
+            this.cbxSqlType.Location = new System.Drawing.Point(57, 96);
+            this.cbxSqlType.Name = "cbxSqlType";
+            this.cbxSqlType.Size = new System.Drawing.Size(129, 20);
+            this.cbxSqlType.TabIndex = 21;
+            // 
+            // cbxTableName
+            // 
+            this.cbxTableName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxTableName.FormattingEnabled = true;
+            this.cbxTableName.Location = new System.Drawing.Point(57, 70);
+            this.cbxTableName.Name = "cbxTableName";
+            this.cbxTableName.Size = new System.Drawing.Size(129, 20);
+            this.cbxTableName.TabIndex = 11;
+            this.cbxTableName.SelectedIndexChanged += new System.EventHandler(this.cbxTableName_SelectedIndexChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(5, 47);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 12);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "操作对象";
+            // 
+            // cbxOperateType
+            // 
+            this.cbxOperateType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxOperateType.FormattingEnabled = true;
+            this.cbxOperateType.Items.AddRange(new object[] {
+            "表结构",
+            "存储过程"});
+            this.cbxOperateType.Location = new System.Drawing.Point(57, 45);
+            this.cbxOperateType.Name = "cbxOperateType";
+            this.cbxOperateType.Size = new System.Drawing.Size(129, 20);
+            this.cbxOperateType.TabIndex = 13;
+            this.cbxOperateType.SelectedIndexChanged += new System.EventHandler(this.cbxOperateType_SelectedIndexChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(5, 21);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(41, 12);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "数据库";
+            // 
+            // cbxDatabaseName
+            // 
+            this.cbxDatabaseName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxDatabaseName.FormattingEnabled = true;
+            this.cbxDatabaseName.Location = new System.Drawing.Point(57, 19);
+            this.cbxDatabaseName.Name = "cbxDatabaseName";
+            this.cbxDatabaseName.Size = new System.Drawing.Size(129, 20);
+            this.cbxDatabaseName.TabIndex = 9;
+            this.cbxDatabaseName.SelectedIndexChanged += new System.EventHandler(this.cbxDatabaseName_SelectedIndexChanged);
+            // 
+            // gbxOperateTarget
+            // 
+            this.gbxOperateTarget.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbxOperateTarget.Controls.Add(this.cbxDatabaseName);
+            this.gbxOperateTarget.Controls.Add(this.label4);
+            this.gbxOperateTarget.Controls.Add(this.cbxOperateType);
+            this.gbxOperateTarget.Controls.Add(this.label6);
+            this.gbxOperateTarget.Controls.Add(this.cbxTableName);
+            this.gbxOperateTarget.Controls.Add(this.cbxSqlType);
+            this.gbxOperateTarget.Controls.Add(this.label7);
+            this.gbxOperateTarget.Controls.Add(this.label5);
+            this.gbxOperateTarget.Controls.Add(this.btnRefresh);
+            this.gbxOperateTarget.Location = new System.Drawing.Point(417, 87);
+            this.gbxOperateTarget.Name = "gbxOperateTarget";
+            this.gbxOperateTarget.Size = new System.Drawing.Size(195, 153);
+            this.gbxOperateTarget.TabIndex = 25;
+            this.gbxOperateTarget.TabStop = false;
+            this.gbxOperateTarget.Text = "操作对象";
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Text = "toolStripButton1";
             // 
             // dataObjectTree
             // 
             this.dataObjectTree.Dock = System.Windows.Forms.DockStyle.Left;
             this.dataObjectTree.Location = new System.Drawing.Point(0, 49);
             this.dataObjectTree.Name = "dataObjectTree";
-            this.dataObjectTree.Size = new System.Drawing.Size(257, 594);
+            this.dataObjectTree.Size = new System.Drawing.Size(305, 594);
             this.dataObjectTree.TabIndex = 27;
+            this.dataObjectTree.TableSelected += new System.Windows.Forms.TreeViewEventHandler(this.dataObjectTree_TableSelected);
+            // 
+            // toolStripSplitButton1
+            // 
+            this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton1.Image")));
+            this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripSplitButton1.Name = "toolStripSplitButton1";
+            this.toolStripSplitButton1.Size = new System.Drawing.Size(32, 22);
+            this.toolStripSplitButton1.Text = "toolStripSplitButton1";
             // 
             // FormMain
             // 
@@ -504,13 +473,13 @@
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDown);
             this.contextMenuStrip1.ResumeLayout(false);
-            this.gbxDatabaseConnection.ResumeLayout(false);
-            this.gbxDatabaseConnection.PerformLayout();
-            this.gbxOperateTarget.ResumeLayout(false);
-            this.gbxOperateTarget.PerformLayout();
             this.gbxGenerateCode.ResumeLayout(false);
             this.gbxGenerateCode.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.gbxOperateTarget.ResumeLayout(false);
+            this.gbxOperateTarget.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -518,23 +487,8 @@
 
         #endregion
 
-        private System.Windows.Forms.ComboBox cbxAddress;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnConnect;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox cbxDatabaseName;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ComboBox cbxTableName;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox cbxOperateType;
-        private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.ListView lstDatabaseStructure;
-        private System.Windows.Forms.RichTextBox rtbLogList;
         private System.Windows.Forms.Button btnGenerateScript;
-        private System.Windows.Forms.Button btnClearLog;
-        private System.Windows.Forms.Button btnExit;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.ComboBox cbxSqlType;
         private System.Windows.Forms.CheckBox chkInput;
         private System.Windows.Forms.CheckBox chkHead;
         private System.Windows.Forms.ColumnHeader colCheckBox;
@@ -547,17 +501,30 @@
         private System.Windows.Forms.ToolStripMenuItem mnuItemSelectAgainst;
         private System.Windows.Forms.Button btnGenerateCSharp;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.GroupBox gbxDatabaseConnection;
-        private System.Windows.Forms.GroupBox gbxOperateTarget;
         private System.Windows.Forms.GroupBox gbxGenerateCode;
         private System.Windows.Forms.CheckBox chkCutPrefix;
-        private System.Windows.Forms.Button btnConfig;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.Panel panel1;
         private DataObjectTree dataObjectTree;
         private System.Windows.Forms.Splitter splitter1;
+        private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.RichTextBox rtbLogList;
+        private System.Windows.Forms.Button btnClearLog;
+        private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.GroupBox gbxOperateTarget;
+        private System.Windows.Forms.ComboBox cbxDatabaseName;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cbxOperateType;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox cbxTableName;
+        private System.Windows.Forms.ComboBox cbxSqlType;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
     }
 }
 

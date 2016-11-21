@@ -9,6 +9,16 @@ namespace DevTools.Plugin.DBTool.USL
 {
     public partial class DataObjectTree : UserControl
     {
+        public event TreeViewEventHandler TableSelected;
+
+        protected void OnTableSelected(TreeViewEventArgs e)
+        {
+            if (TableSelected != null)
+            {
+                TableSelected(this, e);
+            }
+        }
+
         public DataObjectTree()
         {
             InitializeComponent();
@@ -108,34 +118,6 @@ namespace DevTools.Plugin.DBTool.USL
             }
         }
 
-        private void treeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            TreeNode node = e.Node;
-            btnRefresh.Enabled = false;
-            switch (node.ImageKey)
-            {
-                case "table":
-                    {
-                        switch (node.Level)
-                        {
-                            case 1:
-                            case 2:
-                                btnRefresh.Enabled = true;
-                                break;
-                        }
-                        break;
-                    }
-                case "index":
-                    switch (node.Level)
-                    {
-                        case 3:
-                            btnRefresh.Enabled = true;
-                            break;
-                    }
-                    break;
-            }
-        }
-
         private void btnConnection_Click(object sender, EventArgs e)
         {
             FormConfig frmConfig = new FormConfig();
@@ -172,6 +154,37 @@ namespace DevTools.Plugin.DBTool.USL
         private void btnDelete_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            TreeNode node = e.Node;
+            btnRefresh.Enabled = false;
+            switch (node.ImageKey)
+            {
+                case "table":
+                    {
+                        switch (node.Level)
+                        {
+                            case 1:
+                                btnRefresh.Enabled = true;
+                                break;
+                            case 2:
+                                btnRefresh.Enabled = true;
+                                OnTableSelected(e);
+                                break;
+                        }
+                        break;
+                    }
+                case "index":
+                    switch (node.Level)
+                    {
+                        case 3:
+                            btnRefresh.Enabled = true;
+                            break;
+                    }
+                    break;
+            }
         }
     }
 }
