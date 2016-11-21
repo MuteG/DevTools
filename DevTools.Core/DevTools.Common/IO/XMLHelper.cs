@@ -63,7 +63,7 @@ namespace DevTools.Common.IO
             }
             else
             {
-                writeStream = new FileStream(this.XMLFile, FileMode.Open, FileAccess.Write, FileShare.Read);
+                writeStream = new FileStream(this.XMLFile, FileMode.Create, FileAccess.Write, FileShare.Read);
             }
             try
             {

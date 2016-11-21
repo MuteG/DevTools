@@ -31,8 +31,9 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataObjectTree));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.mnuConnection = new System.Windows.Forms.ToolStripButton();
-            this.mnuDelete = new System.Windows.Forms.ToolStripButton();
+            this.btnConnection = new System.Windows.Forms.ToolStripButton();
+            this.btnRefresh = new System.Windows.Forms.ToolStripButton();
+            this.btnDelete = new System.Windows.Forms.ToolStripButton();
             this.treeView = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.toolStrip1.SuspendLayout();
@@ -42,32 +43,48 @@
             // 
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuConnection,
-            this.mnuDelete});
+            this.btnConnection,
+            this.btnRefresh,
+            this.btnDelete});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(199, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // mnuConnection
+            // btnConnection
             // 
-            this.mnuConnection.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.mnuConnection.Image = global::DevTools.Plugin.DBTool.Properties.Resources.database;
-            this.mnuConnection.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.mnuConnection.Name = "mnuConnection";
-            this.mnuConnection.Size = new System.Drawing.Size(23, 22);
-            this.mnuConnection.Text = "toolStripButton1";
+            this.btnConnection.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnConnection.Image = global::DevTools.Plugin.DBTool.Properties.Resources.database;
+            this.btnConnection.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnConnection.Name = "btnConnection";
+            this.btnConnection.Size = new System.Drawing.Size(23, 22);
+            this.btnConnection.Text = "数据库连接管理";
+            this.btnConnection.Click += new System.EventHandler(this.btnConnection_Click);
             // 
-            // mnuDelete
+            // btnRefresh
             // 
-            this.mnuDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.mnuDelete.Enabled = false;
-            this.mnuDelete.Image = global::DevTools.Plugin.DBTool.Properties.Resources.ActionRemove;
-            this.mnuDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.mnuDelete.Name = "mnuDelete";
-            this.mnuDelete.Size = new System.Drawing.Size(23, 22);
-            this.mnuDelete.Text = "toolStripButton2";
+            this.btnRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnRefresh.Enabled = false;
+            this.btnRefresh.Image = global::DevTools.Plugin.DBTool.Properties.Resources.refresh;
+            this.btnRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(23, 22);
+            this.btnRefresh.Text = "刷新";
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnDelete.Enabled = false;
+            this.btnDelete.Image = global::DevTools.Plugin.DBTool.Properties.Resources.ActionRemove;
+            this.btnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(23, 22);
+            this.btnDelete.Text = "删除";
+            this.btnDelete.ToolTipText = "删除";
+            this.btnDelete.Visible = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // treeView
             // 
@@ -79,6 +96,7 @@
             this.treeView.SelectedImageIndex = 0;
             this.treeView.Size = new System.Drawing.Size(199, 313);
             this.treeView.TabIndex = 1;
+            this.treeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_NodeMouseClick);
             this.treeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_NodeMouseDoubleClick);
             // 
             // imageList1
@@ -90,6 +108,7 @@
             this.imageList1.Images.SetKeyName(2, "table");
             this.imageList1.Images.SetKeyName(3, "view");
             this.imageList1.Images.SetKeyName(4, "index");
+            this.imageList1.Images.SetKeyName(5, "column");
             // 
             // DataObjectTree
             // 
@@ -111,8 +130,9 @@
 
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.TreeView treeView;
-        private System.Windows.Forms.ToolStripButton mnuConnection;
-        private System.Windows.Forms.ToolStripButton mnuDelete;
+        private System.Windows.Forms.ToolStripButton btnConnection;
+        private System.Windows.Forms.ToolStripButton btnDelete;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.ToolStripButton btnRefresh;
     }
 }

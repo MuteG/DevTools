@@ -20,7 +20,7 @@ namespace DevTools.Common.IO
         public static void EncryptFile(string file)
         {
             string content = string.Empty;
-            FileStream readStream = File.OpenRead(file);
+            FileStream readStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
             using (StreamReader reader = new StreamReader(readStream))
             {
                 content = reader.ReadToEnd();
@@ -39,7 +39,7 @@ namespace DevTools.Common.IO
             security.IV = IV;
             security.Key = KEY;
 
-            FileStream writeSteam = File.OpenWrite(file);
+            FileStream writeSteam = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read);
             CryptoStream cryptoStream = new CryptoStream(writeSteam,
                 security.CreateEncryptor(), CryptoStreamMode.Write);
             
@@ -55,7 +55,7 @@ namespace DevTools.Common.IO
                 content = reader.ReadToEnd();
             }
 
-            FileStream writeSteam = File.OpenWrite(file);
+            FileStream writeSteam = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.Read);
             using (StreamWriter writer = new StreamWriter(writeSteam))
             {
                 writer.Write(content);
@@ -68,7 +68,7 @@ namespace DevTools.Common.IO
             security.IV = IV;
             security.Key = KEY;
 
-            FileStream readStream = File.OpenRead(file);
+            FileStream readStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
             CryptoStream cryptoStream = new CryptoStream(readStream,
                 security.CreateDecryptor(), CryptoStreamMode.Read);
 

@@ -15,6 +15,7 @@ namespace DevTools.Config
     /// </summary>
     public static class ConfigManager
     {
+        private const bool ENCRYPT = true;
         /// <summary>
         /// 获取配置文件所在文件夹的绝对路径
         /// </summary>
@@ -101,7 +102,7 @@ namespace DevTools.Config
         {
             string configFileName = key + CONFIG_EXT;
             string configFile = Path.Combine(ConfigFolder, configFileName);
-            XMLHelper xml = new XMLHelper(configFile, true);
+            XMLHelper xml = new XMLHelper(configFile, ENCRYPT);
             if (File.Exists(configFile))
             {
                 config = xml.Load(config.GetType()) as ConfigBase;
@@ -183,7 +184,7 @@ namespace DevTools.Config
         {
             string configFileName = config.Key + CONFIG_EXT;
             string configFile = Path.Combine(ConfigFolder, configFileName);
-            XMLHelper xml = new XMLHelper(configFile, true);
+            XMLHelper xml = new XMLHelper(configFile, ENCRYPT);
             xml.Save(config);
         }
     }

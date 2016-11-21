@@ -32,7 +32,11 @@ namespace DevTools
                             Application.Run();
                         }
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
+                        DTLogger logger = new DTLogger();
+                        logger.Error(ex);
+                    }
                     finally
                     {
                         mtx.ReleaseMutex();
@@ -44,8 +48,7 @@ namespace DevTools
         static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
             DTLogger logger = new DTLogger();
-            logger.Error(e.Exception.Message);
-            logger.Error(e.Exception.StackTrace);
+            logger.Error(e.Exception);
         }
     }
 }

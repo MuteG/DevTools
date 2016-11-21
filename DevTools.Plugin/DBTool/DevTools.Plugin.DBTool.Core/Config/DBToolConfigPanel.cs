@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using DevTools.Config.USL;
 using DevTools.Config;
+using DevTools.Config.USL;
 using DevTools.Plugin.DBTool.Core.Data;
 
 namespace DevTools.Plugin.DBTool.Core.Config
@@ -29,7 +25,8 @@ namespace DevTools.Plugin.DBTool.Core.Config
         protected override void ShowConfig(ConfigBase config)
         {
             DBToolConfig dbToolConfig = config as DBToolConfig;
-            comboBoxName.DataSource = dbToolConfig.Connections;
+            BindingList<DBToolConnection> data = new BindingList<DBToolConnection>(dbToolConfig.Connections);
+            comboBoxName.DataSource = data;
             if (comboBoxName.Items.Count > 0)
             {
                 comboBoxName.SelectedIndex = 0;
@@ -51,10 +48,7 @@ namespace DevTools.Plugin.DBTool.Core.Config
                 conn.Password = textBoxPassword.Text;
                 dbToolConfig.Connections.Add(conn);
 
-                comboBoxName.DataSource = null;
-                comboBoxName.DisplayMember = "Name";
-                comboBoxName.ValueMember = "Name";
-                comboBoxName.DataSource = dbToolConfig.Connections;
+                (comboBoxName.DataSource as BindingList<DBToolConnection>).ResetBindings();
                 comboBoxName.SelectedIndex = dbToolConfig.Connections.Count - 1;
             }
             else
@@ -81,10 +75,15 @@ namespace DevTools.Plugin.DBTool.Core.Config
 
         private void btnTest_Click(object sender, EventArgs e)
         {
-            DBToolConfig testConfig = new DBToolConfig();
-            SaveConfig(testConfig);
+            lblTestResult.Text = "Connecting...";
+            Application.DoEvents();
 
-            DBToolConnection conn = testConfig.Connections[0];
+            DBToolConnection conn = new DBToolConnection();
+            conn.Name = comboBoxName.Text;
+            conn.Type = (DatabaseType)Enum.Parse(typeof(DatabaseType), cbxDatabaseType.Text);
+            conn.DataSource = textBoxDataSource.Text;
+            conn.Username = textBoxUsername.Text;
+            conn.Password = textBoxPassword.Text;
 
             DBBrowserLoader loader = new DBBrowserLoader();
             IDBBrowsable browser = loader.GetBrowser(conn);
@@ -101,7 +100,15 @@ namespace DevTools.Plugin.DBTool.Core.Config
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            // TODO
+            DBToolConfig dbToolConfig = base.Config as DBToolConfig;
+            string name = comboBoxName.Text;
+            DBToolConnection conn = dbToolConfig.Connections.FirstOrDefault(c => c.Name == name);
+            if (conn != null)
+            {
+                dbToolConfig.Connections.Remove(conn);
+                (comboBoxName.DataSource as BindingList<DBToolConnection>).ResetBindings();
+                comboBoxName.SelectedIndex = dbToolConfig.Connections.Count - 1;
+            }
         }
     }
 }

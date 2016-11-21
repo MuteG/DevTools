@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using DevTools.Plugin.DBTool.Core.Config;
 using DevTools.Config;
-using DevTools.Plugin.DBTool.Core.Data;
+using DevTools.Plugin.DBTool.Core.Config;
 using DevTools.Plugin.DBTool.Core.Entity;
 
 namespace DevTools.Plugin.DBTool.USL
@@ -36,38 +30,40 @@ namespace DevTools.Plugin.DBTool.USL
                 databaseNode.Tag = database;
                 databaseNode.Nodes.Add("TABLES", "TABLES", "table", "table").Tag = database;
                 //databaseNode.Nodes.Add("VIEWS", "VIEWS", "view").Tag = conn;
-                databaseNode.Nodes.Add("INDEXES", "INDEXES", "index", "index").Tag = conn;
+                //databaseNode.Nodes.Add("INDEXES", "INDEXES", "index", "index").Tag = conn;
             }
         }
 
         private void treeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            switch (e.Node.ImageKey)
+            TreeNode node = e.Node;
+            ReloadChildNodes(node);
+        }
+
+        private void ReloadChildNodes(TreeNode node)
+        {
+            switch (node.ImageKey)
             {
                 case "table":
                     {
-                        switch (e.Node.Level)
-	                    {
+                        switch (node.Level)
+                        {
                             case 1:
-                                TableRootNodeDoubleClick(e.Node);
+                                TableRootNodeDoubleClick(node);
                                 break;
                             case 2:
-                                TableNodeDoubleClick(e.Node);
+                                TableNodeDoubleClick(node);
                                 break;
-	                    }
+                        }
                         break;
                     }
                 case "index":
-                    switch (e.Node.Level)
+                    switch (node.Level)
                     {
-                        case 1:
-
-                            break;
-                        case 2:
+                        case 3:
+                            IndexNodeDoubleClick(node);
                             break;
                     }
-                    break;
-                default:
                     break;
             }
         }
@@ -96,6 +92,86 @@ namespace DevTools.Plugin.DBTool.USL
                 }
                 node.Expand();
             }
+        }
+
+        private void IndexNodeDoubleClick(TreeNode node)
+        {
+            if (node.Nodes.Count == 0)
+            {
+                Index index = node.Tag as Index;
+                foreach (IndexColumn column in index.Columns)
+                {
+                    string text = string.Format("{0}({1})", column.Name, column.Sort);
+                    node.Nodes.Add(column.Name, text, "column", "column").Tag = column;
+                }
+                node.Expand();
+            }
+        }
+
+        private void treeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            TreeNode node = e.Node;
+            btnRefresh.Enabled = false;
+            switch (node.ImageKey)
+            {
+                case "table":
+                    {
+                        switch (node.Level)
+                        {
+                            case 1:
+                            case 2:
+                                btnRefresh.Enabled = true;
+                                break;
+                        }
+                        break;
+                    }
+                case "index":
+                    switch (node.Level)
+                    {
+                        case 3:
+                            btnRefresh.Enabled = true;
+                            break;
+                    }
+                    break;
+            }
+        }
+
+        private void btnConnection_Click(object sender, EventArgs e)
+        {
+            FormConfig frmConfig = new FormConfig();
+            frmConfig.ShowDialog(this.ParentForm);
+            string key = new DBToolConfig().Key;
+            DBToolConfig config = ConfigManager.GetConfig(key) as DBToolConfig;
+            foreach (DBToolConnection conn in config.Connections)
+            {
+                if (!treeView.Nodes.ContainsKey(conn.Name))
+                {
+                    string text = string.Format("{0}({1})", conn.Name, conn.Type);
+                    TreeNode databaseNode = treeView.Nodes.Add(conn.Name, text, "database", "database");
+                    Database database = new Database(conn);
+                    databaseNode.Tag = database;
+                    databaseNode.Nodes.Add("TABLES", "TABLES", "table", "table").Tag = database;
+                }
+            }
+            for (int i = 0; i < treeView.Nodes.Count; i++)
+            {
+                if (!config.Connections.Any(c => c.Name.Equals(treeView.Nodes[i].Name)))
+                {
+                    treeView.Nodes.RemoveAt(i);
+                }
+            }
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            TreeNode node = treeView.SelectedNode;
+            node.Nodes.Clear();
+            ReloadChildNodes(node);
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
