@@ -1,6 +1,6 @@
 ﻿namespace DevTools.Plugin.DBTool.USL
 {
-    partial class DataObjectTree
+    partial class FormDataObjectTree
     {
         /// <summary> 
         /// 必要なデザイナー変数です。
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataObjectTree));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDataObjectTree));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnConnection = new System.Windows.Forms.ToolStripButton();
             this.btnRefresh = new System.Windows.Forms.ToolStripButton();

@@ -9,13 +9,13 @@ namespace DevTools.Plugin.DBTool.Core.Entity
     {
         public string Name { get; set; }
 
-        private List<Column> columns = null;
+        private List<Column> columns = new List<Column>();
 
         public List<Column> Columns
         {
             get
             {
-                if (columns == null)
+                if (columns.Count == 0)
                 {
                     columns = new List<Column>();
                     DBBrowserLoader loader = new DBBrowserLoader();
@@ -26,13 +26,13 @@ namespace DevTools.Plugin.DBTool.Core.Entity
             }
         }
 
-        private List<Index> indexes = null;
+        private List<Index> indexes = new List<Index>();
 
         public List<Index> Indexes
         {
             get
             {
-                if (indexes == null)
+                if (indexes.Count == 0)
                 {
                     indexes = new List<Index>();
                     DBBrowserLoader loader = new DBBrowserLoader();
@@ -43,18 +43,21 @@ namespace DevTools.Plugin.DBTool.Core.Entity
             }
         }
 
-        private List<IndexColumn> primaryKey = null;
+        private List<IndexColumn> primaryKey = new List<IndexColumn>();
 
         public List<IndexColumn> PrimaryKey
         {
             get
             {
-                if (primaryKey == null)
+                if (primaryKey.Count == 0)
                 {
                     var pk = from idx in Indexes
                              where idx.IsPrimaryKey
                              select idx.Columns;
-                    primaryKey = pk.FirstOrDefault();
+                    if (pk.Count() > 0)
+                    {
+                        primaryKey = pk.First();
+                    }
                 }
                 return primaryKey;
             }

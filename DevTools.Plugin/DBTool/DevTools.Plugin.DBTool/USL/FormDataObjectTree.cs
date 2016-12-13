@@ -4,10 +4,11 @@ using System.Windows.Forms;
 using DevTools.Config;
 using DevTools.Plugin.DBTool.Core.Config;
 using DevTools.Plugin.DBTool.Core.Entity;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace DevTools.Plugin.DBTool.USL
 {
-    public partial class DataObjectTree : UserControl
+    public partial class FormDataObjectTree : DockContent
     {
         public event TreeViewEventHandler TableSelected;
 
@@ -19,7 +20,7 @@ namespace DevTools.Plugin.DBTool.USL
             }
         }
 
-        public DataObjectTree()
+        public FormDataObjectTree()
         {
             InitializeComponent();
         }
