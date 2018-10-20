@@ -56,7 +56,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="YAXLib">
-      <HintPath>..\..\..\..\DotNet\Component\YAXLib\YAXLib.dll</HintPath>
+      <HintPath>..\packages\YAXLib.2.12\lib\YAXLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -65,9 +65,7 @@
     <Compile Include="Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="lang" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="lang\language_en.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -78,6 +76,7 @@
     <None Include="lang\language_zh-Hans.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resource.resx" />

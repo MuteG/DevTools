@@ -57,7 +57,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="YAXLib">
-      <HintPath>..\..\..\..\DotNet\Component\YAXLib\YAXLib.dll</HintPath>
+      <HintPath>..\packages\YAXLib.2.12\lib\YAXLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +103,9 @@
     <EmbeddedResource Include="USL\SmartConfigPanel.resx">
       <DependentUpon>SmartConfigPanel.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
