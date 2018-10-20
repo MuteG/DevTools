@@ -1,0 +1,13 @@
+﻿
+/// <summary>
+/// 
+/// </summary>
+/// <param name="{0}"></param>
+public void {1}({2} {0})
+{{
+    SqlParameter[] param =
+	{{
+	    {3}
+    }};
+    sqlHelper.ExecuteNonQuery("这里替换成数据库连接字符串", "{1}", param);
+}}

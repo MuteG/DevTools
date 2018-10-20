@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectGuid>{B294AB89-AE9D-42B7-A1CF-FEAE766461D6}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <RootNamespace>DevTools.Plugin.CodeLines</RootNamespace>
+    <AssemblyName>DevTools.Plugin.CodeLines</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <NoStdLib>False</NoStdLib>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <BaseAddress>4194304</BaseAddress>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>..\DevTools\bin\Debug\</OutputPath>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+    <StartAction>Program</StartAction>
+    <StartProgram>..\DevTools\bin\Debug\DevTools.exe</StartProgram>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>..\..\..\Release\plugin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <OutputPath>..\..\..\DevTools\bin\Debug\plugin\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\EPPlus.4.1.0\lib\net40\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BLL\AbstractCodeFile.cs" />
+    <Compile Include="BLL\CodeFileFactory.cs" />
+    <Compile Include="BLL\CodeFolder.cs" />
+    <Compile Include="BLL\CSharpSolutionCodeFile.cs" />
+    <Compile Include="BLL\NormalCodeFile.cs" />
+    <Compile Include="BLL\CSharpProjectCodeFile.cs" />
+    <Compile Include="BLL\ProgressEventHandler.cs" />
+    <Compile Include="DAL\ExcelCounter.cs" />
+    <Compile Include="DAL\FileInfoAttribute.cs" />
+    <Compile Include="Entity\CountAttribute.cs" />
+    <Compile Include="DAL\AbstractCounter.cs" />
+    <Compile Include="DAL\XmlCounter.cs" />
+    <Compile Include="Entity\CodeLineCount.cs" />
+    <Compile Include="BLL\CounterFactory.cs" />
+    <Compile Include="DAL\CSharpCounter.cs" />
+    <Compile Include="DAL\CSharpResourceCounter.cs" />
+    <Compile Include="DAL\CSharpSolutionCounter.cs" />
+    <Compile Include="DAL\DiffCounter.cs" />
+    <Compile Include="DAL\HtmlCounter.cs" />
+    <Compile Include="DAL\ICountable.cs" />
+    <Compile Include="DAL\JavaCounter.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DAL\SQLCounter.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="USL\FormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="USL\FormMain.Designer.cs">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BLL\ProgressEventArgs.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\DevTools.Core\DevTools.Common\DevTools.Common.csproj">
+      <Project>{cace1882-4b6d-4d43-8094-575786f79e8a}</Project>
+      <Name>DevTools.Common</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\DevTools.Core\DevTools.Config\DevTools.Config.csproj">
+      <Project>{79fa7d4b-e9a3-4f39-9a32-d0e3cd5a2881}</Project>
+      <Name>DevTools.Config</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\DevTools.Core\DevTools.Language\DevTools.Language.csproj">
+      <Project>{0586c09e-13d4-4611-960e-e750e4dea4db}</Project>
+      <Name>DevTools.Language</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\DevTools.Core\DevTools.Plugin\DevTools.Plugin.csproj">
+      <Project>{6bdbe09a-50b2-41f1-a37e-0777c7b105f4}</Project>
+      <Name>DevTools.Plugin</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Lib\TreeGridView\ExpandableGridView.csproj">
+      <Project>{2efe526f-79b3-49bc-9575-a7b258c59bb5}</Project>
+      <Name>ExpandableGridView</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="USL\FormMain.resx">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Resources\Generic_Document.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Folder_16x_32.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FolderOpen_16x_32.bmp" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

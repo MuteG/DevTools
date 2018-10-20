@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DB658C23-B8E6-4EC7-8F74-BEE5A24C08EF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DevTools.Plugin.DBTool</RootNamespace>
+    <AssemblyName>DevTools.Plugin.DBTool</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\DevTools\bin\Debug\plugin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\Release\plugin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.11.0.0, Culture=neutral, PublicKeyToken=5cded1a1a0a7b481, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\DockPanelSuite.2.11.0\lib\net40\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WeifenLuo.WinFormsUI.Docking.ThemeVS2015, Version=2.11.0.0, Culture=neutral, PublicKeyToken=5cded1a1a0a7b481, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\DockPanelSuite.ThemeVS2015.2.11.0\lib\net40\WeifenLuo.WinFormsUI.Docking.ThemeVS2015.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BLL\AbstractCodeGenerator.cs" />
+    <Compile Include="BLL\AbstractDecoratorGenterator.cs" />
+    <Compile Include="BLL\Command.cs" />
+    <Compile Include="BLL\CSharpCodeGenerator.cs" />
+    <Compile Include="BLL\GenerateFlag.cs" />
+    <Compile Include="BLL\IGenerator.cs" />
+    <Compile Include="BLL\ListLogWriter.cs" />
+    <Compile Include="BLL\SqlScriptGenerator.cs" />
+    <Compile Include="BLL\StoreProcedureHeaderGenerator.cs" />
+    <Compile Include="BLL\StoreProcedureInputGenerator.cs" />
+    <Compile Include="DAL\DBOperator.cs" />
+    <Compile Include="Entiry\Constant.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="USL\FormDatabaseStructure.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="USL\FormDatabaseStructure.Designer.cs">
+      <DependentUpon>FormDatabaseStructure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="USL\FormDataObjectTree.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="USL\FormDataObjectTree.Designer.cs">
+      <DependentUpon>FormDataObjectTree.cs</DependentUpon>
+    </Compile>
+    <Compile Include="USL\FormConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="USL\FormConfig.Designer.cs">
+      <DependentUpon>FormConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="USL\FormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="USL\FormMain.Designer.cs">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="USL\FormLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="USL\FormLog.Designer.cs">
+      <DependentUpon>FormLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="USL\FormPrefix.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="USL\FormPrefix.Designer.cs">
+      <DependentUpon>FormPrefix.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\DevTools.Core\DevTools.Common\DevTools.Common.csproj">
+      <Project>{cace1882-4b6d-4d43-8094-575786f79e8a}</Project>
+      <Name>DevTools.Common</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\DevTools.Core\DevTools.Config\DevTools.Config.csproj">
+      <Project>{79fa7d4b-e9a3-4f39-9a32-d0e3cd5a2881}</Project>
+      <Name>DevTools.Config</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\DevTools.Core\DevTools.Language\DevTools.Language.csproj">
+      <Project>{0586c09e-13d4-4611-960e-e750e4dea4db}</Project>
+      <Name>DevTools.Language</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\DevTools.Core\DevTools.Plugin\DevTools.Plugin.csproj">
+      <Project>{6bdbe09a-50b2-41f1-a37e-0777c7b105f4}</Project>
+      <Name>DevTools.Plugin</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\DevTools.Plugin.DBTool.Core\DevTools.Plugin.DBTool.Core.csproj">
+      <Project>{38bfe991-4ce5-4f9d-946e-68c6d243ee8e}</Project>
+      <Name>DevTools.Plugin.DBTool.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="USL\FormDatabaseStructure.resx">
+      <DependentUpon>FormDatabaseStructure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="USL\FormDataObjectTree.resx">
+      <DependentUpon>FormDataObjectTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="USL\FormConfig.resx">
+      <DependentUpon>FormConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="USL\FormMain.resx">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="USL\FormLog.resx">
+      <DependentUpon>FormLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="USL\FormPrefix.en.resx">
+      <DependentUpon>FormPrefix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="USL\FormPrefix.ja-JP.resx">
+      <DependentUpon>FormPrefix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="USL\FormPrefix.resx">
+      <DependentUpon>FormPrefix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="USL\FormPrefix.zh-CN.resx">
+      <DependentUpon>FormPrefix.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Resources\SQL_GetDatabaseName.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQL_GetStoreProcedureName.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQL_GetTableColumns.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQL_GetTableIndex.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SQL_GetTableName.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Template_CSharpClassBody.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Template_CSharpClassEquals.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Template_CSharpClassEqualsProperties.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Template_CSharpProperty.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Template_CSharpStoreProcedure_Body.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Template_CSharpStoreProcedure_Parameter.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Template_StoreProcedureBody.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Template_StoreProcedureHeader.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ActionAdd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ActionRemove.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\database.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

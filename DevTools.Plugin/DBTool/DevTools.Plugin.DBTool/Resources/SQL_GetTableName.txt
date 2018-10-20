@@ -1,0 +1,6 @@
+SELECT [name] AS TABLE_NAME
+FROM dbo.sysobjects
+WHERE OBJECTPROPERTY(id, N'IsTable') = 1
+    AND xtype='U'
+    AND [name] NOT IN ('dtproperties', 'sysdiagrams')
+ORDER BY [name]

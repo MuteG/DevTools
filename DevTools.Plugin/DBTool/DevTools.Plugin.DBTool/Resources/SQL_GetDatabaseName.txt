@@ -1,0 +1,4 @@
+SELECT [NAME]
+FROM Master..SysDatabases 
+WHERE [NAME] NOT IN ('master', 'model', 'msdb', 'tempdb')
+ORDER BY NAME

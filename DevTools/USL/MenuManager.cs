@@ -63,7 +63,7 @@ namespace DevTools.USL
         private void InitializeMainMenu()
         {
             AddSeparatorMenuItem();
-            
+
             AddMenuItem("menuItemConfig", "设置", typeof(FormConfig));
             AddMenuItem("menuItemAbout", "关于", typeof(AboutBox));
 
