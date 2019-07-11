@@ -163,5 +163,12 @@ namespace DevTools.Plugin.CodeLines.BLL
                 Progress(codeFile, args);
             }
         }
+
+        /// <summary>現在の <see cref="T:System.Object" /> を表す <see cref="T:System.String" /> を返します。</summary>
+        /// <returns>現在の <see cref="T:System.Object" /> を表す <see cref="T:System.String" />。</returns>
+        public override string ToString()
+        {
+            return File;
+        }
     }
 }

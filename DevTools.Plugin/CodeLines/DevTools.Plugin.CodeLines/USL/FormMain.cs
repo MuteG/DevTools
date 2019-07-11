@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
@@ -141,7 +142,7 @@ namespace DevTools.Plugin.CodeLines.USL
             TreeGridNode rootNode = treeGridView.Nodes.Add(Path.GetFileName(rootFile.File));
             rootNode.Tag = rootFile;
             rootNode.Checked = true;
-            foreach (AbstractCodeFile codeFile in rootFile.IncludeFiles)
+            foreach (AbstractCodeFile codeFile in rootFile.IncludeFiles.OrderBy(f => f.File))
             {
                 SetTreeView(codeFile, rootNode);
             }
@@ -174,7 +175,7 @@ namespace DevTools.Plugin.CodeLines.USL
             }
 
 
-            foreach (AbstractCodeFile item in codeFile.IncludeFiles)
+            foreach (AbstractCodeFile item in codeFile.IncludeFiles.OrderBy(f => f.File))
             {
                 SetTreeView(item, newNode);
             }
