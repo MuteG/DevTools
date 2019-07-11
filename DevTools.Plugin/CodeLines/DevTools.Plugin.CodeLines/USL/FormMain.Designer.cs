@@ -78,19 +78,19 @@
             this.menuCollapseSubNode,
             this.menuExpandSubNode});
             this.contextMenuStripTree.Name = "contextMenuStripTree";
-            this.contextMenuStripTree.Size = new System.Drawing.Size(136, 48);
+            this.contextMenuStripTree.Size = new System.Drawing.Size(135, 48);
             // 
             // menuCollapseSubNode
             // 
             this.menuCollapseSubNode.Name = "menuCollapseSubNode";
-            this.menuCollapseSubNode.Size = new System.Drawing.Size(135, 22);
+            this.menuCollapseSubNode.Size = new System.Drawing.Size(134, 22);
             this.menuCollapseSubNode.Text = "折叠子节点";
             this.menuCollapseSubNode.Click += new System.EventHandler(this.menuCollapseSubNode_Click);
             // 
             // menuExpandSubNode
             // 
             this.menuExpandSubNode.Name = "menuExpandSubNode";
-            this.menuExpandSubNode.Size = new System.Drawing.Size(135, 22);
+            this.menuExpandSubNode.Size = new System.Drawing.Size(134, 22);
             this.menuExpandSubNode.Text = "展开子节点";
             this.menuExpandSubNode.Click += new System.EventHandler(this.menuExpandSubNode_Click);
             // 
@@ -128,6 +128,7 @@
             this.treeGridView.MultiSelect = false;
             this.treeGridView.Name = "treeGridView";
             this.treeGridView.RowHeadersVisible = false;
+            this.treeGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.treeGridView.Size = new System.Drawing.Size(793, 374);
             this.treeGridView.TabIndex = 17;
             this.treeGridView.NodeExpanded += new AdvancedDataGridView.ExpandedEventHandler(this.treeGridView_NodeExpanded);
