@@ -37,6 +37,10 @@ namespace DevTools.Plugin.CodeLines.BLL
             string resourceXPath = "descendant::ns:ItemGroup/ns:EmbeddedResource";
             XmlNodeList resourceNodeList = xml.DocumentElement.SelectNodes(resourceXPath, xmlns);
             CountFile(resourceNodeList);
+
+            string resourceNoneXPath = "descendant::ns:ItemGroup/ns:None";
+            XmlNodeList resourceNoneNodeList = xml.DocumentElement.SelectNodes(resourceNoneXPath, xmlns);
+            CountFile(resourceNoneNodeList);
         }
 
         private void CountFile(XmlNodeList csNodeList)
@@ -46,9 +50,11 @@ namespace DevTools.Plugin.CodeLines.BLL
             {
                 string fileName = node.Attributes["Include"].Value;
                 string file = Path.Combine(fileDir, fileName);
+                FileInfo fileInfo = new FileInfo(file);
 
-                if (System.IO.File.Exists(file))
+                if (fileInfo.Exists && fileInfo.FullName.Contains(fileDir))
                 {
+                    fileName = fileInfo.FullName.Replace(fileDir, string.Empty).Trim('\\');
                     string[] fileNamePart = fileName.Split('\\');
                     string key = string.Empty;
                     for (int i = 0; i < fileNamePart.Length - 1; i++)

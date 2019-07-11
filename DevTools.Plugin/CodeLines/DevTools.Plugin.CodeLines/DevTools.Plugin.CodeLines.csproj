@@ -97,6 +97,7 @@
     <Compile Include="BLL\ProgressEventHandler.cs" />
     <Compile Include="DAL\ExcelCounter.cs" />
     <Compile Include="DAL\FileInfoAttribute.cs" />
+    <Compile Include="DAL\TxtCounter.cs" />
     <Compile Include="Entity\CountAttribute.cs" />
     <Compile Include="DAL\AbstractCounter.cs" />
     <Compile Include="DAL\XmlCounter.cs" />

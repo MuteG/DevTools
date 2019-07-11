@@ -113,7 +113,7 @@ namespace DevTools.Plugin.CodeLines.DAL
             int nextSymbolIndex = -1;
             AnnotateType nextAnnotateType = AnnotateType.None;
 
-            if (AnnotateType.None == nextAnnotateType)
+            if (AnnotateType.None == nextAnnotateType && !string.IsNullOrEmpty(AnnotateLineKeyWord))
             {
                 nextSymbolIndex = currentLine.IndexOf(this.AnnotateLineKeyWord, startIndex);
                 if (nextSymbolIndex > -1)
@@ -123,7 +123,7 @@ namespace DevTools.Plugin.CodeLines.DAL
                 }
             }
 
-            if (AnnotateType.None == nextAnnotateType)
+            if (AnnotateType.None == nextAnnotateType && !string.IsNullOrEmpty(AnnotateBlockBeginKeyWord))
             {
                 nextSymbolIndex = currentLine.IndexOf(this.AnnotateBlockBeginKeyWord, startIndex);
                 if (nextSymbolIndex > -1)
@@ -133,7 +133,7 @@ namespace DevTools.Plugin.CodeLines.DAL
                 }
             }
 
-            if (AnnotateType.None == nextAnnotateType)
+            if (AnnotateType.None == nextAnnotateType && !string.IsNullOrEmpty(AnnotateBlockEndKeyWord))
             {
                 nextSymbolIndex = currentLine.IndexOf(this.AnnotateBlockEndKeyWord, startIndex);
                 if (nextSymbolIndex > -1)
