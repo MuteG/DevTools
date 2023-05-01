@@ -1,6 +1,6 @@
 ﻿using System.IO;
+using ClosedXML.Excel;
 using DevTools.Plugin.CodeLines.Entity;
-using OfficeOpenXml;
 
 namespace DevTools.Plugin.CodeLines.DAL
 {
@@ -15,21 +15,17 @@ namespace DevTools.Plugin.CodeLines.DAL
             try
             {
                 using (FileStream stream = new FileStream(this.TargetFile, FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
-                using (ExcelPackage package = new ExcelPackage(stream))
+                using (XLWorkbook book = new XLWorkbook(stream))
                 {
-                    ExcelWorkbook book = package.Workbook;
-                    foreach (ExcelWorksheet sheet in book.Worksheets)
+                    foreach (IXLWorksheet sheet in book.Worksheets)
                     {
-                        if (sheet.Dimension != null)
-                        {
-                            count.Total += sheet.Dimension.Rows;
-                        }
+                        count.Total += sheet.LastRowUsed().RowNumber();
                     }
                 }
             }
             catch
             {
-                
+                // ignored
             }
         }
 

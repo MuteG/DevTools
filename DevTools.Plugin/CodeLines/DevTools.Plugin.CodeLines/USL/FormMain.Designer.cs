@@ -37,7 +37,7 @@
             this.labelTotal = new System.Windows.Forms.Label();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.treeGridView = new AdvancedDataGridView.TreeGridView();
+            this.treeGridView = new TreeGridView.TreeGridView();
             this.groupBoxInclude.SuspendLayout();
             this.contextMenuStripTree.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeGridView)).BeginInit();
@@ -131,9 +131,9 @@
             this.treeGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.treeGridView.Size = new System.Drawing.Size(793, 374);
             this.treeGridView.TabIndex = 17;
-            this.treeGridView.NodeExpanded += new AdvancedDataGridView.ExpandedEventHandler(this.treeGridView_NodeExpanded);
-            this.treeGridView.NodeCollapsed += new AdvancedDataGridView.CollapsedEventHandler(this.treeGridView_NodeCollapsed);
-            this.treeGridView.NodeChecked += new AdvancedDataGridView.CheckedEventHandler(this.treeGridView_NodeChecked);
+            this.treeGridView.NodeExpanded += new TreeGridView.ExpandedEventHandler(this.treeGridView_NodeExpanded);
+            this.treeGridView.NodeCollapsed += new TreeGridView.CollapsedEventHandler(this.treeGridView_NodeCollapsed);
+            this.treeGridView.NodeChecked += new TreeGridView.CheckedEventHandler(this.treeGridView_NodeChecked);
             // 
             // FormMain
             // 
@@ -165,7 +165,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripTree;
         private System.Windows.Forms.ToolStripMenuItem menuCollapseSubNode;
         private System.Windows.Forms.ToolStripMenuItem menuExpandSubNode;
-        private AdvancedDataGridView.TreeGridView treeGridView;
+        private TreeGridView.TreeGridView treeGridView;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
     }
